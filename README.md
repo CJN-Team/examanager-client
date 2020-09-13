@@ -1,3 +1,12 @@
+# How To Clone With SubModules
+
+git clone --recurse-submodules https://github.com/CJN-Team/Examanager.git
+
+# How To Pull With SubModules
+
+git pull
+git submodule update
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
