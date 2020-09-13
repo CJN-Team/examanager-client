@@ -7,6 +7,22 @@ git clone --recurse-submodules https://github.com/CJN-Team/Examanager.git
 git pull
 git submodule update
 
+# How To Add With SubModules
+
+git submodule foreach git add .
+
+# How To Commit (Try one by one) With SubModules
+
+git submodule foreach git commit -m ""
+
+# How To Push With SubModules
+
+git submodule foreach git push
+
+# Nota
+
+Ejecuta estos comandos antes de ejecutar el principal
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
