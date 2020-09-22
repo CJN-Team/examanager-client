@@ -2,9 +2,9 @@ import React from 'react';
 import {BrowserRouter as Router,Route} from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import './App.css';
-import CreateUser from "./components/CreateUser"
-import Navigation from "./components/Navigation"
-import UserList from "./components/UserList"
+import CreateUser from "./Example/CreateUser"
+import Navigation from "./Example/Navigation"
+import UserList from "./Example/UserList"
 
 function App() {
   return (
