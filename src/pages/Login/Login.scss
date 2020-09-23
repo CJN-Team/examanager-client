@@ -2,13 +2,28 @@
 
 .login {
 
-    .image{
+    .image {
         overflow: hidden;
         min-height: 100vh;
         display: flex;
+
+        img {
+            width: 700px;
+        }
     }
 
-    img {
-        width: 700px;
+    .formLog {
+        display: flex;
+        align-items: center;
+        background-color: wheat;
+
+        .imagen{
+            margin: 10px;
+
+            img {
+                width: 150px;
+                margin-bottom: 20px;
+            }
+        }
     }
 }

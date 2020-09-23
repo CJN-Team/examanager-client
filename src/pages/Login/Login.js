@@ -1,6 +1,7 @@
 import React from 'react';
 import {Container, Row, Col, Button} from "react-bootstrap";
 import Cover from "../../assets/images/profes2-cort.jpg";
+import Logo from "../../assets/images/exam_rec.png";
 import "./Login.scss";
 export default function Login() {
     return (
@@ -24,7 +25,9 @@ function Image () {
 function FormLog () {
     return (
         <Col className="formLog">
-            <h1> hola 2</h1>
+            <div className="imagen">
+                <img src={Logo}></img>
+            </div>
         </Col>
     );
 }
