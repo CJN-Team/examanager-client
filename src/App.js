@@ -1,22 +1,18 @@
-import React from 'react';
+import React, { useState} from 'react';
 import {BrowserRouter as Router,Route} from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import './App.css';
-import CreateUser from "./example/CreateUser"
-import Navigation from "./example/Navigation"
-import UserList from "./example/UserList"
+import Login from "./pages/Login/Login.js"
 
-function App() {
+export default function App() {
+  const [user, setUser] = useState("hola");
+
   return (
-    <Router>
-      <Navigation/>
-      <div className="container p-4">
-        <Route path="/" exact component={UserList}/>
-        <Route path="/edit/:id" component={CreateUser}/>
-        <Route path="/create" component={CreateUser}/>
-      </div>
-    </Router>
+    <div>
+      {user ?
+        <Login ></Login> :
+        <h1> Está logueado</h1>
+      }
+    </div>
   );
 }
-
-export default App;

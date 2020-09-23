@@ -1,0 +1,14 @@
+@import "../../index.scss";
+
+.login {
+
+    .image{
+        overflow: hidden;
+        min-height: 100vh;
+        display: flex;
+    }
+
+    img {
+        width: 700px;
+    }
+}
