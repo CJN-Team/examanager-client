@@ -3,3 +3,29 @@
 body{
     background: $background-light /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 }
+
+.btn {
+    box-shadow: none !important;
+}
+
+.btn.btn-primary {
+    background-color: $primary-light;
+    border-color: $primary-light;
+
+    &:hover {
+        background-color: $primary;
+    }
+}
+
+.btn.btn-outline-primary {
+    border-width: 2px;
+    border-color: $primary-dark;
+    color: $primary-dark;
+    &:hover,
+    &:active,
+    &:focus {
+        background-color: $primary-dark !important;
+        color: $font-light;
+    }
+
+}

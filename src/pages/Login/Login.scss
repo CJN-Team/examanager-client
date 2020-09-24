@@ -15,14 +15,30 @@
     .formLog {
         display: flex;
         align-items: center;
-        background-color: wheat;
+        justify-content: center;
+        background-color: $background-light;
 
         .imagen{
             margin: 10px;
+            align-items: center;
+            justify-content: center;
 
             img {
                 width: 150px;
                 margin-bottom: 20px;
+            }
+
+            button {
+                display: block;
+                width: 400px;
+                border-radius: 50px;
+                font-size: 20px;
+                font-weight: bold;
+                padding: 10px 0;
+
+                &:first-of-type {
+                    margin-bottom: 30px;
+                }
             }
         }
     }
