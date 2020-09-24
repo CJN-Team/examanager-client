@@ -11,6 +11,7 @@ body{
 .btn.btn-primary {
     background-color: $primary-light;
     border-color: $primary-light;
+    font-weight: bold;
 
     &:hover {
         background-color: $primary;
