@@ -33,8 +33,6 @@ export default function CreateUser() {
 
   const onSubmit = (e) => {
     e.preventDefault();
-    console.log(formData);
-    e.preventDefault();
     let validCount = 0;
     values(formData).some((value) => {
       value && validCount++;
@@ -47,7 +45,6 @@ export default function CreateUser() {
         toast.warning("Ingrese un email válido");
       } else {
         toast.success("OK");
-        //setShowModal(false);
       }
     }
   };
