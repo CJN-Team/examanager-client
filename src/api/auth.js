@@ -14,17 +14,17 @@ export function signUpApi(data) {
 
     console.log(inst);
 
-    const user = {
-        "_id": data.id,
+    var user = {
+        "id": data.id,
         "idType": data.idType,
-        "profile": "Administrador",
+        "profile": "admin",
         "name": data.userName,
         "lastName": data.lastName,
         "email": data.email.toLowerCase(),
         "password": data.password
     };
 
-    const params = {
+    const paramsI = {
         method: "POST",
         headers: {
             "Content-type": "application/json"
@@ -32,10 +32,29 @@ export function signUpApi(data) {
         body: JSON.stringify(inst)
     }
 
-    return fetch(urlI, params).then(response =>{
-        console.log(response.status);
+    return fetch(urlI, paramsI).then(response =>{
         if(response.status >=200 && response.status < 300){
-            return response.json();
+            user = {
+                ...user,
+                institution: response.institutionID
+            }
+            const paramsU = {
+                method: "POST",
+                headers: {
+                    "Content-type": "application/json"
+                },
+                body: JSON.stringify(user)
+            }
+            fetch(urlU, paramsU).then(response =>{
+                if(response.status >=200 && response.status < 300){
+                    return response.json();
+                }
+                return {code: 404, message: "Error al registrar administrador"}
+            }).then(result => {
+                return result;
+            }).catch(err => {
+                return err;
+            });
         }
         return { code: 404, message: "Error al registrar institución"}
     }).then(result => {
