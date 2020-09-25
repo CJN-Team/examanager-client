@@ -14,11 +14,6 @@ export default function Estudiantes() {
     });
   }, []);
 
-  const estudiantes = ["AY"];
-
-  console.log("THIS IS:");
-  console.log(estudiantesAPI);
-
   const openModal = (content) => {
     setShowModal(true);
     setcontentModal(content);
@@ -47,7 +42,6 @@ export default function Estudiantes() {
       >
         Cargar archivo
       </Button>
-
       <Container fluid>
         <ul class="list-group">
           {estudiantesAPI.map((x, i) => {

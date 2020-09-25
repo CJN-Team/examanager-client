@@ -1,10 +1,18 @@
-import React, { useState } from "react";
-import { Button, Modal, Container } from "react-bootstrap";
+import React, { useState, useEffect } from "react";
+import { Button, Modal, Container, Row, Col } from "react-bootstrap";
 import CreateUser from "../../components/CreateUser/CreateUser";
+import { listTeachersAPI } from "../../api/usuarios";
 
 export default function Profesores() {
   const [showModal, setShowModal] = useState(false);
   const [contentModal, setcontentModal] = useState(null);
+  const [profesoresAPI, setProfesores] = useState(["init"]);
+
+  useEffect(() => {
+    listTeachersAPI().then((response) => {
+      setProfesores(response);
+    });
+  }, []);
 
   const openModal = (content) => {
     setShowModal(true);
@@ -13,6 +21,23 @@ export default function Profesores() {
 
   return (
     <div>
+      <EncabezadoLista setShowModal={setShowModal} openModal={openModal} />
+      <ListarUsuarios profesoresAPI={profesoresAPI} />
+      <Container fluid>
+        <ModalUsuarios openModal={openModal} setShowModal={setShowModal} />
+      </Container>
+
+      <ModalUsuarios show={showModal} setShow={setShowModal}>
+        {contentModal}
+      </ModalUsuarios>
+    </div>
+  );
+}
+
+function EncabezadoLista(props) {
+  const { setShowModal, openModal } = props;
+  return (
+    <>
       <h1>Profesores</h1>
       <Button
         variant="primary"
@@ -34,16 +59,36 @@ export default function Profesores() {
       >
         Cargar archivo
       </Button>
-
-      <Container fluid>
-        <ModalUsuarios openModal={openModal} setShowModal={setShowModal} />
-      </Container>
-
-      <ModalUsuarios show={showModal} setShow={setShowModal}>
-        {contentModal}
-      </ModalUsuarios>
-    </div>
+    </>
   );
+}
+
+function ListarUsuarios(props) {
+  const { profesoresAPI } = props;
+  if (profesoresAPI != null) {
+    return (
+      <Container fluid>
+        <ul class="list-group">
+          {profesoresAPI.map((x, i) => {
+            return (
+              <li class="list-group-item">
+                <Row>
+                  <Col>
+                    <h2>{x.name}</h2>
+                  </Col>
+                  <Col>
+                    <Button variant="danger">Borrar</Button>
+                  </Col>
+                </Row>
+              </li>
+            );
+          })}
+        </ul>
+      </Container>
+    );
+  } else {
+    return <h3>La consulta no recuperó resultados</h3>;
+  }
 }
 
 function ModalUsuarios(props) {
@@ -65,5 +110,5 @@ function ModalUsuarios(props) {
 }
 
 function Yes(props) {
-  return <h2>popo but sensei</h2>;
+  return <h2>Not yet Implemented</h2>;
 }

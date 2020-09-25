@@ -93,3 +93,26 @@ export function listStudentsAPI() {
       return err;
     });
 }
+
+export function listTeachersAPI() {
+  const url = API_HOST + "/users?profile=Profesor&page=1";
+
+  const params = {
+    method: "GET",
+    headers: {
+      "Content-type": "application/json",
+      Authorization: "Bearer" + localStorage.getItem(TOKEN),
+    },
+  };
+
+  return fetch(url, params)
+    .then((response) => {
+      if (response.status >= 200 && response.status < 300) {
+        return response.json();
+      }
+      return { message: "Fallo" };
+    })
+    .catch((err) => {
+      return err;
+    });
+}
