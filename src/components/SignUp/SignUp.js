@@ -5,6 +5,7 @@ import { toast } from "react-toastify";
 import { isEmailValid } from "../../utils/validation.js";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import { signUpApi } from "../../api/auth.js"
 
 import "./SignUp.scss"
 
@@ -12,7 +13,7 @@ export default function SignUp(props) {
     const { setShowModal } = props;
 
     const [formData, setFormData] = useState(initialValues());
-    const [signUpLoading, setSignUpLoading] = useState(true);
+    const [signUpLoading, setSignUpLoading] = useState(false);
 
     const onSubmit = (e) => {
         e.preventDefault();
@@ -28,8 +29,20 @@ export default function SignUp(props) {
             if (!isEmailValid(formData.email)) {
                 toast.warning("Ingrese un email válido");
             } else {
-                toast.success("OK");
-                //setShowModal(false);
+                setSignUpLoading(true);
+                signUpApi(formData).then( response => {
+                    if(response.code){
+                        toast.warning(response.message);
+                    } else{
+                        toast.succes("El registro fue existoso");
+                        setShowModal(false);
+                        setFormData(initialValues());
+                    }
+                }).catch(() =>{
+                    toast.error("Error del servidor, intente más tarde");
+                }).finally(() => {
+                    setSignUpLoading(false);
+                })
             }
         }
     };
