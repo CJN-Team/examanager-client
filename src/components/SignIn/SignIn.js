@@ -8,7 +8,7 @@ import { signInApi, setTokenApi } from "../../api/auth.js"
 import "./SignIn.scss"
 
 export default function SignUp(props) {
-    const { setShowModal } = props;
+    const { setShowModal, setRefreshLogin } = props;
 
     const [formData, setFormData] = useState(initialValues());
     const [signInLoading, setSignInLoading] = useState(false);
@@ -36,11 +36,12 @@ export default function SignUp(props) {
                         setTokenApi(response.token);
                         setShowModal(false);
                         setFormData(initialValues());
+                        setRefreshLogin(true);
                     }
                 }).catch(() => {
                     toast.error("Error del servidor, inténtelo más tarde");
                 }).finally(() => {
-                    setSignInLoading(false);
+                    setSignInLoading(false);                    
                 })
             }
         }

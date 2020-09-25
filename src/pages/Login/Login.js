@@ -8,7 +8,8 @@ import SignUp from "../../components/SignUp/SignUp.js"
 import SignIn from "../../components/SignIn/SignIn.js"
 
 
-export default function Login() {
+export default function Login(props) {
+    const { setRefreshLogin } = props;
     const [showModal, setShowModal] = useState(false);
     const [contentModal, setContentModal] = useState(null);
 
@@ -25,6 +26,7 @@ export default function Login() {
                 <FormLog
                     openModal={openModal}
                     setShowModal={setShowModal}
+                    setRefreshLogin={setRefreshLogin}
                 ></FormLog>
             </Row>
         </Container>
@@ -44,7 +46,7 @@ function Image () {
 }
 
 function FormLog (props) {
-    const { openModal, setShowModal } = props;
+    const { openModal, setShowModal, setRefreshLogin } = props;
 
     return (
         <Col className="formLog">
@@ -52,7 +54,7 @@ function FormLog (props) {
                 <img src={Logo} alt="logo"></img>
                 <Button 
                     variant="primary" 
-                    onClick={() => openModal(<SignIn setShowModal={setShowModal}></SignIn>)} 
+                    onClick={() => openModal(<SignIn setShowModal={setShowModal} setRefreshLogin={setRefreshLogin}></SignIn>)} 
                 >
                     Iniciar Sesión
                 </Button>
