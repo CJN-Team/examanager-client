@@ -34,34 +34,51 @@ export function signUpApi(data) {
 
     return fetch(urlI, paramsI).then(response =>{
         if(response.status >=200 && response.status < 300){
-            user = {
-                ...user,
-                institution: response.institutionID
-            }
-            const paramsU = {
-                method: "POST",
-                headers: {
-                    "Content-type": "application/json"
-                },
-                body: JSON.stringify(user)
-            }
-            fetch(urlU, paramsU).then(response =>{
-                if(response.status >=200 && response.status < 300){
-                    return response.json();
-                }
-                return {code: 404, message: "Error al registrar administrador"}
-            }).then(result => {
-                return result;
-            }).catch(err => {
-                return err;
-            });
+            return response.json()   
         }
+        
         return { code: 404, message: "Error al registrar institución"}
     }).then(result => {
         return result;
     }).catch(err => {
         return err;
     })
+}
+
+export function createUser(data,institutionId){
+    const urlU = API_HOST + "/user";
+
+    var user = {
+        "id": data.id,
+        "idType": data.idType,
+        "profile": "admin",
+        "name": data.userName,
+        "lastName": data.lastName,
+        "email": data.email.toLowerCase(),
+        "password": data.password,
+        "institution":institutionId,
+    };
+
+    const params = {
+        method: "POST",
+        headers: {
+            "Content-type": "application/json"
+        },
+        body: JSON.stringify(user)
+    }
+
+    return fetch(urlU, params).then(response =>{
+        if(response.status >=200 && response.status < 300){
+            return response.json()   
+        }
+        
+        return { code: 404, message: "Error al registrar usuario"}
+    }).then(result => {
+        return result;
+    }).catch(err => {
+        return err;
+    })
+
 }
 
 export function signInApi(data){

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.scss";
 import Login from "./pages/Login/Login.js";
-import Routing from "./routes/routing.js";
+import Routing from "./Routes/routing.js";
 import { ToastContainer } from "react-toastify";
 import { AuthContext } from "./utils/context.js";
 import { isUserLogedApi } from "./api/auth.js";

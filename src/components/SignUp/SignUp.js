@@ -5,7 +5,7 @@ import { toast } from "react-toastify";
 import { isEmailValid } from "../../utils/validation.js";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import { signUpApi } from "../../api/auth.js"
+import { signUpApi, createUser } from "../../api/auth.js"
 
 import "./SignUp.scss"
 
@@ -34,9 +34,20 @@ export default function SignUp(props) {
                     if(response.code){
                         toast.warning(response.message);
                     } else{
-                        toast.success("El registro fue existoso");
-                        setShowModal(false);
-                        setFormData(initialValues());
+                        createUser(formData,response.institutionID).then( response => {
+                            if(response.code){
+                                toast.warning(response.message);
+                            } else{
+                                createUser(formData,response.institutionID)
+                                toast.success("El registro fue existoso");
+                                setShowModal(false);
+                                setFormData(initialValues());
+                            }
+                        }).catch(err =>{
+                            console.log(err);
+                            toast.error("Error del servidor, intente más tarde");
+                        })
+                       
                     }
                 }).catch(err =>{
                     console.log(err);
