@@ -1,4 +1,5 @@
-import { API_HOST } from "../utils/constants.js"
+import { API_HOST, TOKEN } from "../utils/constants.js"
+import jwtDecode from "jwt-decode"
 
 export function signUpApi(data) {
     const urlI = API_HOST + "/institution";
@@ -70,5 +71,43 @@ export function signInApi(data){
     }).catch(err => {
         return err;
     })
+}
 
+export function setTokenApi(token) {
+    localStorage.setItem(TOKEN, token);
+}
+
+export function getTokenApi() {
+    return localStorage.getItem(TOKEN);
+}
+
+export function logoutApi() {
+    localStorage.removeItem(TOKEN);
+}
+
+function isExpired(token) {
+    const { data } = jwtDecode(token);
+    const expire = data * 1000;
+    const timeout = expire - Date.now();
+
+    if(timeout < 0) {
+        return true;
+    }else{
+        return false;
+    }
+}
+
+export function isUserLogedApi() {
+    const token = getTokenApi();
+
+    if(!token){
+        logoutApi();
+        return null;
+    }
+    if(isExpired(token)){
+        logoutApi();
+        return null;
+    }else{
+        return jwtDecode(token);
+    }
 }
