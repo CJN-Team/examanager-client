@@ -22,7 +22,7 @@ export default function TrueOrFalse(props) {
   formData.correctas = options.indexOf(option);
 
   return (
-    <div className="question-body">
+    <div className="login">
       <Row>
         <Col>
           <Button onClick={handleGoBack}>Cancelar</Button>

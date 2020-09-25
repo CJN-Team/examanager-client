@@ -1,32 +1,7 @@
 @import "../../../styles/colors";
 
-.question-body {
-  text-align: center;
-  h2 {
-    font-weight: bold;
-    padding-bottom: 30px;
-  }
-  .form-group {
-    padding-bottom: 20px;
-    input {
-      font-size: 25px;
-    }
-  }
-  input {
-    font-size: 25px;
-    border-radius: 20px;
-  }
-  select {
-    font-size: 25px;
-    border-radius: 10px;
-    width: 200px;
-  }
-  button {
-    width: 20%;
-    font-size: 20px;
-    font-weight: bold;
-    padding: 20px;
-    border-radius: 20px;
-    align-content: center;
-  }
+.selector {
+  padding: 15px;
+  border: 0;
+  width: 100%;
 }

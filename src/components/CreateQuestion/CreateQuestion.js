@@ -16,7 +16,7 @@ import {
   Dropdown,
 } from "react-bootstrap";
 
-import "./CreateQuestion.scss";
+//import "./CreateQuestion.scss";
 
 export default function CreateQuestion() {
   const [statusForm, setStatusForm] = useState("basic");
@@ -57,7 +57,7 @@ export default function CreateQuestion() {
 
   if (statusForm === "basic") {
     return (
-      <div className="create-question">
+      <div className="login">
         <Form onSubmit={onSubmit} onChange={onChange}>
           <Form.Group>
             <Row>

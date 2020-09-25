@@ -12,7 +12,7 @@ export default function OpenQuestion(props) {
     toast.warning("OK");
   };
   return (
-    <div className="question-body">
+    <div className="login">
       <Row>
         <Col>
           <Button onClick={handleGoBack}>Cancelar</Button>

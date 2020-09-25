@@ -4,6 +4,7 @@ import Departamentos from "../pages/Departamentos/Departamentos";
 import Estudiantes from "../pages/Estudiantes/Estudiantes";
 import Profesores from "../pages/Profesores/Profesores";
 import Grupos from "../pages/Grupos/Grupos";
+import Preguntas from "../pages/Preguntas/Preguntas";
 import Error404 from "../pages/Error404/Error404.js";
 
 export default [
@@ -36,6 +37,11 @@ export default [
     path: "/grupos",
     exact: true,
     page: Grupos,
+  },
+  {
+    path: "/preguntas",
+    exact: true,
+    page: Preguntas,
   },
   {
     path: "*",

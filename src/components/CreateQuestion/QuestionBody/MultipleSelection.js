@@ -68,7 +68,7 @@ export default function MultipleSelection(props) {
   formData.respuestas = respuestas;
   formData.correctas = correctas;
   return (
-    <div className="question-body">
+    <div className="login">
       <div>
         <Button onClick={handleGoBack}>Volver</Button>
       </div>

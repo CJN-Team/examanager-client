@@ -49,7 +49,7 @@ export default function Estudiantes() {
               <li class="list-group-item">
                 <Row>
                   <Col>
-                    <h2>{x.name}</h2>
+                    <h2>{x.name + x.lastName}</h2>
                   </Col>
                   <Col>
                     <Button variant="danger">Borrar</Button>

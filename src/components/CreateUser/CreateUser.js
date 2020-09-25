@@ -70,7 +70,7 @@ export default function CreateUser(props) {
     }
   };
   return (
-    <div className="create-user">
+    <div className="login">
       <Form onSubmit={onSubmit} onChange={onChange}>
         <Form.Group>
           <Row>

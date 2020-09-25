@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { toast } from "react-toastify";
 import { Button, Row, Col } from "react-bootstrap";
+import "./QuestionBody.scss";
 
 export default function SingleAnswer(props) {
   const { formData, setStatusForm } = props;
@@ -66,7 +67,7 @@ export default function SingleAnswer(props) {
   ));
 
   return (
-    <div className="question-body">
+    <div className="login">
       <div>
         <Button onClick={handleGoBack}>Volver</Button>
       </div>
@@ -111,7 +112,9 @@ export default function SingleAnswer(props) {
             <h3>Respuesta correcta:</h3>
           </Col>
           <Col>
-            <select onChange={getSeleccionada}>{optionItems}</select>
+            <select onChange={getSeleccionada} className="selector">
+              {optionItems}
+            </select>
           </Col>
         </Row>
       </div>
