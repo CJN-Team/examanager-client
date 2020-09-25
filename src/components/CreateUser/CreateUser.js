@@ -3,6 +3,7 @@ import { values, size } from "lodash";
 import { toast } from "react-toastify";
 import { isEmailValid } from "../../utils/validation.js";
 import DatePicker from "react-datepicker";
+import { createUserAPI } from "../../api/usuarios";
 import "react-datepicker/dist/react-datepicker.css";
 
 import {
@@ -48,6 +49,23 @@ export default function CreateUser(props) {
       } else {
         console.log(formData);
         toast.success("OK");
+        createUserAPI(formData)
+          .then((response) => {
+            if (response.code) {
+              toast.warning(response.message);
+            } else {
+              toast.success("El registro fue existoso");
+              //setShowModal(false);
+              setFormData(initialValues(userType, institution));
+            }
+          })
+          .catch((err) => {
+            console.log(err);
+            toast.error("Error del servidor, intente más tarde");
+          })
+          .finally(() => {
+            //setSignUpLoading(false);
+          });
       }
     }
   };

@@ -1,12 +1,23 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Button, Modal, Container, Row, Col } from "react-bootstrap";
 import CreateUser from "../../components/CreateUser/CreateUser";
+import { listStudentsAPI } from "../../api/usuarios";
 
 export default function Estudiantes() {
   const [showModal, setShowModal] = useState(false);
   const [contentModal, setcontentModal] = useState(null);
+  const [estudiantesAPI, setEstudiantes] = useState(["init"]);
 
-  const estudiantes = ["PEPE", "NICO", "JOHN"];
+  useEffect(() => {
+    listStudentsAPI().then((response) => {
+      setEstudiantes(response);
+    });
+  }, []);
+
+  const estudiantes = ["AY"];
+
+  console.log("THIS IS:");
+  console.log(estudiantesAPI);
 
   const openModal = (content) => {
     setShowModal(true);
@@ -39,12 +50,12 @@ export default function Estudiantes() {
 
       <Container fluid>
         <ul class="list-group">
-          {estudiantes.map((x, i) => {
+          {estudiantesAPI.map((x, i) => {
             return (
               <li class="list-group-item">
                 <Row>
                   <Col>
-                    <h2>{x}</h2>
+                    <h2>{x.name}</h2>
                   </Col>
                   <Col>
                     <Button variant="danger">Borrar</Button>
@@ -86,5 +97,5 @@ function ModalUsuarios(props) {
 }
 
 function Yes(props) {
-  return <h2>popo</h2>;
+  return <h2>Not yet implemented</h2>;
 }
