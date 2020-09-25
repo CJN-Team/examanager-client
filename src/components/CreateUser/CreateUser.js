@@ -10,16 +10,18 @@ import {
   Col,
   Form,
   Button,
-  Spinner,
   DropdownButton,
   Dropdown,
 } from "react-bootstrap";
 
 import "./CreateUser.scss";
 
-export default function CreateUser() {
-  const [formData, setFormData] = useState(initialValues());
-  const [idTypeSelector, setIdTypeSelector] = useState("Seleccione tipo de ID");
+export default function CreateUser(props) {
+  const { userType, institution } = props;
+  const [formData, setFormData] = useState(
+    initialValues(userType, institution)
+  );
+  const [idTypeSelector, setidTypeSelector] = useState("Seleccione tipo de id");
 
   const onChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -27,7 +29,7 @@ export default function CreateUser() {
 
   const handleSelect = (e) => {
     console.log(e);
-    setIdTypeSelector(e);
+    setidTypeSelector(e);
     setFormData({ ...formData, idType: e });
   };
 
@@ -44,6 +46,7 @@ export default function CreateUser() {
       if (!isEmailValid(formData.email)) {
         toast.warning("Ingrese un email válido");
       } else {
+        console.log(formData);
         toast.success("OK");
       }
     }
@@ -54,12 +57,12 @@ export default function CreateUser() {
         <Form.Group>
           <Row>
             <Col>
-              <h3>ID</h3>
+              <h3>id</h3>
             </Col>
             <Col>
               <Form.Control
                 type="text"
-                placeholder="ID"
+                placeholder="id"
                 name="id"
                 defaultValue={formData.id}
               />
@@ -67,7 +70,7 @@ export default function CreateUser() {
           </Row>
           <Row>
             <Col>
-              <h3>Tipo de ID</h3>
+              <h3>Tipo de id</h3>
             </Col>
             <Col>
               <DropdownButton
@@ -99,8 +102,8 @@ export default function CreateUser() {
               <Form.Control
                 type="text"
                 placeholder="Nombre"
-                name="nombre"
-                defaultValue={formData.nombre}
+                name="name"
+                defaultValue={formData.name}
               />
             </Col>
           </Row>
@@ -112,8 +115,8 @@ export default function CreateUser() {
               <Form.Control
                 type="text"
                 placeholder="Apellidos"
-                name="apellidos"
-                defaultValue={formData.apellidos}
+                name="lastName"
+                defaultValue={formData.l}
               />
             </Col>
           </Row>
@@ -136,30 +139,35 @@ export default function CreateUser() {
             </Col>
             <Col>
               <DatePicker
-                selected={formData.fechaNacimiento}
-                name="fechaNacimiento"
+                selected={formData.birthDate}
+                name="birthDate"
                 onChange={(date) =>
-                  setFormData({ ...formData, fechaNacimiento: date })
+                  setFormData({ ...formData, birthDate: date })
                 }
               />
             </Col>
           </Row>
         </Form.Group>
-        <Button variant="primary" type="submit">
-          Crear
-        </Button>
+        <center>
+          <Button variant="primary" type="submit">
+            Crear
+          </Button>
+        </center>
       </Form>
     </div>
   );
 }
 
-function initialValues() {
+function initialValues(userType, institution) {
   return {
     id: "",
+    profile: userType,
     idType: "",
-    nombre: "",
-    apellidos: "",
-    fechaNacimiento: "",
+    name: "",
+    lastName: "",
+    birthDate: "",
     email: "",
+    institution: institution,
+    password: "user",
   };
 }

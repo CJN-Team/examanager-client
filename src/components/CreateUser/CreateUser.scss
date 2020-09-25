@@ -1,6 +1,7 @@
 @import "../../styles/colors";
 
 .create-user {
+  text-align: left;
   h2 {
     font-weight: bold;
     padding-bottom: 30px;
@@ -13,7 +14,7 @@
   }
 
   button {
-    width: 50%;
+    width: auto;
     font-size: 20px;
     font-weight: bold;
     padding: 15px;
