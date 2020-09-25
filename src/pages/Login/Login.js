@@ -5,6 +5,7 @@ import Logo from "../../assets/images/exam_rec.png";
 import "./Login.scss";
 import BasicModal from "../../components/BasicModal/BasicModal.js";
 import SignUp from "../../components/SignUp/SignUp.js"
+import SignIn from "../../components/SignIn/SignIn.js"
 
 
 export default function Login() {
@@ -51,7 +52,7 @@ function FormLog (props) {
                 <img src={Logo} alt="logo"></img>
                 <Button 
                     variant="primary" 
-                    onClick={() => openModal(<SignUp setShowModal={setShowModal}></SignUp>)} 
+                    onClick={() => openModal(<SignIn setShowModal={setShowModal}></SignIn>)} 
                 >
                     Iniciar Sesión
                 </Button>

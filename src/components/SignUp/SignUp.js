@@ -34,11 +34,12 @@ export default function SignUp(props) {
                     if(response.code){
                         toast.warning(response.message);
                     } else{
-                        toast.succes("El registro fue existoso");
+                        toast.success("El registro fue existoso");
                         setShowModal(false);
                         setFormData(initialValues());
                     }
-                }).catch(() =>{
+                }).catch(err =>{
+                    console.log(err);
                     toast.error("Error del servidor, intente más tarde");
                 }).finally(() => {
                     setSignUpLoading(false);
