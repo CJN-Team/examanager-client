@@ -1,10 +1,9 @@
 import React from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import { Row, Col } from "react-bootstrap";
+import { Row } from "react-bootstrap";
 import { map } from "lodash";
 import configRounting from "./configRouting.js";
 import Navigation from "../components/Navigation/Navigation";
-import { Link } from "react-router-dom";
 import {
   ProSidebar,
   SidebarHeader,
