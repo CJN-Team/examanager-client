@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Button, Container } from "react-bootstrap";
-import CreateUser from "../../Components/CreateUser/CreateUser.js";
+import CreateUser from "../../Components/CreateUser/CreateUser.js"
 import BasicModal from "../../Components/BasicModal/BasicModal";
 import ListUser from "../../Components/ListUser/ListUser";
 import { listUsersAPI } from "../../Api/Usuarios";

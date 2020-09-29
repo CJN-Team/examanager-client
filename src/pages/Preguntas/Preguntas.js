@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Button, Modal, Container, Row, Col } from "react-bootstrap";
-import CreateUser from "../../Components/CreateUser/CreateUser.js";
+//import CreateUser from "../../Components/CreateUser/CreateUser.js"
 import { listQuestionsAPI } from "../../Api/Preguntas";
 import CreateQuestion from "../../Components/CreateQuestion/CreateQuestion";
 

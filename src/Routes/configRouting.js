@@ -3,6 +3,7 @@ import Asignaturas from "../Pages/Asignaturas/Asignaturas";
 import Departamentos from "../Pages/Departamentos/Departamentos";
 import Estudiantes from "../Pages/Estudiantes/Estudiantes";
 import Profesores from "../Pages/Profesores/Profesores";
+import Administradores from "../Pages/Administradores/Administradores.js";
 import Grupos from "../Pages/Grupos/Grupos";
 import Preguntas from "../Pages/Preguntas/Preguntas";
 import Error404 from "../Pages/Error404/Error404.js";
@@ -22,6 +23,11 @@ export default [
     path: "/departamentos",
     exact: true,
     page: Departamentos,
+  },
+  {
+    path: "/administradores",
+    exact: true,
+    page: Administradores,
   },
   {
     path: "/estudiantes",

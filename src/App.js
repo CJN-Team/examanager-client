@@ -8,12 +8,12 @@ import { AuthContext } from "./Utils/Context.js";
 import { isUserLogedApi } from "./Api/Auth.js";
 
 export default function App() {
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState("hola");
   const [loadUser, setLoadUser] = useState(false);
   const [refreshLogin, setRefreshLogin] = useState(false);
 
   useEffect(() => {
-    setUser(isUserLogedApi());
+    //setUser(isUserLogedApi());
     setRefreshLogin(false);
     setLoadUser(true);
   }, [refreshLogin]);

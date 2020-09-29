@@ -22,9 +22,12 @@ export function createInstApi(data) {
   return fetch(url, params)
     .then((response) => {
       if (response.status >= 200 && response.status < 300) {
-        return response.json();
+        console.log("hola");
+        return response.json();        
       }
-
+      console.log(response.error)
+      console.log(response.error.message)
+      console.log(response.Error)
       return { code: 404, message: "Error al registrar institución" };
     })
     .then((result) => {
@@ -36,7 +39,10 @@ export function createInstApi(data) {
 }
 
 export function createUserApi(data, institutionId) {
-  const urlU = API_HOST + "/user";
+  const url = API_HOST + "/user";
+  console.log(institutionId);
+
+  console.log("hola2");
 
   var user = {
     id: data.id,
@@ -57,18 +63,19 @@ export function createUserApi(data, institutionId) {
     body: JSON.stringify(user),
   };
 
-  return fetch(urlU, params)
+  return fetch(url, params)
     .then((response) => {
       if (response.status >= 200 && response.status < 300) {
+        console.log("hola3");
         return response.json();
       }
-
       return { code: 404, message: "Error al registrar usuario" };
     })
     .then((result) => {
       return result;
     })
     .catch((err) => {
+      console.log("hola4");
       return err;
     });
 }

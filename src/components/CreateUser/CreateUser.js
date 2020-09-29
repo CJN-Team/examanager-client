@@ -3,7 +3,6 @@ import { values, size } from "lodash";
 import { toast } from "react-toastify";
 import { isEmailValid } from "../../Utils/Validation.js";
 import DatePicker from "react-datepicker";
-import moment from "moment";
 import { createUserAPI, updateUserAPI } from "../../Api/Usuarios";
 import "react-datepicker/dist/react-datepicker.css";
 

@@ -1,13 +1,11 @@
 import React from "react";
-import { Navbar, Button, Form, FormControl, Nav } from "react-bootstrap";
+import { Navbar, Nav } from "react-bootstrap";
+import Logo from "../../Assets/Images/exam_rec.png"
 
 export default function Navigation() {
   return (
-    <Navbar bg="primary" variant="dark">
-      <Navbar.Brand href="/">Examanager</Navbar.Brand>
-      <Nav className="mr-auto">
-        <Nav.Link href="/">Home</Nav.Link>
-      </Nav>
-    </Navbar>
+    <div className="navigation">
+      <img scr={Logo} alt="logo"></img>
+    </div>
   );
 }
