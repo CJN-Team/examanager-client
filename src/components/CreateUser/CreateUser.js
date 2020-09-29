@@ -3,7 +3,8 @@ import { values, size } from "lodash";
 import { toast } from "react-toastify";
 import { isEmailValid } from "../../utils/validation.js";
 import DatePicker from "react-datepicker";
-import { createUserAPI } from "../../api/usuarios";
+import moment from "moment";
+import { createUserAPI, updateUserAPI } from "../../api/usuarios";
 import "react-datepicker/dist/react-datepicker.css";
 
 import {
@@ -18,11 +19,20 @@ import {
 import "./CreateUser.scss";
 
 export default function CreateUser(props) {
-  const { userType, institution } = props;
-  const [formData, setFormData] = useState(
-    initialValues(userType, institution)
-  );
+  const { setShowModal, userData, mode } = props;
+  const [formData, setFormData] = useState(userData);
   const [idTypeSelector, setidTypeSelector] = useState("Seleccione tipo de id");
+
+  var editing = false;
+  console.log(formData);
+  console.log(
+    "mi nacimiento: " +
+      formData.birthDate +
+      " de tipo " +
+      formData.birthDate.type
+  );
+
+  mode === "create" ? (editing = false) : (editing = true);
 
   const onChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -49,23 +59,41 @@ export default function CreateUser(props) {
       } else {
         console.log(formData);
         toast.success("OK");
-        createUserAPI(formData)
-          .then((response) => {
-            if (response.code) {
-              toast.warning(response.message);
-            } else {
-              toast.success("El registro fue existoso");
-              //setShowModal(false);
-              setFormData(initialValues(userType, institution));
-            }
-          })
-          .catch((err) => {
-            console.log(err);
-            toast.error("Error del servidor, intente más tarde");
-          })
-          .finally(() => {
-            //setSignUpLoading(false);
-          });
+        if (editing) {
+          updateUserAPI(formData)
+            .then((response) => {
+              if (response.code) {
+                toast.warning(response.message);
+              } else {
+                toast.success("La actualización fue existosa");
+                setShowModal(false);
+              }
+            })
+            .catch((err) => {
+              console.log(err);
+              toast.error("Error del servidor, intente más tarde");
+            })
+            .finally(() => {
+              //window.location.reload();
+            });
+        } else {
+          createUserAPI(formData)
+            .then((response) => {
+              if (response.code) {
+                toast.warning(response.message);
+              } else {
+                toast.success("El registro fue existoso");
+                setShowModal(false);
+              }
+            })
+            .catch((err) => {
+              console.log(err);
+              toast.error("Error del servidor, intente más tarde");
+            })
+            .finally(() => {
+              //window.location.reload();
+            });
+        }
       }
     }
   };
@@ -83,6 +111,7 @@ export default function CreateUser(props) {
                 placeholder="id"
                 name="id"
                 defaultValue={formData.id}
+                disabled={editing}
               />
             </Col>
           </Row>
@@ -97,6 +126,7 @@ export default function CreateUser(props) {
                 id="dropdown-menu-align-right"
                 name="idType"
                 onSelect={handleSelect}
+                disabled={editing}
               >
                 <Dropdown.Item eventKey="CC">
                   Cédula de ciudadanía
@@ -134,7 +164,7 @@ export default function CreateUser(props) {
                 type="text"
                 placeholder="Apellidos"
                 name="lastName"
-                defaultValue={formData.l}
+                defaultValue={formData.lastName}
               />
             </Col>
           </Row>
@@ -157,8 +187,8 @@ export default function CreateUser(props) {
             </Col>
             <Col>
               <DatePicker
-                selected={formData.birthDate}
                 name="birthDate"
+                //selected={moment(formData.birthDate, "DD-MM-YYYY")}
                 onChange={(date) =>
                   setFormData({ ...formData, birthDate: date })
                 }
@@ -167,6 +197,7 @@ export default function CreateUser(props) {
           </Row>
         </Form.Group>
         <center>
+          <h6>{JSON.stringify(formData.birthDate)}</h6>
           <Button variant="primary" type="submit">
             Crear
           </Button>
@@ -174,18 +205,4 @@ export default function CreateUser(props) {
       </Form>
     </div>
   );
-}
-
-function initialValues(userType, institution) {
-  return {
-    id: "",
-    profile: userType,
-    idType: "",
-    name: "",
-    lastName: "",
-    birthDate: "",
-    email: "",
-    institution: institution,
-    password: "user",
-  };
 }

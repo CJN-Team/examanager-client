@@ -4,7 +4,7 @@ export function createAsigmentApi(data) {
   const url = API_HOST + "/subject";
 
   const asig = {
-    ...data
+    ...data,
   };
 
   const params = {
@@ -22,6 +22,7 @@ export function createAsigmentApi(data) {
       if (response.status >= 200 && response.status < 300) {
         return response.json();
       }
+      console.log(response);
       return { code: 404, message: "Error al crear asignatura" };
     })
     .then((result) => {
