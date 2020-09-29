@@ -2,10 +2,10 @@ import React, { useState } from 'react'
 import { Row, Col, Form, Button, Spinner } from "react-bootstrap"
 import { values, size } from "lodash";
 import { toast } from "react-toastify";
-import { isEmailValid } from "../../utils/validation.js";
+import { isEmailValid } from "../../Utils/Validation.js";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import { signUpApi, createUser } from "../../api/auth.js"
+import { createInstApi, createUserApi } from "../../Api/Auth.js"
 
 import "./SignUp.scss"
 
@@ -30,15 +30,14 @@ export default function SignUp(props) {
                 toast.warning("Ingrese un email válido");
             } else {
                 setSignUpLoading(true);
-                signUpApi(formData).then( response => {
+                createInstApi(formData).then( response => {
                     if(response.code){
                         toast.warning(response.message);
                     } else{
-                        createUser(formData,response.institutionID).then( response => {
+                        createUserApi(formData,response.institutionID).then( response => {
                             if(response.code){
                                 toast.warning(response.message);
                             } else{
-                                createUser(formData,response.institutionID)
                                 toast.success("El registro fue existoso");
                                 setShowModal(false);
                                 setFormData(initialValues());

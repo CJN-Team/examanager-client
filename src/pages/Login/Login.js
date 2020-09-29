@@ -1,11 +1,11 @@
 import React, {useState} from 'react';
 import {Container, Row, Col, Button} from "react-bootstrap";
-import Cover from "../../assets/images/profes2-cort.jpg";
-import Logo from "../../assets/images/exam_rec.png";
+import Cover from "../../Assets/Images/profes2-cort.jpg";
+import Logo from "../../Assets/Images/exam_rec.png";
 import "./Login.scss";
-import BasicModal from "../../components/BasicModal/BasicModal.js";
-import SignUp from "../../components/SignUp/SignUp.js"
-import SignIn from "../../components/SignIn/SignIn.js"
+import BasicModal from "../../Components/BasicModal/BasicModal.js";
+import SignUp from "../../Components/SignUp/SignUp.js"
+import SignIn from "../../Components/SignIn/SignIn.js"
 
 
 export default function Login(props) {
@@ -40,7 +40,7 @@ export default function Login(props) {
 function Image () {
     return (
         <div className="image">
-            <img src={Cover} ></img>
+            <img src={Cover} alt="fondo"></img>
         </div>
     );
 }

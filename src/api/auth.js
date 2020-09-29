@@ -1,9 +1,8 @@
-import { API_HOST, TOKEN } from "../utils/constants.js";
+import { API_HOST, TOKEN } from "../Utils/Constants.js";
 import jwtDecode from "jwt-decode";
 
-export function signUpApi(data) {
-  const urlI = API_HOST + "/institution";
-  const urlU = API_HOST + "/user";
+export function createInstApi(data) {
+  const url = API_HOST + "/institution";
 
   const inst = {
     name: data.nameInst,
@@ -12,19 +11,7 @@ export function signUpApi(data) {
     phone: data.phone,
   };
 
-  console.log(inst);
-
-  var user = {
-    id: data.id,
-    idType: data.idType,
-    profile: "admin",
-    name: data.userName,
-    lastName: data.lastName,
-    email: data.email.toLowerCase(),
-    password: data.password,
-  };
-
-  const paramsI = {
+  const params = {
     method: "POST",
     headers: {
       "Content-type": "application/json",
@@ -32,7 +19,7 @@ export function signUpApi(data) {
     body: JSON.stringify(inst),
   };
 
-  return fetch(urlI, paramsI)
+  return fetch(url, params)
     .then((response) => {
       if (response.status >= 200 && response.status < 300) {
         return response.json();
@@ -48,7 +35,7 @@ export function signUpApi(data) {
     });
 }
 
-export function createUser(data, institutionId) {
+export function createUserApi(data, institutionId) {
   const urlU = API_HOST + "/user";
 
   var user = {

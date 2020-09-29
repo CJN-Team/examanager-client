@@ -1,6 +1,6 @@
 import React from 'react'
 import { Modal } from 'react-bootstrap'
-import Logo from "../../assets/images/exam_rec.png";
+import Logo from "../../Assets/Images/exam_rec.png";
 
 import "./BasicModal.scss"
 

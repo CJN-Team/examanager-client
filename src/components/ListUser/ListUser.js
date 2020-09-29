@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { deleteUserAPI } from "../../api/usuarios";
+import { deleteUserAPI } from "../../Api/Usuarios";
 import CreateUser from "../CreateUser/CreateUser";
 import BasicModal from "../BasicModal/BasicModal";
 import { toast } from "react-toastify";

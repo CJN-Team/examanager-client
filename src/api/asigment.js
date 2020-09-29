@@ -1,4 +1,4 @@
-import { API_HOST, TOKEN } from "../utils/constants.js";
+import { API_HOST, TOKEN } from "../Utils/Constants.js";
 
 export function createAsigmentApi(data) {
   const url = API_HOST + "/subject";

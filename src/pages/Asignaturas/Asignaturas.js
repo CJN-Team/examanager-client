@@ -1,8 +1,8 @@
 import React, {useState} from 'react';
 import {Container, Row, Col, Button} from "react-bootstrap";
 import "./Asignaturas.scss";
-import BasicModal from "../../components/BasicModal/BasicModal.js";
-import CreateAsigments from "../../components/CreateAsigment/CreateAsigment.js"
+import BasicModal from "../../Components/BasicModal/BasicModal.js";
+import CreateAsigments from "../../Components/CreateAsigment/CreateAsigment.js"
 
 
 export default function Asignaturas(props) {

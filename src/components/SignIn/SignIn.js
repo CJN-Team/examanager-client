@@ -2,8 +2,8 @@ import React, { useState } from 'react'
 import { Row, Col, Form, Button, Spinner } from "react-bootstrap"
 import { values, size } from "lodash";
 import { toast } from "react-toastify";
-import { isEmailValid } from "../../utils/validation.js";
-import { signInApi, setTokenApi } from "../../api/auth.js"
+import { isEmailValid } from "../../Utils/Validation.js";
+import { signInApi, setTokenApi } from "../../Api/Auth.js"
 
 import "./SignIn.scss"
 
