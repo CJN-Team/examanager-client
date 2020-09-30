@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { values, size } from "lodash";
 import { toast } from "react-toastify";
-import { isEmailValid } from "../../Utils/Validation.js";
+import { isEmailValid } from "../../utils/validation.js";
 import DatePicker from "react-datepicker";
-import { createUserAPI, updateUserAPI } from "../../Api/Usuarios";
+import { createUserAPI, updateUserAPI } from "../../api/usuarios";
 import "react-datepicker/dist/react-datepicker.css";
 
 import {

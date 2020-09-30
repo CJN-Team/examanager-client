@@ -1,4 +1,4 @@
-import { API_HOST, TOKEN } from "../Utils/Constants.js";
+import { API_HOST, TOKEN } from "../utils/constants.js";
 import jwtDecode from "jwt-decode";
 
 export function createQuestionsAPI(data) {
