@@ -23,14 +23,11 @@ export function createInstApi(data) {
     .then((response) => {
       if (response.status >= 200 && response.status < 300) {
         console.log("hola");
-        return response.json();        
+        return response.json();
       }
-      console.log('STATUS: ' + response.statusCode);
-  console.log('HEADERS: ' + JSON.stringify(response.headers));
-  response.setEncoding('utf8');
-  response.on('data', function (chunk) {
-    console.log('BODY: ' + chunk);
-  });
+      console.log(response.error);
+      console.log(response.error.message);
+      console.log(response.Error);
       return { code: 404, message: "Error al registrar institución" };
     })
     .then((result) => {

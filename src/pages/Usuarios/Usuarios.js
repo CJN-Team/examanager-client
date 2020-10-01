@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { Button, Container } from "react-bootstrap";
-import CreateUser from "../../Components/CreateUser/CreateUser.js"
-import BasicModal from "../../Components/BasicModal/BasicModal";
-import ListUser from "../../Components/ListUser/ListUser";
-import { listUsersAPI } from "../../Api/Usuarios";
+import CreateUser from "../../components/CreateUser/CreateUser.js";
+import BasicModal from "../../components/BasicModal/BasicModal";
+import ListUser from "../../components/ListUser/ListUser";
+import { listUsersAPI } from "../../api/usuarios";
 
 export default function Usuarios(props) {
   const { userType } = props;
