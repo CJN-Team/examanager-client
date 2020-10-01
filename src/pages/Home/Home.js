@@ -1,13 +1,14 @@
-import React, { Component } from "react";
-import { Row } from "react-bootstrap";
-import BasicLayout from "../../layout/BasicLayout/BasicLayout.js";
+import React from "react";
+import BasicLayout from "../../layout/basicLayout/BasicLayout.js";
 
 import "./Home.scss";
 
 export default function Home() {
   return (
     <BasicLayout>
-      <h2>Home</h2>
+      <div className="home">
+        <h2>Bienvenidos a Examanager</h2>
+      </div>      
     </BasicLayout>
   );
 }

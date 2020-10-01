@@ -4,6 +4,8 @@ import Departamentos from "../pages/Departamentos/Departamentos";
 import Estudiantes from "../pages/Estudiantes/Estudiantes";
 import Profesores from "../pages/Profesores/Profesores";
 import Administradores from "../pages/Administradores/Administradores.js";
+import Marketplace from "../pages/Marketplace/Marketplace.js";
+import Profile from "../pages/Profile/Profile.js";
 import Grupos from "../pages/Grupos/Grupos";
 import Preguntas from "../pages/Preguntas/Preguntas";
 import Error404 from "../pages/Error404/Error404.js";
@@ -18,6 +20,11 @@ export default [
     path: "/asignaturas",
     exact: true,
     page: Asignaturas,
+  },
+  {
+    path: "/:id",
+    exact: true,
+    page: Profile,
   },
   {
     path: "/departamentos",
@@ -48,6 +55,11 @@ export default [
     path: "/preguntas",
     exact: true,
     page: Preguntas,
+  },
+  {
+    path: "/marketplace",
+    exact: true,
+    page: Marketplace,
   },
   {
     path: "*",

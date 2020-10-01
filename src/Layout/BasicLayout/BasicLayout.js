@@ -14,10 +14,10 @@ export default function BasicLayout(props) {
         <Navigation></Navigation>
       </Row>
       <Row className="basic-layout__body">
-        <Col xs={3} className="basic-layout__menu">
+        <Col className="basic-layout__menu">
           <LeftMenu></LeftMenu>
         </Col>
-        <Col xs={9} className="basic-layout__content">
+        <Col className="basic-layout__content">
           {children}
         </Col>
       </Row>
