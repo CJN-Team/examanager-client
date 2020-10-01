@@ -6,12 +6,12 @@ import Navigation from "../../components/Navigation/Navigation.js";
 import "./BasicLayout.scss";
 
 export default function BasicLayout(props) {
-  const { children } = props;
+  const { children, setRefreshLogin } = props;
 
   return (
     <Container className="basic-layout">
       <Row className="basic-layout__navigation">
-        <Navigation></Navigation>
+        <Navigation setRefreshLogin={setRefreshLogin}></Navigation>
       </Row>
       <Row className="basic-layout__body">
         <Col className="basic-layout__menu">

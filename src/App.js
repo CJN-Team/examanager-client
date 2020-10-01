@@ -8,12 +8,12 @@ import { AuthContext } from "./utils/context.js";
 import { isUserLogedApi } from "./api/auth.js";
 
 export default function App() {
-  const [user, setUser] = useState("hola");
+  const [user, setUser] = useState(null);
   const [loadUser, setLoadUser] = useState(false);
   const [refreshLogin, setRefreshLogin] = useState(false);
 
   useEffect(() => {
-    //setUser(isUserLogedApi());
+    setUser(isUserLogedApi());
     setRefreshLogin(false);
     setLoadUser(true);
   }, [refreshLogin]);
@@ -23,7 +23,7 @@ export default function App() {
   return (
     <AuthContext.Provider value={user}>
       {user ? (
-        <Routing></Routing>
+        <Routing setRefreshLogin={setRefreshLogin} ></Routing>
       ) : (
         <Login setRefreshLogin={setRefreshLogin}></Login>
       )}

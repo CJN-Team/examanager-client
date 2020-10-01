@@ -22,11 +22,6 @@ export default [
     page: Asignaturas,
   },
   {
-    path: "/:id",
-    exact: true,
-    page: Profile,
-  },
-  {
     path: "/departamentos",
     exact: true,
     page: Departamentos,
@@ -60,6 +55,11 @@ export default [
     path: "/marketplace",
     exact: true,
     page: Marketplace,
+  },
+  {
+    path: "/:id",
+    exact: true,
+    page: Profile,
   },
   {
     path: "*",

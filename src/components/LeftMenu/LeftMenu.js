@@ -21,7 +21,7 @@ export default function LeftMenu(props) {
                 </Col>
                 <Col className="col2">
                     <div>
-                        <Link to={"/"+ user?._id} >Juanito</Link>
+                        <Link to={"/"+ user?.id} >Juanito</Link>
                         <h6>Perez Sánchez</h6>
                     </div>
                 </Col>                

@@ -3,10 +3,17 @@ import { Link } from "react-router-dom"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHome, faSignOutAlt, faUniversity, faStore } from "@fortawesome/free-solid-svg-icons"
 import Logo from "../../assets/images/exam_rec.png"
+import { logoutApi } from "../../api/auth"
 
 import "./Navigation.scss"
 
-export default function Navigation() {
+export default function Navigation(props) {
+
+  const logout = () => {
+    logoutApi();
+    props.setRefreshLogin(true);
+  }
+ 
   return (
     <div className="navigation">
       <img src={Logo} alt="logo"></img>
@@ -20,7 +27,7 @@ export default function Navigation() {
         <Link to="/marketplace">
             <FontAwesomeIcon icon={faStore}></FontAwesomeIcon> 
         </Link>
-        <Link to="/">
+        <Link to="" onClick={logout}>
             <FontAwesomeIcon icon={faSignOutAlt}></FontAwesomeIcon> 
         </Link>
       </div>      
