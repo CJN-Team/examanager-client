@@ -21,13 +21,13 @@ export function createInstApi(data) {
 
   return fetch(url, params)
     .then((response) => {
+
+      console.log(response.body);
+
       if (response.status >= 200 && response.status < 300) {
         console.log("hola");
         return response.json();        
       }
-      console.log(response.error)
-      console.log(response.error.message)
-      console.log(response.Error)
       return { code: 404, message: "Error al registrar institución" };
     })
     .then((result) => {
@@ -65,6 +65,8 @@ export function createUserApi(data, institutionId) {
 
   return fetch(url, params)
     .then((response) => {
+      console.log(response.body);
+
       if (response.status >= 200 && response.status < 300) {
         console.log("hola3");
         return response.json();
