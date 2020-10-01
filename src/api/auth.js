@@ -1,4 +1,4 @@
-import { API_HOST, TOKEN } from "../Utils/Constants.js";
+import { API_HOST, TOKEN } from "../utils/constants.js";
 import jwtDecode from "jwt-decode";
 
 export function createInstApi(data) {
@@ -25,9 +25,12 @@ export function createInstApi(data) {
         console.log("hola");
         return response.json();        
       }
-      console.log(response.error)
-      console.log(response.error.message)
-      console.log(response.Error)
+      console.log('STATUS: ' + response.statusCode);
+  console.log('HEADERS: ' + JSON.stringify(response.headers));
+  response.setEncoding('utf8');
+  response.on('data', function (chunk) {
+    console.log('BODY: ' + chunk);
+  });
       return { code: 404, message: "Error al registrar institución" };
     })
     .then((result) => {

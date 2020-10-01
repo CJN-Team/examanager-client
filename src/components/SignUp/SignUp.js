@@ -2,10 +2,10 @@ import React, { useState } from 'react'
 import { Row, Col, Form, Button, Spinner } from "react-bootstrap"
 import { values, size } from "lodash";
 import { toast } from "react-toastify";
-import { isEmailValid } from "../../Utils/Validation.js";
+import { isEmailValid } from "../../utils/validation.js";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import { createInstApi, createUserApi } from "../../Api/Auth.js"
+import { createInstApi, createUserApi } from "../../api/auth.js"
 
 import "./SignUp.scss"
 
