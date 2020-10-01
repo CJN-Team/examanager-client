@@ -34,7 +34,7 @@ export function createAsigmentApi(data) {
 }
 
 export function listAsigmentApi() {
-  const url = API_HOST + "/users?profile=Estudiante&page=1";
+  const url = API_HOST + "/subject";
 
   const params = {
     method: "GET",

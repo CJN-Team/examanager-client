@@ -1,18 +1,27 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Container, Row, Col, Button } from "react-bootstrap";
 import "./Asignaturas.scss";
 import BasicModal from "../../components/BasicModal/BasicModal.js";
 import CreateAsigments from "../../components/CreateAsigment/CreateAsigment.js";
+import ListAsig from "../../components/ListAsig/ListAsig";
+import { listAsigmentApi } from "../../api/asigment";
 
 export default function Asignaturas(props) {
   const { setRefreshLogin } = props;
   const [showModal, setShowModal] = useState(false);
   const [contentModal, setContentModal] = useState(null);
+  const [asignaturasAPI, setAsignaturas] = useState(["init"]);
 
   const openModal = (content) => {
     setShowModal(true);
     setContentModal(content);
   };
+
+  useEffect(() => {
+    listAsigmentApi().then((response) => {
+      setAsignaturas(response);
+    });
+  }, []);
 
   return (
     <>
@@ -23,6 +32,7 @@ export default function Asignaturas(props) {
           setRefreshLogin={setRefreshLogin}
         ></Asig>
       </Container>
+      <ListAsig asigList={asignaturasAPI} />
       <BasicModal show={showModal} setShow={setShowModal}>
         {contentModal}
       </BasicModal>
