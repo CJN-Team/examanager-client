@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Row } from "react-bootstrap";
-import BasicLayout from "../../Layout/BasicLayout/BasicLayout.js"
+import BasicLayout from "../../layout/BasicLayout/BasicLayout.js";
 
 import "./Home.scss";
 

@@ -1,4 +1,4 @@
-import { API_HOST, TOKEN } from "../Utils/Constants.js";
+import { API_HOST, TOKEN } from "../utils/constants.js";
 import jwtDecode from "jwt-decode";
 
 export function createInstApi(data) {
@@ -26,7 +26,7 @@ export function createInstApi(data) {
 
       if (response.status >= 200 && response.status < 300) {
         console.log("hola");
-        return response.json();        
+        return response.json();
       }
       return { code: 404, message: "Error al registrar institución" };
     })

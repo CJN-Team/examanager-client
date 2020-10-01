@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Row, Col, Form, Button, Spinner } from "react-bootstrap";
 import { values, size } from "lodash";
 import { toast } from "react-toastify";
-import { createAsigmentApi } from "../../Api/Asigment";
+import { createAsigmentApi } from "../../api/asigment";
 
 import "./CreateAsigment.scss";
 

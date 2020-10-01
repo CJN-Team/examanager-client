@@ -1,19 +1,19 @@
-import React, { useState } from "react";
-import { deleteUserAPI } from "../../Api/Usuarios";
+import React, { useState, useEffect } from "react";
+import { deleteUserAPI } from "../../api/usuarios";
 import CreateUser from "../CreateUser/CreateUser";
 import BasicModal from "../BasicModal/BasicModal";
 import { toast } from "react-toastify";
 import { Container, Row, Col, Button } from "react-bootstrap";
 
 export default function ListUser(props) {
-  const [showModal, setShowModal] = useState(false);
   const { userList } = props;
+  const [showModal, setShowModal] = useState(false);
+  const [uinfo, setUinfo] = useState(userList[0]);
+
   console.log(userList);
-  var uinfo = {};
-  userList ? (uinfo = userList[0]) : (uinfo = null);
 
   const deleteUser = (u) => {
-    uinfo = u;
+    setUinfo(u);
     deleteUserAPI(uinfo)
       .then((response) => {
         if (response.code) {
@@ -32,7 +32,7 @@ export default function ListUser(props) {
   };
 
   const editUser = (u) => {
-    uinfo = u;
+    setUinfo(u);
     setShowModal(true);
   };
 

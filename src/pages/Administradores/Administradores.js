@@ -1,9 +1,10 @@
-import React from 'react'
+import React from "react";
+import Usuarios from "../Usuarios/Usuarios";
 
 export default function Administradores() {
-    return (
-        <div>
-            Admins
-        </div>
-    )
+  return (
+    <div>
+      <Usuarios userType="Administrador" />
+    </div>
+  );
 }

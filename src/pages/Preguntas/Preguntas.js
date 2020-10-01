@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { Button, Modal, Container, Row, Col } from "react-bootstrap";
 //import CreateUser from "../../Components/CreateUser/CreateUser.js"
-import { listQuestionsAPI } from "../../Api/Preguntas";
-import CreateQuestion from "../../Components/CreateQuestion/CreateQuestion";
+import { listQuestionsAPI } from "../../api/preguntas";
+import CreateQuestion from "../../components/CreateQuestion/CreateQuestion";
 
 export default function Preguntas() {
   const [showModal, setShowModal] = useState(false);
