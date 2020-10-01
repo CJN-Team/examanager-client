@@ -21,6 +21,9 @@ export default function CreateUser(props) {
   const { setShowModal, userData, mode } = props;
   const [formData, setFormData] = useState(userData);
   const [idTypeSelector, setidTypeSelector] = useState("Seleccione tipo de id");
+  const [fecha, setFecha] = useState(
+    formData.birthDate === "" ? new Date() : new Date(formData.birthDate)
+  );
 
   var editing = false;
   console.log(formData);
@@ -28,7 +31,7 @@ export default function CreateUser(props) {
     "mi nacimiento: " +
       formData.birthDate +
       " de tipo " +
-      formData.birthDate.type
+      typeof formData.birthDate
   );
 
   mode === "create" ? (editing = false) : (editing = true);
@@ -41,6 +44,11 @@ export default function CreateUser(props) {
     console.log(e);
     setidTypeSelector(e);
     setFormData({ ...formData, idType: e });
+  };
+
+  const fechaHandler = (e) => {
+    setFormData({ ...formData, birthDate: e });
+    setFecha(e);
   };
 
   const onSubmit = (e) => {
@@ -187,10 +195,8 @@ export default function CreateUser(props) {
             <Col>
               <DatePicker
                 name="birthDate"
-                //selected={moment(formData.birthDate, "DD-MM-YYYY")}
-                onChange={(date) =>
-                  setFormData({ ...formData, birthDate: date })
-                }
+                selected={fecha}
+                onChange={(date) => fechaHandler(date)}
               />
             </Col>
           </Row>

@@ -13,7 +13,7 @@ export default function App() {
   const [refreshLogin, setRefreshLogin] = useState(false);
 
   useEffect(() => {
-    //setUser(isUserLogedApi());
+    setUser(isUserLogedApi());
     setRefreshLogin(false);
     setLoadUser(true);
   }, [refreshLogin]);
