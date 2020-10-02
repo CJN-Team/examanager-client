@@ -1,21 +1,43 @@
-import React, { useState, useEffect } from "react";
-import { Container, Row, Col, Button } from "react-bootstrap";
-import "./Asignaturas.scss";
+import BasicLayout from "../../layout/basicLayout/BasicLayout.js";
 import BasicModal from "../../components/BasicModal/BasicModal.js";
 import CreateAsigments from "../../components/CreateAsigment/CreateAsigment.js";
 import ListAsig from "../../components/ListAsig/ListAsig";
+import React, { useState, useEffect } from "react";
+import { Container, Row, Col, Button } from "react-bootstrap";
 import { listAsigmentApi } from "../../api/asigment";
+
+import "./Asignaturas.scss";
 
 export default function Asignaturas(props) {
   const { setRefreshLogin } = props;
   const [showModal, setShowModal] = useState(false);
   const [contentModal, setContentModal] = useState(null);
-  const [asignaturasAPI, setAsignaturas] = useState(["init"]);
+  
 
   const openModal = (content) => {
     setShowModal(true);
     setContentModal(content);
-  };
+  };  
+
+  return (
+    <BasicLayout setRefreshLogin={setRefreshLogin}>
+      <Container className="asignaturas-cont" fluid>
+        <Asig
+          openModal={openModal}
+          setShowModal={setShowModal}
+          setRefreshLogin={setRefreshLogin}
+        ></Asig>
+      </Container>      
+      <BasicModal show={showModal} setShow={setShowModal}>
+        {contentModal}
+      </BasicModal>
+    </BasicLayout>
+  );
+}
+
+function Asig(props) {
+  const { openModal, setShowModal, setRefreshLogin } = props;
+  const [asignaturas, setAsignaturas] = useState(["Matematicas", "Español"]);
 
   useEffect(() => {
     listAsigmentApi().then((response) => {
@@ -24,29 +46,9 @@ export default function Asignaturas(props) {
   }, []);
 
   return (
-    <>
-      <Container className="login" fluid>
-        <Asig
-          openModal={openModal}
-          setShowModal={setShowModal}
-          setRefreshLogin={setRefreshLogin}
-        ></Asig>
-      </Container>
-      <ListAsig asigList={asignaturasAPI} />
-      <BasicModal show={showModal} setShow={setShowModal}>
-        {contentModal}
-      </BasicModal>
-    </>
-  );
-}
-
-function Asig(props) {
-  const { openModal, setShowModal, setRefreshLogin } = props;
-
-  return (
-    <Col className="asig">
-      <div className="imagen">
-        <h3>Asignaturas</h3>
+    <Col className="asignaturas">
+      <div className="asignaturas__body">
+        <h4>Asignaturas</h4>
         <Button
           variant="primary"
           onClick={() =>
@@ -60,6 +62,7 @@ function Asig(props) {
         >
           Añadir
         </Button>
+        <ListAsig asigList={asignaturas} />
       </div>
     </Col>
   );

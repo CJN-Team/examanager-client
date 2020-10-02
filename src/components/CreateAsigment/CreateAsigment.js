@@ -6,7 +6,7 @@ import { createAsigmentApi } from "../../api/asigment";
 
 import "./CreateAsigment.scss";
 
-export default function SignUp(props) {
+export default function CreateAsigment(props) {
   const { setShowModal } = props;
 
   const [formData, setFormData] = useState(initialValues());
