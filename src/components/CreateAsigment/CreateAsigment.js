@@ -3,6 +3,8 @@ import { Row, Col, Form, Button, Spinner } from "react-bootstrap";
 import { values, size } from "lodash";
 import { toast } from "react-toastify";
 import { createAsigmentApi } from "../../api/asigment";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faTimes} from "@fortawesome/free-solid-svg-icons"
 
 import "./CreateAsigment.scss";
 
@@ -10,7 +12,34 @@ export default function CreateAsigment(props) {
   const { setShowModal } = props;
 
   const [formData, setFormData] = useState(initialValues());
+  const [inputList, setInputList] = useState(formData.topics);
   const [createAsigLoading, setCreateAsigLoading] = useState(false);
+
+  const handleAddClick = () => {
+    const newItem = [""]
+    setInputList(
+        inputList.concat(newItem)
+    )  
+  };
+
+  const handleInputChange = (e, index) => {
+    if(e.target.name==="topics"){
+      formData["topics"][index] = e.target.value
+      setFormData({
+        "name": formData["name"],
+        "topics": formData["topics"]
+      })
+    }else{
+      setFormData({...formData, [e.target.name]: e.target.value})
+    }    
+  };
+
+  const handleRemoveClick = (index) => {
+    const list = inputList;
+    list.splice(index, 1);
+    setInputList(list);
+    console.log(inputList)
+  };
 
   const onSubmit = (e) => {
     e.preventDefault();
@@ -45,7 +74,7 @@ export default function CreateAsigment(props) {
   };
 
   return (
-    <div className="sign-up-form">
+    <div className="create-asigment-form">
       <Form onSubmit={onSubmit}>
         <h6>Crea una asignatura</h6>
         <Form.Group>
@@ -57,40 +86,54 @@ export default function CreateAsigment(props) {
               <Form.Control
                 type="text"
                 placeholder="Ingrese el nombre"
-                value={formData.name}
-                onChange={(e) =>
-                  setFormData({ ...formData, name: e.target.value })
-                }
-                defaultValue={formData.name}
+                name="name"
+                onChange={(e) => handleInputChange(e, 0)}
               ></Form.Control>
             </Col>
           </Row>
         </Form.Group>
-        <Form.Group>
-          <Row>
-            <Col>
-              <Form.Label>Temáticas</Form.Label>
-            </Col>
-            <Col>
-              <Form.Control
-                type="text"
-                placeholder="Ingrese la temática 1"
-                value={formData.topics}
-                onChange={(e) =>
-                  setFormData({ ...formData, topics: [e.target.value] })
-                }
-                defaultValue={formData.topics}
-              ></Form.Control>
-            </Col>
-          </Row>
-        </Form.Group>
-        <Button variant="primary" type="submit">
-          {!createAsigLoading ? (
-            "Crear"
-          ) : (
-            <Spinner animation="border"></Spinner>
-          )}
-        </Button>
+        <Row>
+          <Col>
+            <Form.Label>Temáticas</Form.Label>
+          </Col>
+          <Col className="topics">
+            {inputList.map((x, i) => {
+              return (
+                <div className="box">
+                  <Row className="row">
+                    <Col className="item">
+                      <Form.Control
+                        type="text"
+                        placeholder={"Ingrese temática " + (i+1)}
+                        name="topics"
+                        onChange={(e) => handleInputChange(e, i)}
+                      />
+                    </Col>
+                    <Col className="item-button">
+                      <div className="btn-box">
+                          {inputList.length !== 1 && (
+                            <Button class="btn btn" onClick={() => handleRemoveClick(i)}>
+                              <FontAwesomeIcon icon={faTimes}></FontAwesomeIcon>
+                            </Button>
+                          )}
+                      </div>
+                    </Col>
+                  </Row>
+                </div>
+              );
+            })}
+            <Button onClick={handleAddClick}>Añadir tema</Button>
+          </Col>
+        </Row>    
+        <div className="btn-cont">
+          <Button type="submit" className="btn-create">
+            {!createAsigLoading ? (
+              "Crear"
+            ) : (
+              <Spinner animation="border"></Spinner>
+            )}
+          </Button>
+        </div>        
       </Form>
     </div>
   );
@@ -99,6 +142,6 @@ export default function CreateAsigment(props) {
 function initialValues() {
   return {
     name: "",
-    topics: [""],
+    topics: [""]
   };
 }

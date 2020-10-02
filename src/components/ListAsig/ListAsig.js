@@ -26,7 +26,7 @@ export default function ListAsig(props) {
             <li class="list-group-item">
               <Row >
                 <Col>
-                  <h2>{x[1]}</h2>
+                  <h2>{x[0]}</h2>
                 </Col>
                 <Col className="button">
                   <Button variant="info">

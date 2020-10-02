@@ -1,0 +1,56 @@
+@import "../../index.scss";
+
+.modal-dialog {
+    max-width: 600px;
+}
+
+.create-asigment-form {
+
+    .topics{
+        padding: 0px;
+
+        .box {
+            margin-bottom: 10px;
+    
+            .row {
+                padding: 0px 30px 0px 15px;
+
+                .item {
+                    padding: 0px;
+                }
+
+                .item-button {
+                    padding: 0px;
+                    padding-left: 10px;
+                    max-width: 50px;
+
+                    .btn {
+                        
+                        background-color: white;
+                        border-color: white;
+
+                        svg {
+                            color: $danger;
+                        }
+                    }
+                    
+                    
+                }
+            }
+        }
+    }  
+
+    .btn-cont{
+        display: flex;
+        justify-content: center;
+
+        .btn-create {
+            
+            margin-top: 30px;
+            background-color: $primary-dark;
+            width: 300px;
+        }
+    }
+    
+    
+}

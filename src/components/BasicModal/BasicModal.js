@@ -17,7 +17,7 @@ export default function FormLogin(props) {
     >
       <Modal.Header>
         <Modal.Title>
-          <img src={Logo}></img>
+          <img src={Logo} alt="Logo"></img>
         </Modal.Title>
       </Modal.Header>
       <Modal.Body>{children}</Modal.Body>
