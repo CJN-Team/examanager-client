@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Button, Col, Row, Dropdown, DropdownButton } from "react-bootstrap";
+import { Button, Col, Row, Form } from "react-bootstrap";
 import { toast } from "react-toastify";
 import "./QuestionBody.scss";
 
@@ -29,16 +29,16 @@ export default function TrueOrFalse(props) {
         </Col>
       </Row>
       <Row>
-        <DropdownButton
-          alignRight
-          title={option}
-          id="dropdown-menu-align-right"
-          name="dificultad"
-          onSelect={handleSelect}
+        <Form.Control
+          as="select"
+          value={formData.respuestas[formData.correctas]}
+          name="respuesta"
+          onChange={(e) => handleSelect(e.target.value)}
+          defaultValue={formData.respuestas}
         >
-          <Dropdown.Item eventKey="Verdadero">Verdadero</Dropdown.Item>
-          <Dropdown.Item eventKey="Falso">Falso</Dropdown.Item>
-        </DropdownButton>
+          <option>Verdadero</option>
+          <option>Falso</option>
+        </Form.Control>
       </Row>
       <Row>
         <Col>

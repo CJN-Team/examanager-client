@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { toast } from "react-toastify";
-import { Button, Row, Col } from "react-bootstrap";
+import { Button, Row, Col, Form } from "react-bootstrap";
 import "./QuestionBody.scss";
 
 export default function SingleAnswer(props) {
@@ -62,16 +62,12 @@ export default function SingleAnswer(props) {
   formData.respuestas = respuestas;
   formData.correctas = respCorrecta;
 
-  let optionItems = formData.respuestas.map((respuesta) => (
-    <option key={respuesta}>{respuesta}</option>
-  ));
-
   return (
     <div className="login">
       <div>
         <Button onClick={handleGoBack}>Volver</Button>
       </div>
-      <h3>Ingresar respuestas</h3>
+      <Form.Label>Ingresar respuestas</Form.Label>
 
       {inputList.map((x, i) => {
         return (
@@ -109,12 +105,20 @@ export default function SingleAnswer(props) {
       <div>
         <Row>
           <Col>
-            <h3>Respuesta correcta:</h3>
+            <Form.Label>Respuesta correcta:</Form.Label>
           </Col>
           <Col>
-            <select onChange={getSeleccionada} className="selector">
-              {optionItems}
-            </select>
+            <Form.Control
+              as="select"
+              value={formData.respuestas[respCorrecta]}
+              name="correctas"
+              onChange={(e) => getSeleccionada(e)}
+              defaultValue={formData.respuestas}
+            >
+              {respuestas.map((x, i) => {
+                return <option>{x}</option>;
+              })}
+            </Form.Control>
           </Col>
         </Row>
       </div>

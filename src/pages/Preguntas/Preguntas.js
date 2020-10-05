@@ -43,13 +43,7 @@ function EncabezadoLista(props) {
       <Button
         variant="primary"
         onClick={() =>
-          openModal(
-            <CreateQuestion
-              setShowModal={setShowModal}
-              userType="Profesor"
-              institution="None"
-            />
-          )
+          openModal(<CreateQuestion form={() => initialValues()} />)
         }
       >
         Añadir
@@ -78,4 +72,14 @@ function ModalPreguntas(props) {
 
 function Yes(props) {
   return <h2>Not yet Implemented</h2>;
+}
+
+function initialValues() {
+  return {
+    materia: "Idiomas",
+    tema: "Inglés",
+    pregunta: "",
+    categoria: "",
+    dificultad: "",
+  };
 }

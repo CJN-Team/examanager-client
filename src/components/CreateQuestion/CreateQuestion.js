@@ -18,25 +18,13 @@ import {
 
 //import "./CreateQuestion.scss";
 
-export default function CreateQuestion() {
+export default function CreateQuestion(props) {
+  const { form } = props;
   const [statusForm, setStatusForm] = useState("basic");
-  const [formData, setFormData] = useState(initialValues());
-  const [questionType, setQuestionTypeSelector] = useState(
-    "Seleccione tipo de pregunta"
-  );
-  const [difficulty, setDifficulty] = useState("Seleccione dificultad");
+  const [formData, setFormData] = useState(form);
 
   const onChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
-
-  const handleSelectType = (e) => {
-    setQuestionTypeSelector(e);
-    setFormData({ ...formData, categoria: e });
-  };
-  const handleSelectDifficulty = (e) => {
-    setDifficulty(e);
-    setFormData({ ...formData, dificultad: e });
   };
 
   const onSubmit = (e) => {
@@ -62,7 +50,7 @@ export default function CreateQuestion() {
           <Form.Group>
             <Row>
               <Col>
-                <h3>Pregunta</h3>
+                <Form.Label>Pregunta</Form.Label>
               </Col>
               <Col>
                 <Form.Control
@@ -77,49 +65,43 @@ export default function CreateQuestion() {
           <Form.Group>
             <Row>
               <Col>
-                <h3>Tipo de pregunta</h3>
+                <Form.Label>Tipo de pregunta</Form.Label>
               </Col>
               <Col>
-                <DropdownButton
-                  alignRight
-                  title={questionType}
-                  id="dropdown-menu-align-right"
+                <Form.Control
+                  as="select"
+                  value={formData.categoria}
                   name="categoria"
-                  onSelect={handleSelectType}
+                  onChange={(e) =>
+                    setFormData({ ...formData, categoria: e.target.value })
+                  }
+                  defaultValue={formData.categoria}
                 >
-                  <Dropdown.Item eventKey="Pregunta abierta">
-                    Pregunta abierta
-                  </Dropdown.Item>
-                  <Dropdown.Item eventKey="Selección múltiple">
-                    Selección múltiple
-                  </Dropdown.Item>
-                  <Dropdown.Item eventKey="Respuesta única">
-                    Respuesta única
-                  </Dropdown.Item>
-                  <Dropdown.Item eventKey="Verdadero o falso">
-                    Verdadero o falso
-                  </Dropdown.Item>
-                </DropdownButton>
+                  <option>Pregunta abierta</option>
+                  <option>Selección múltiple</option>
+                  <option>Respuesta única</option>
+                  <option>Verdadero o falso</option>
+                </Form.Control>
               </Col>
             </Row>
             <Row>
               <Col>
-                <h3>Dificultad</h3>
+                <Form.Label>Dificultad</Form.Label>
               </Col>
               <Col>
-                <DropdownButton
-                  alignRight
-                  title={difficulty}
-                  id="dropdown-menu-align-right"
+                <Form.Control
+                  as="select"
+                  value={formData.dificultad}
                   name="dificultad"
-                  onSelect={handleSelectDifficulty}
+                  onChange={(e) =>
+                    setFormData({ ...formData, dificultad: e.target.value })
+                  }
+                  defaultValue={formData.dificultad}
                 >
-                  <Dropdown.Item eventKey="Básico">Básico</Dropdown.Item>
-                  <Dropdown.Item eventKey="Intermedio">
-                    Intermedio
-                  </Dropdown.Item>
-                  <Dropdown.Item eventKey="Avanzado">Avanzado</Dropdown.Item>
-                </DropdownButton>
+                  <option>Básico</option>
+                  <option>Intermedio</option>
+                  <option>Avanzado</option>
+                </Form.Control>
               </Col>
             </Row>
           </Form.Group>
@@ -142,12 +124,4 @@ export default function CreateQuestion() {
       return <TrueOrFalse formData={formData} setStatusForm={setStatusForm} />;
     }
   }
-}
-
-function initialValues() {
-  return {
-    pregunta: "",
-    categoria: "",
-    dificultad: "",
-  };
 }

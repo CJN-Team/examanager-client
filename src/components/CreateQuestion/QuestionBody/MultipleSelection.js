@@ -5,9 +5,18 @@ import "./QuestionBody.scss";
 
 export default function MultipleSelection(props) {
   const { formData, setStatusForm } = props;
-  const [inputList, setInputList] = useState([
-    { respuesta: "", correcta: "false" },
-  ]);
+  var init = [];
+  if (formData.respuestas == null) {
+    init = [{ respuesta: "", correcta: "false" }];
+  } else {
+    formData.respuestas.map((x, i) => {
+      {
+        var esCorrecta = formData.correctas.includes(i) ? "true" : false;
+        init = [...init, { respuesta: { x }, correcta: { esCorrecta } }];
+      }
+    });
+  }
+  const [inputList, setInputList] = useState(init);
 
   const handleInputChange = (e, index) => {
     var { name, value } = e.target;
