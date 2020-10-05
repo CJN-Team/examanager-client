@@ -9,7 +9,7 @@ import { faTimes} from "@fortawesome/free-solid-svg-icons"
 import "./CreateAsigment.scss";
 
 export default function CreateAsigment(props) {
-  const { setShowModal, setAsignaturas } = props;
+  const { setShowModal, setListState, listState } = props;
 
   const [formData, setFormData] = useState(initialValues());
   const [inputList, setInputList] = useState(formData.topics);
@@ -59,9 +59,7 @@ export default function CreateAsigment(props) {
             toast.warning(response.message);
           } else {
             toast.success("Se creó la asignatura exitosamente");
-            listAsigmentApi().then((response) => {
-              setAsignaturas(response);
-            });
+            setListState(!listState)
             setShowModal(false);
             setFormData(initialValues());
           }
