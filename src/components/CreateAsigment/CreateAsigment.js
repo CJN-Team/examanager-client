@@ -4,7 +4,7 @@ import { values, size } from "lodash";
 import { toast } from "react-toastify";
 import { createAsigmentApi, listAsigmentApi } from "../../api/asigment";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTimes} from "@fortawesome/free-solid-svg-icons"
+import { faTimes } from "@fortawesome/free-solid-svg-icons";
 
 import "./CreateAsigment.scss";
 
@@ -16,29 +16,27 @@ export default function CreateAsigment(props) {
   const [createAsigLoading, setCreateAsigLoading] = useState(false);
 
   const handleAddClick = () => {
-    const newItem = [""]
-    setInputList(
-        inputList.concat(newItem)
-    )  
+    const newItem = [""];
+    setInputList(inputList.concat(newItem));
   };
 
   const handleInputChange = (e, index) => {
-    if(e.target.name==="topics"){
-      formData["topics"][index] = e.target.value
+    if (e.target.name === "topics") {
+      formData["topics"][index] = e.target.value;
       setFormData({
-        "name": formData["name"],
-        "topics": formData["topics"]
-      })
-    }else{
-      setFormData({...formData, [e.target.name]: e.target.value})
-    }    
+        name: formData["name"],
+        topics: formData["topics"],
+      });
+    } else {
+      setFormData({ ...formData, [e.target.name]: e.target.value });
+    }
   };
 
   const handleRemoveClick = (index) => {
-    const list = inputList;
+    const list = [...inputList];
     list.splice(index, 1);
     setInputList(list);
-    console.log(inputList)
+    console.log(inputList);
   };
 
   const onSubmit = (e) => {
@@ -107,18 +105,21 @@ export default function CreateAsigment(props) {
                     <Col className="item">
                       <Form.Control
                         type="text"
-                        placeholder={"Ingrese temática " + (i+1)}
+                        placeholder={"Ingrese temática " + (i + 1)}
                         name="topics"
                         onChange={(e) => handleInputChange(e, i)}
                       />
                     </Col>
                     <Col className="item-button">
                       <div className="btn-box">
-                          {inputList.length !== 1 && (
-                            <Button class="btn btn" onClick={() => handleRemoveClick(i)}>
-                              <FontAwesomeIcon icon={faTimes}></FontAwesomeIcon>
-                            </Button>
-                          )}
+                        {inputList.length !== 1 && (
+                          <Button
+                            class="btn btn"
+                            onClick={() => handleRemoveClick(i)}
+                          >
+                            <FontAwesomeIcon icon={faTimes}></FontAwesomeIcon>
+                          </Button>
+                        )}
                       </div>
                     </Col>
                   </Row>
@@ -127,7 +128,7 @@ export default function CreateAsigment(props) {
             })}
             <Button onClick={handleAddClick}>Añadir tema</Button>
           </Col>
-        </Row>    
+        </Row>
         <div className="btn-cont">
           <Button type="submit" className="btn-create">
             {!createAsigLoading ? (
@@ -136,7 +137,7 @@ export default function CreateAsigment(props) {
               <Spinner animation="border"></Spinner>
             )}
           </Button>
-        </div>        
+        </div>
       </Form>
     </div>
   );
@@ -145,6 +146,6 @@ export default function CreateAsigment(props) {
 function initialValues() {
   return {
     name: "",
-    topics: [""]
+    topics: [""],
   };
 }
