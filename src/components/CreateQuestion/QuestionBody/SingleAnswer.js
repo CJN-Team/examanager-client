@@ -5,14 +5,12 @@ import "./QuestionBody.scss";
 
 export default function SingleAnswer(props) {
   const { formData, setStatusForm } = props;
-  const [inputList, setInputList] = useState([{ respuesta: "" }]);
-  const [respCorrecta, setCorrecta] = useState(0);
-  let respuestas = [];
+  const [inputList, setInputList] = useState(formData.respuestas);
+  const [respCorrecta, setCorrecta] = useState(formData.correctas[0]);
 
   const handleInputChange = (e, index) => {
-    var { name, value } = e.target;
     const list = [...inputList];
-    list[index][name] = value;
+    list[index] = e.target.value;
     setInputList(list);
   };
 
@@ -23,7 +21,7 @@ export default function SingleAnswer(props) {
   };
 
   const handleAddClick = () => {
-    setInputList([...inputList, { respuesta: "" }]);
+    setInputList([...inputList, ""]);
   };
 
   const handleGoBack = () => {
@@ -55,12 +53,8 @@ export default function SingleAnswer(props) {
     }
   };
 
-  inputList.forEach(function (value, i) {
-    respuestas.push(value.respuesta);
-  });
-
-  formData.respuestas = respuestas;
-  formData.correctas = respCorrecta;
+  formData.respuestas = inputList;
+  formData.correctas = [respCorrecta];
 
   return (
     <div className="login">
@@ -77,7 +71,7 @@ export default function SingleAnswer(props) {
                 <input
                   name="respuesta"
                   placeholder="Ingrese respuesta"
-                  value={x.respuesta}
+                  value={x}
                   onChange={(e) => handleInputChange(e, i)}
                 />
               </Col>
@@ -115,7 +109,7 @@ export default function SingleAnswer(props) {
               onChange={(e) => getSeleccionada(e)}
               defaultValue={formData.respuestas}
             >
-              {respuestas.map((x, i) => {
+              {inputList.map((x, i) => {
                 return <option>{x}</option>;
               })}
             </Form.Control>

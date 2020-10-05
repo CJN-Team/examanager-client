@@ -81,5 +81,7 @@ function initialValues() {
     pregunta: "",
     categoria: "",
     dificultad: "",
+    respuestas: ["jaja", "xd", "hola"],
+    correctas: [1, 2],
   };
 }

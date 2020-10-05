@@ -1,33 +1,29 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { toast } from "react-toastify";
 import { Button, Row, Col } from "react-bootstrap";
 import "./QuestionBody.scss";
 
 export default function MultipleSelection(props) {
   const { formData, setStatusForm } = props;
-  var init = [];
-  if (formData.respuestas == null) {
-    init = [{ respuesta: "", correcta: "false" }];
-  } else {
-    formData.respuestas.map((x, i) => {
-      {
-        var esCorrecta = formData.correctas.includes(i) ? "true" : false;
-        init = [...init, { respuesta: { x }, correcta: { esCorrecta } }];
-      }
-    });
-  }
-  const [inputList, setInputList] = useState(init);
+  const [inputList, setInputList] = useState(formData.respuestas);
+  const [correctList, setCorrectList] = useState(formData.correctas);
 
   const handleInputChange = (e, index) => {
-    var { name, value } = e.target;
+    var value = e.target.value;
     const list = [...inputList];
-    list[index][name] = value;
-    if (name === "correcta") {
-      list[index][name] === "false"
-        ? (list[index][name] = "true")
-        : (list[index][name] = "false");
-    }
+    list[index] = value;
     setInputList(list);
+  };
+
+  const handleCorrectChange = (index) => {
+    var list = [...correctList];
+    if (list.includes(index)) {
+      var i = list.indexOf(index);
+      list.splice(i, 1);
+    } else {
+      list = [...list, index];
+    }
+    setCorrectList(list);
   };
 
   const handleRemoveClick = (index) => {
@@ -37,7 +33,7 @@ export default function MultipleSelection(props) {
   };
 
   const handleAddClick = () => {
-    setInputList([...inputList, { respuesta: "", correcta: "false" }]);
+    setInputList([...inputList, ""]);
   };
 
   const handleGoBack = () => {
@@ -64,18 +60,9 @@ export default function MultipleSelection(props) {
     }
   };
 
-  let respuestas = [];
-  let correctas = [];
+  formData.respuestas = inputList;
+  formData.correctas = correctList;
 
-  inputList.forEach(function (value, i) {
-    respuestas.push(value.respuesta);
-    if (value.correcta === "true") {
-      correctas.push(i);
-    }
-  });
-
-  formData.respuestas = respuestas;
-  formData.correctas = correctas;
   return (
     <div className="login">
       <div>
@@ -90,7 +77,7 @@ export default function MultipleSelection(props) {
                 <input
                   name="respuesta"
                   placeholder="Ingrese respuesta"
-                  value={x.respuesta}
+                  value={x}
                   onChange={(e) => handleInputChange(e, i)}
                 />
                 <div className="form-group form-check">
@@ -99,8 +86,8 @@ export default function MultipleSelection(props) {
                     className="form-check-input"
                     id="checkCorrecta"
                     name="correcta"
-                    value={x.correcta}
-                    onChange={(e) => handleInputChange(e, i)}
+                    checked={correctList.includes(i)}
+                    onChange={(e) => handleCorrectChange(i)}
                   />
                   <label className="form-check-label" htmlFor="checkCorrecta">
                     Correcta

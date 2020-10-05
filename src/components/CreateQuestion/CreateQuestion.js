@@ -6,15 +6,7 @@ import OpenQuestion from "./QuestionBody/OpenQuestion";
 import SingleAnswer from "./QuestionBody/SingleAnswer";
 import TrueOrFalse from "./QuestionBody/TrueOrFalse";
 
-import {
-  Row,
-  Col,
-  Form,
-  Button,
-  Spinner,
-  DropdownButton,
-  Dropdown,
-} from "react-bootstrap";
+import { Row, Col, Form, Button } from "react-bootstrap";
 
 //import "./CreateQuestion.scss";
 
@@ -22,7 +14,6 @@ export default function CreateQuestion(props) {
   const { form } = props;
   const [statusForm, setStatusForm] = useState("basic");
   const [formData, setFormData] = useState(form);
-
   const onChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
@@ -109,6 +100,7 @@ export default function CreateQuestion(props) {
             Siguiente
           </Button>
         </Form>
+        <div style={{ marginTop: 20 }}>{JSON.stringify(formData)}</div>
       </div>
     );
   } else if (statusForm === "advanced") {
