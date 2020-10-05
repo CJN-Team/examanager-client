@@ -4,6 +4,9 @@ import CreateUser from "../CreateUser/CreateUser";
 import BasicModal from "../BasicModal/BasicModal";
 import { toast } from "react-toastify";
 import { Container, Row, Col, Button } from "react-bootstrap";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faTrash, faEye } from "@fortawesome/free-solid-svg-icons";
+import "./ListUser.scss";
 
 export default function ListUser(props) {
   const { userList } = props;
@@ -45,8 +48,8 @@ export default function ListUser(props) {
   }
   return (
     <div>
-      <Container fluid>
-        <ul className="list-group">
+      <Container fluid className="list-user">
+        <ul className="table">
           {userList.map((x, i) => {
             return (
               <li class="list-group-item">
@@ -54,14 +57,14 @@ export default function ListUser(props) {
                   <Col>
                     <h2>{`${x.name}  ${x.lastName}`}</h2>
                   </Col>
-                  <Col>
+                  <Col className="button">
                     <Button variant="info" onClick={() => editUser(x)}>
-                      Editar
+                      <FontAwesomeIcon icon={faEye}></FontAwesomeIcon>
                     </Button>
                   </Col>
-                  <Col>
+                  <Col className="button">
                     <Button variant="danger" onClick={() => deleteUser(x)}>
-                      Borrar
+                      <FontAwesomeIcon icon={faTrash}></FontAwesomeIcon>
                     </Button>
                   </Col>
                 </Row>

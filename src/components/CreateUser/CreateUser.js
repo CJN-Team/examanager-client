@@ -20,7 +20,6 @@ import "./CreateUser.scss";
 export default function CreateUser(props) {
   const { setShowModal, userData, mode } = props;
   const [formData, setFormData] = useState(userData);
-  const [idTypeSelector, setidTypeSelector] = useState("Seleccione tipo de id");
   const [fecha, setFecha] = useState(
     formData.birthDate === "" ? new Date() : new Date(formData.birthDate)
   );
@@ -38,12 +37,6 @@ export default function CreateUser(props) {
 
   const onChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
-
-  const handleSelect = (e) => {
-    console.log(e);
-    setidTypeSelector(e);
-    setFormData({ ...formData, idType: e });
   };
 
   const fechaHandler = (e) => {
@@ -110,7 +103,7 @@ export default function CreateUser(props) {
         <Form.Group>
           <Row>
             <Col>
-              <h3>id</h3>
+              <Form.Label>id</Form.Label>
             </Col>
             <Col>
               <Form.Control
@@ -124,34 +117,29 @@ export default function CreateUser(props) {
           </Row>
           <Row>
             <Col>
-              <h3>Tipo de id</h3>
+              <Form.Label>Tipo de id</Form.Label>
             </Col>
             <Col>
-              <DropdownButton
-                alignRight
-                title={idTypeSelector}
-                id="dropdown-menu-align-right"
+              <Form.Control
+                as="select"
+                value={formData.idType}
                 name="idType"
-                onSelect={handleSelect}
-                disabled={editing}
+                onChange={(e) =>
+                  setFormData({ ...formData, idType: e.target.value })
+                }
+                defaultValue={formData.idType}
               >
-                <Dropdown.Item eventKey="CC">
-                  Cédula de ciudadanía
-                </Dropdown.Item>
-                <Dropdown.Item eventKey="TI">
-                  Tarjeta de identidad
-                </Dropdown.Item>
-                <Dropdown.Item eventKey="CE">
-                  Cédula de extranjería
-                </Dropdown.Item>
-              </DropdownButton>
+                <option>CC</option>
+                <option>TI</option>
+                <option>CE</option>
+              </Form.Control>
             </Col>
           </Row>
         </Form.Group>
         <Form.Group>
           <Row>
             <Col>
-              <h3>Nombre</h3>
+              <Form.Label>Nombre</Form.Label>
             </Col>
             <Col>
               <Form.Control
@@ -164,7 +152,7 @@ export default function CreateUser(props) {
           </Row>
           <Row>
             <Col>
-              <h3>Apellidos</h3>
+              <Form.Label>Apellidos</Form.Label>
             </Col>
             <Col>
               <Form.Control
@@ -177,7 +165,7 @@ export default function CreateUser(props) {
           </Row>
           <Row>
             <Col>
-              <h3>Correo</h3>
+              <Form.Label>Correo</Form.Label>
             </Col>
             <Col>
               <Form.Control
@@ -190,7 +178,7 @@ export default function CreateUser(props) {
           </Row>
           <Row>
             <Col>
-              <h3>Fecha de nacimiento</h3>
+              <Form.Label>Fecha de nacimiento</Form.Label>
             </Col>
             <Col>
               <DatePicker

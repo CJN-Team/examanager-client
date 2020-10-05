@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { Button, Container } from "react-bootstrap";
+import { Button, Container, Col } from "react-bootstrap";
 import CreateUser from "../../components/CreateUser/CreateUser.js";
 import BasicModal from "../../components/BasicModal/BasicModal";
 import ListUser from "../../components/ListUser/ListUser";
 import { listUsersAPI } from "../../api/usuarios";
+import "./Usuarios.scss";
 
 export default function Usuarios(props) {
   const { userType } = props;
@@ -23,21 +24,23 @@ export default function Usuarios(props) {
   };
 
   return (
-    <div>
-      <EncabezadoLista
-        setShowModal={setShowModal}
-        openModal={openModal}
-        userType={userType}
-      />
-      <ListUser userList={usuariosAPI} />
-      <Container fluid>
-        <BasicModal openModal={openModal} setShowModal={setShowModal} />
-      </Container>
+    <Col className="usuarios">
+      <div className="usuarios-body">
+        <EncabezadoLista
+          setShowModal={setShowModal}
+          openModal={openModal}
+          userType={userType}
+        />
+        <ListUser userList={usuariosAPI} />
+        <Container fluid>
+          <BasicModal openModal={openModal} setShowModal={setShowModal} />
+        </Container>
 
-      <BasicModal show={showModal} setShow={setShowModal}>
-        {contentModal}
-      </BasicModal>
-    </div>
+        <BasicModal show={showModal} setShow={setShowModal}>
+          {contentModal}
+        </BasicModal>
+      </div>
+    </Col>
   );
 }
 
@@ -45,7 +48,7 @@ function EncabezadoLista(props) {
   const { setShowModal, openModal, userType } = props;
   return (
     <>
-      <h1>{userType}</h1>
+      <h4>{userType}</h4>
       <Button
         variant="primary"
         onClick={() =>
