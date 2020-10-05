@@ -64,7 +64,11 @@ function Asig(props) {
         >
           Añadir
         </Button>
-        <ListAsig asigList={asignaturas} />
+        <ListAsig 
+          asigList={asignaturas} 
+          setListState={setListState}
+          listState={listState}
+        />
       </div>
     </Col>
   );

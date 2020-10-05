@@ -33,6 +33,67 @@ export function createAsigmentApi(data) {
     });
 }
 
+export function deleteAsigmentApi(subject) {
+  const url = API_HOST + "/subject?name=" + subjetc;
+
+  const params = {
+    method: "DELETE",
+    headers: {
+      "Content-type": "text/plain",
+      Authorization: "Bearer" + localStorage.getItem(TOKEN),
+    }
+  };
+
+  return fetch(url, params)
+    .then((response) => {
+      console.log(response.status);
+      if (response.status >= 200 && response.status < 300) {
+        return response.json();
+      }
+      console.log(response);
+      return { code: 404, message: "Error al eliminar asignatura" };
+    })
+    .then((result) => {
+      return result;
+    })
+    .catch((err) => {
+      return err;
+  });
+}
+
+export function updateAsigmentApi(data) {
+  const url = API_HOST + "/subject?name=" + subjetc;
+
+  const asig = {
+    ...data,
+  };
+
+  const params = {
+    method: "PUT",
+    headers: {
+      "Content-type": "application/json",
+      Authorization: "Bearer" + localStorage.getItem(TOKEN),
+    },
+    body: JSON.stringify(asig),
+  };
+
+  return fetch(url, params)
+    .then((response) => {
+      console.log(response.status);
+      if (response.status >= 200 && response.status < 300) {
+        return response.json();
+      }
+      console.log(response);
+      return { code: 404, message: "Error al crear asignatura" };
+    })
+    .then((result) => {
+      return result;
+    })
+    .catch((err) => {
+      return err;
+  });
+}
+
 export function listAsigmentApi() {
   const url = API_HOST + "/subject";
 
