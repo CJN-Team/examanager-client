@@ -49,7 +49,7 @@ export default function ListAsig(props) {
                   <h2>{x[0]}</h2>
                 </Col>
                 <Col className="button">
-                  <Button variant="info" onClick={() => delete(x[0])}>
+                  <Button variant="info" onClick={() => deleteAsig(x[0])}>
                     <FontAwesomeIcon icon={faEye}></FontAwesomeIcon> 
                   </Button>
                 </Col>
