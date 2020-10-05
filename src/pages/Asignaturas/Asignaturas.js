@@ -36,14 +36,14 @@ export default function Asignaturas(props) {
 }
 
 function Asig(props) {
-  const { openModal, setShowModal, setRefreshLogin } = props;
+  const { openModal, setShowModal} = props;
   const [asignaturas, setAsignaturas] = useState(["Matematicas", "Español"]);
 
   useEffect(() => {
     listAsigmentApi().then((response) => {
       setAsignaturas(response);
     });
-  }, []);
+  }, [asignaturas]);
 
   return (
     <Col className="asignaturas">
@@ -55,7 +55,7 @@ function Asig(props) {
             openModal(
               <CreateAsigments
                 setShowModal={setShowModal}
-                setRefreshLogin={setRefreshLogin}
+                setAsignaturas={setAsignaturas}
               ></CreateAsigments>
             )
           }

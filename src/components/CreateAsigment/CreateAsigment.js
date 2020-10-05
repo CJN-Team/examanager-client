@@ -2,14 +2,14 @@ import React, { useState } from "react";
 import { Row, Col, Form, Button, Spinner } from "react-bootstrap";
 import { values, size } from "lodash";
 import { toast } from "react-toastify";
-import { createAsigmentApi } from "../../api/asigment";
+import { createAsigmentApi, listAsigmentApi } from "../../api/asigment";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTimes} from "@fortawesome/free-solid-svg-icons"
 
 import "./CreateAsigment.scss";
 
 export default function CreateAsigment(props) {
-  const { setShowModal } = props;
+  const { setShowModal, setAsignaturas } = props;
 
   const [formData, setFormData] = useState(initialValues());
   const [inputList, setInputList] = useState(formData.topics);
@@ -59,6 +59,9 @@ export default function CreateAsigment(props) {
             toast.warning(response.message);
           } else {
             toast.success("Se creó la asignatura exitosamente");
+            listAsigmentApi().then((response) => {
+              setAsignaturas(response);
+            });
             setShowModal(false);
             setFormData(initialValues());
           }
