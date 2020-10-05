@@ -6,6 +6,7 @@ import Profesores from "../pages/Profesores/Profesores";
 import Administradores from "../pages/Administradores/Administradores.js";
 import Marketplace from "../pages/Marketplace/Marketplace.js";
 import Profile from "../pages/Profile/Profile.js";
+import Temas from "../pages/Temas/Temas.js";
 import Grupos from "../pages/Grupos/Grupos";
 import Preguntas from "../pages/Preguntas/Preguntas";
 import Error404 from "../pages/Error404/Error404.js";
@@ -60,6 +61,11 @@ export default [
     path: "/:id",
     exact: true,
     page: Profile,
+  },
+  {
+    path: "/asignaturas/:topics",
+    exact: true,
+    page: Temas,
   },
   {
     path: "*",

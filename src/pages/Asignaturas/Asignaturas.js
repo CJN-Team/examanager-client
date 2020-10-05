@@ -25,7 +25,6 @@ export default function Asignaturas(props) {
         <Asig
           openModal={openModal}
           setShowModal={setShowModal}
-          setRefreshLogin={setRefreshLogin}
         ></Asig>
       </Container>      
       <BasicModal show={showModal} setShow={setShowModal}>
@@ -37,13 +36,13 @@ export default function Asignaturas(props) {
 
 function Asig(props) {
   const { openModal, setShowModal} = props;
-  const [asignaturas, setAsignaturas] = useState(["Matematicas", "Español"]);
+  const [asignaturas, setAsignaturas] = useState([["Matematicas","lkasnd"],["funciones", "trigonometría"]], ["Español",["literatura", "gramática"]]);
   const [ listState, setListState ] = useState(1)
 
   useEffect(() => {
-    listAsigmentApi().then((response) => {
-      setAsignaturas(response);
-    });
+    //listAsigmentApi().then((response) => {
+      //setAsignaturas(response);
+    //});
   }, [listState]);
 
   return (

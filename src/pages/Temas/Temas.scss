@@ -1,0 +1,17 @@
+@import "../../index.scss";
+
+.temas-cont {
+
+    .temas {
+        padding: 0px;
+
+        &__body {
+
+            h4 {
+                color: $font-grey;
+                margin-bottom: 20px;
+                font-size: 30px;
+            }
+        }
+    }
+}

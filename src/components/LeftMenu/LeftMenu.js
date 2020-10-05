@@ -8,7 +8,7 @@ import useAuth from "../../hooks/useAuth"
 
 import "./LeftMenu.scss"
 
-export default function LeftMenu(props) {
+export default function LeftMenu() {
     const user = useAuth();
 
     console.log(user);

@@ -22,6 +22,11 @@ export default function ListAsig(props) {
     );
   }
 
+  const goToAsig = (data) => {
+    const ruta = "/asignaturas/" + data[0] + "?topics=" + data[1] 
+    window.location.href = ruta
+  }
+
   const deleteAsig = (subject) => {
     deleteAsigmentApi(subject)
     .then((response) => {
@@ -49,12 +54,12 @@ export default function ListAsig(props) {
                   <h2>{x[0]}</h2>
                 </Col>
                 <Col className="button">
-                  <Button variant="info" onClick={() => deleteAsig(x[0])}>
-                    <FontAwesomeIcon icon={faEye}></FontAwesomeIcon> 
+                  <Button variant="info" >
+                    <FontAwesomeIcon icon={faEye} onClick={() => goToAsig(x)}></FontAwesomeIcon> 
                   </Button>
                 </Col>
                 <Col className="button">
-                  <Button variant="danger">
+                  <Button variant="danger" onClick={() => deleteAsig(x[0])}>
                     <FontAwesomeIcon icon={faTrash}></FontAwesomeIcon>
                   </Button>
                 </Col>
