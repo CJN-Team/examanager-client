@@ -34,7 +34,7 @@ export function createAsigmentApi(data) {
 }
 
 export function deleteAsigmentApi(subject) {
-  const url = API_HOST + "/subject?name=" + subjetc;
+  const url = API_HOST + "/subject?name=" + subject;
 
   const params = {
     method: "DELETE",
