@@ -3,6 +3,7 @@ import { Container, Row, Col, Button } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash, faEye} from "@fortawesome/free-solid-svg-icons"
 import { deleteAsigmentApi } from "../../api/asigment.js"
+import { toast } from "react-toastify";
 
 import "./ListAsig.scss"
 
