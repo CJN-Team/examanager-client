@@ -62,7 +62,7 @@ export function deleteAsigmentApi(subject) {
 }
 
 export function updateAsigmentApi(data) {
-  const url = API_HOST + "/subject?name=" + subjetc;
+  const url = API_HOST + "/subject?name=" + data[0];
 
   const asig = {
     ...data,
