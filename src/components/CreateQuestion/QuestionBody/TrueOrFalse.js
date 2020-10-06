@@ -1,10 +1,11 @@
 import React, { useState } from "react";
 import { Button, Col, Row, Form } from "react-bootstrap";
 import { toast } from "react-toastify";
+import { questionSubmit } from "./QuestionSubmitter";
 import "./QuestionBody.scss";
 
 export default function TrueOrFalse(props) {
-  const { formData, setStatusForm } = props;
+  const { formData, setStatusForm, mode } = props;
   const [option, setOption] = useState("Verdadero");
   const options = ["Verdadero", "Falso"];
 
@@ -15,11 +16,11 @@ export default function TrueOrFalse(props) {
     setStatusForm("basic");
   };
   const handleSubmit = () => {
+    formData.respuestas = options;
+    formData.correctas = [options.indexOf(option)];
     toast.warning("OK");
+    questionSubmit(formData, mode);
   };
-
-  formData.respuestas = options;
-  formData.correctas = options.indexOf(option);
 
   return (
     <div className="login">
@@ -45,7 +46,6 @@ export default function TrueOrFalse(props) {
           <Button onClick={handleSubmit}>Aceptar</Button>
         </Col>
       </Row>
-      <div style={{ marginTop: 20 }}>{JSON.stringify(formData)}</div>
     </div>
   );
 }

@@ -1,20 +1,20 @@
 import React, { useState, useEffect } from "react";
 import { Button, Modal, Container, Row, Col } from "react-bootstrap";
-//import CreateUser from "../../Components/CreateUser/CreateUser.js"
 import { listQuestionsAPI } from "../../api/preguntas";
 import CreateQuestion from "../../components/CreateQuestion/CreateQuestion";
+import ListQuestions from "../../components/ListQuestions/ListQuestions";
 
 export default function Preguntas() {
   const [showModal, setShowModal] = useState(false);
   const [contentModal, setcontentModal] = useState(null);
   const [preguntasAPI, setpreguntas] = useState(["init", "test"]);
 
-  /*
   useEffect(() => {
-    listQuestionsAPI().then((response) => {
+    listQuestionsAPI(1, "Inglés", 1).then((response) => {
       setpreguntas(response);
+      console.log(preguntasAPI);
     });
-  }, []);*/
+  }, []);
 
   const openModal = (content) => {
     setShowModal(true);
@@ -27,6 +27,11 @@ export default function Preguntas() {
       <Container fluid>
         <ModalPreguntas openModal={openModal} setShowModal={setShowModal} />
       </Container>
+      <ListQuestions
+        questList={preguntasAPI}
+        show={showModal}
+        setShow={setShowModal}
+      />
 
       <ModalPreguntas show={showModal} setShow={setShowModal}>
         {contentModal}
@@ -43,7 +48,9 @@ function EncabezadoLista(props) {
       <Button
         variant="primary"
         onClick={() =>
-          openModal(<CreateQuestion form={() => initialValues()} />)
+          openModal(
+            <CreateQuestion form={() => initialValues()} mode="create" />
+          )
         }
       >
         Añadir
@@ -70,18 +77,15 @@ function ModalPreguntas(props) {
   );
 }
 
-function Yes(props) {
-  return <h2>Not yet Implemented</h2>;
-}
-
 function initialValues() {
   return {
     materia: "Idiomas",
     tema: "Inglés",
+    id: "",
     pregunta: "",
-    categoria: "",
-    dificultad: "",
-    respuestas: ["jaja", "xd", "hola"],
-    correctas: [1, 2],
+    categoria: "Pregunta abierta",
+    dificultad: "Básico",
+    respuestas: [""],
+    correctas: [],
   };
 }

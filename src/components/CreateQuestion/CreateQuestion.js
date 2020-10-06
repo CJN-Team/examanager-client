@@ -1,17 +1,14 @@
 import React, { useState } from "react";
 import { values, size } from "lodash";
 import { toast } from "react-toastify";
+import { Row, Col, Form, Button } from "react-bootstrap";
 import MultipleSelection from "./QuestionBody/MultipleSelection";
 import OpenQuestion from "./QuestionBody/OpenQuestion";
 import SingleAnswer from "./QuestionBody/SingleAnswer";
 import TrueOrFalse from "./QuestionBody/TrueOrFalse";
 
-import { Row, Col, Form, Button } from "react-bootstrap";
-
-//import "./CreateQuestion.scss";
-
 export default function CreateQuestion(props) {
-  const { form } = props;
+  const { form, mode } = props;
   const [statusForm, setStatusForm] = useState("basic");
   const [formData, setFormData] = useState(form);
   const onChange = (e) => {
@@ -39,6 +36,19 @@ export default function CreateQuestion(props) {
       <div className="login">
         <Form onSubmit={onSubmit} onChange={onChange}>
           <Form.Group>
+            <Row>
+              <Col>
+                <Form.Label>ID</Form.Label>
+              </Col>
+              <Col>
+                <Form.Control
+                  type="text-area"
+                  placeholder="Id"
+                  name="id"
+                  defaultValue={formData.id}
+                />
+              </Col>
+            </Row>
             <Row>
               <Col>
                 <Form.Label>Pregunta</Form.Label>
@@ -100,20 +110,41 @@ export default function CreateQuestion(props) {
             Siguiente
           </Button>
         </Form>
-        <div style={{ marginTop: 20 }}>{JSON.stringify(formData)}</div>
       </div>
     );
   } else if (statusForm === "advanced") {
     if (formData.categoria === "Pregunta abierta") {
-      return <OpenQuestion formData={formData} setStatusForm={setStatusForm} />;
+      return (
+        <OpenQuestion
+          formData={formData}
+          setStatusForm={setStatusForm}
+          mode={mode}
+        />
+      );
     } else if (formData.categoria === "Selección múltiple") {
       return (
-        <MultipleSelection formData={formData} setStatusForm={setStatusForm} />
+        <MultipleSelection
+          formData={formData}
+          setStatusForm={setStatusForm}
+          mode={mode}
+        />
       );
     } else if (formData.categoria === "Respuesta única") {
-      return <SingleAnswer formData={formData} setStatusForm={setStatusForm} />;
+      return (
+        <SingleAnswer
+          formData={formData}
+          setStatusForm={setStatusForm}
+          mode={mode}
+        />
+      );
     } else if (formData.categoria === "Verdadero o falso") {
-      return <TrueOrFalse formData={formData} setStatusForm={setStatusForm} />;
+      return (
+        <TrueOrFalse
+          formData={formData}
+          setStatusForm={setStatusForm}
+          mode={mode}
+        />
+      );
     }
   }
 }

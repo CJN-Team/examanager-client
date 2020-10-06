@@ -1,10 +1,11 @@
 import React, { useState } from "react";
 import { toast } from "react-toastify";
 import { Button, Row, Col, Form } from "react-bootstrap";
+import { questionSubmit } from "./QuestionSubmitter";
 import "./QuestionBody.scss";
 
 export default function SingleAnswer(props) {
-  const { formData, setStatusForm } = props;
+  const { formData, setStatusForm, mode } = props;
   const [inputList, setInputList] = useState(formData.respuestas);
   const [respCorrecta, setCorrecta] = useState(formData.correctas[0]);
 
@@ -34,6 +35,8 @@ export default function SingleAnswer(props) {
   };
 
   const handleSubmit = () => {
+    formData.respuestas = inputList;
+    formData.correctas = [respCorrecta];
     let valido = true;
     formData.respuestas.forEach(function (value, i) {
       if (value === "") {
@@ -48,13 +51,10 @@ export default function SingleAnswer(props) {
         toast.warning("Al menos una respuesta debe ser correcta.");
       } else {
         toast.success("Todo bien.");
-        console.log(formData); //ENVIO A BD
+        questionSubmit(formData, mode);
       }
     }
   };
-
-  formData.respuestas = inputList;
-  formData.correctas = [respCorrecta];
 
   return (
     <div className="login">
@@ -119,7 +119,6 @@ export default function SingleAnswer(props) {
       <div>
         <Button onClick={handleSubmit}>Crear</Button>
       </div>
-      <div style={{ marginTop: 20 }}>{JSON.stringify(formData)}</div>
     </div>
   );
 }
