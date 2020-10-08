@@ -11,6 +11,10 @@ export default function CreateQuestion(props) {
   const { form, mode } = props;
   const [statusForm, setStatusForm] = useState("basic");
   const [formData, setFormData] = useState(form);
+
+  var editing = false;
+  mode === "create" ? (editing = false) : (editing = true);
+
   const onChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
@@ -26,7 +30,6 @@ export default function CreateQuestion(props) {
     if (validCount !== size(formData)) {
       toast.warning("Complete todos los campos");
     } else {
-      toast.success("OK");
       setStatusForm("advanced");
     }
   };
@@ -45,6 +48,7 @@ export default function CreateQuestion(props) {
                   type="text-area"
                   placeholder="Id"
                   name="id"
+                  disabled={editing}
                   defaultValue={formData.id}
                 />
               </Col>
@@ -57,8 +61,8 @@ export default function CreateQuestion(props) {
                 <Form.Control
                   type="text-area"
                   placeholder="Pregunta"
-                  name="pregunta"
-                  defaultValue={formData.pregunta}
+                  name="question"
+                  defaultValue={formData.question}
                 />
               </Col>
             </Row>
@@ -71,12 +75,12 @@ export default function CreateQuestion(props) {
               <Col>
                 <Form.Control
                   as="select"
-                  value={formData.categoria}
-                  name="categoria"
+                  value={formData.category}
+                  name="category"
                   onChange={(e) =>
-                    setFormData({ ...formData, categoria: e.target.value })
+                    setFormData({ ...formData, category: e.target.value })
                   }
-                  defaultValue={formData.categoria}
+                  defaultValue={formData.category}
                 >
                   <option>Pregunta abierta</option>
                   <option>Selección múltiple</option>
@@ -92,16 +96,19 @@ export default function CreateQuestion(props) {
               <Col>
                 <Form.Control
                   as="select"
-                  value={formData.dificultad}
-                  name="dificultad"
+                  value={formData.difficulty}
+                  name="difficulty"
                   onChange={(e) =>
-                    setFormData({ ...formData, dificultad: e.target.value })
+                    setFormData({
+                      ...formData,
+                      difficulty: e.target.value,
+                    })
                   }
-                  defaultValue={formData.dificultad}
+                  defaultValue={formData.difficulty}
                 >
-                  <option>Básico</option>
-                  <option>Intermedio</option>
-                  <option>Avanzado</option>
+                  <option value={1}>Básico</option>
+                  <option value={2}>Intermedio</option>
+                  <option value={3}>Avanzado</option>
                 </Form.Control>
               </Col>
             </Row>
@@ -113,7 +120,7 @@ export default function CreateQuestion(props) {
       </div>
     );
   } else if (statusForm === "advanced") {
-    if (formData.categoria === "Pregunta abierta") {
+    if (formData.category === "Pregunta abierta") {
       return (
         <OpenQuestion
           formData={formData}
@@ -121,7 +128,7 @@ export default function CreateQuestion(props) {
           mode={mode}
         />
       );
-    } else if (formData.categoria === "Selección múltiple") {
+    } else if (formData.category === "Selección múltiple") {
       return (
         <MultipleSelection
           formData={formData}
@@ -129,7 +136,7 @@ export default function CreateQuestion(props) {
           mode={mode}
         />
       );
-    } else if (formData.categoria === "Respuesta única") {
+    } else if (formData.category === "Respuesta única") {
       return (
         <SingleAnswer
           formData={formData}
@@ -137,7 +144,7 @@ export default function CreateQuestion(props) {
           mode={mode}
         />
       );
-    } else if (formData.categoria === "Verdadero o falso") {
+    } else if (formData.category === "Verdadero o falso") {
       return (
         <TrueOrFalse
           formData={formData}

@@ -16,9 +16,8 @@ export default function TrueOrFalse(props) {
     setStatusForm("basic");
   };
   const handleSubmit = () => {
-    formData.respuestas = options;
-    formData.correctas = [options.indexOf(option)];
-    toast.warning("OK");
+    formData.options = options;
+    formData.answer = [options.indexOf(option)];
     questionSubmit(formData, mode);
   };
 
@@ -32,10 +31,10 @@ export default function TrueOrFalse(props) {
       <Row>
         <Form.Control
           as="select"
-          value={formData.respuestas[formData.correctas]}
+          value={formData.options[formData.answer]}
           name="respuesta"
           onChange={(e) => handleSelect(e.target.value)}
-          defaultValue={formData.respuestas}
+          defaultValue={formData.options}
         >
           <option>Verdadero</option>
           <option>Falso</option>

@@ -6,14 +6,7 @@ import DatePicker from "react-datepicker";
 import { createUserAPI, updateUserAPI } from "../../api/usuarios";
 import "react-datepicker/dist/react-datepicker.css";
 
-import {
-  Row,
-  Col,
-  Form,
-  Button,
-  DropdownButton,
-  Dropdown,
-} from "react-bootstrap";
+import { Row, Col, Form, Button } from "react-bootstrap";
 
 import "./CreateUser.scss";
 
@@ -25,14 +18,6 @@ export default function CreateUser(props) {
   );
 
   var editing = false;
-  console.log(formData);
-  console.log(
-    "mi nacimiento: " +
-      formData.birthDate +
-      " de tipo " +
-      typeof formData.birthDate
-  );
-
   mode === "create" ? (editing = false) : (editing = true);
 
   const onChange = (e) => {

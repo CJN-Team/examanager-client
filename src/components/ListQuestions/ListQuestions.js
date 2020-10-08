@@ -1,16 +1,20 @@
-import React from "react";
-import { Container, Row, Col, Button } from "react-bootstrap";
-import CreateQuestion from "../../components/CreateQuestion/CreateQuestion";
+import React, { useState } from "react";
+import { Container, Row, Col, Button, Modal } from "react-bootstrap";
 import { toast } from "react-toastify";
-import BasicModal from "../BasicModal/BasicModal";
 import { deleteQuestionsAPI } from "../../api/preguntas";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash, faEye } from "@fortawesome/free-solid-svg-icons";
+import CreateQuestion from "../../components/CreateQuestion/CreateQuestion";
 
 export default function ListQuestions(props) {
-  const { questList, showModal, setShowModal } = props;
+  const { questList } = props;
+  const [showModal, setShowModal] = useState(false);
+  const [qinfo, setqInfo] = useState(questList[0]);
 
-  const editQuestion = (e) => {};
+  const editQuestion = (e) => {
+    setqInfo(e);
+    setShowModal(true);
+  };
   const deleteQuestion = (e) => {
     deleteQuestionsAPI(e.id)
       .then((response) => {
@@ -62,9 +66,20 @@ export default function ListQuestions(props) {
         </ul>
       </Container>
       <Container fluid>
-        <BasicModal show={showModal} setShow={setShowModal}>
-          <CreateQuestion />
-        </BasicModal>
+        <Modal
+          className="basic-modal"
+          show={showModal}
+          onHide={() => setShowModal(false)}
+          centered
+          size="lg"
+        >
+          <Modal.Header>
+            <Modal.Title>Editar pregunta</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <CreateQuestion form={qinfo} mode="edit" />
+          </Modal.Body>
+        </Modal>
       </Container>
     </div>
   );

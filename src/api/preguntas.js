@@ -6,16 +6,14 @@ export function createQuestionsAPI(data) {
 
   const pregunta = {
     id: data.id,
-    topic: data.tema,
-    subject: data.materia,
-    question: data.pregunta,
-    category: data.categoria,
-    options: data.respuestas,
-    answer: data.correctas,
-    difficulty: getDiff(data.dificultad),
+    topic: data.topic,
+    subject: data.subject,
+    question: data.question,
+    category: data.category,
+    options: data.options,
+    answer: data.answer,
+    difficulty: data.difficulty * 1,
   };
-
-  console.log(pregunta);
 
   const params = {
     method: "POST",
@@ -65,6 +63,43 @@ export function listQuestionsAPI(pag, cat, spec) {
     });
 }
 
+export function updateQuestionsAPI(data) {
+  const urlQ = API_HOST + `/questions?id=${data.id}`;
+
+  const pregunta = {
+    topic: data.topic,
+    subject: data.subject,
+    question: data.question,
+    category: data.category,
+    options: data.options,
+    answer: data.answer,
+    difficulty: data.difficulty * 1,
+  };
+
+  const params = {
+    method: "PUT",
+    headers: {
+      Authorization: "Bearer" + localStorage.getItem(TOKEN),
+    },
+    body: JSON.stringify(pregunta),
+  };
+
+  return fetch(urlQ, params)
+    .then((response) => {
+      console.log(response.status);
+      if (response.status >= 200 && response.status < 300) {
+        return response.json();
+      }
+      return { code: 404, message: "Error al registrar pregunta" };
+    })
+    .then((result) => {
+      return result;
+    })
+    .catch((err) => {
+      return err;
+    });
+}
+
 export function deleteQuestionsAPI(id) {
   const url = API_HOST + `/questions?id=${id}`;
 
@@ -86,14 +121,4 @@ export function deleteQuestionsAPI(id) {
     .catch((err) => {
       return err;
     });
-}
-
-function getDiff(diff) {
-  if (diff === "Básico") {
-    return 1;
-  } else if (diff === "Intermedio") {
-    return 2;
-  } else {
-    return 3;
-  }
 }

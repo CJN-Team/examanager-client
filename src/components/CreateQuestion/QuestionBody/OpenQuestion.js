@@ -10,9 +10,8 @@ export default function OpenQuestion(props) {
     setStatusForm("basic");
   };
   const handleSubmit = () => {
-    toast.warning("OK");
-    formData.respuestas = ["Abierta"];
-    formData.correctas = [0];
+    formData.options = ["Abierta"];
+    formData.answer = [0];
     questionSubmit(formData, mode);
   };
   return (

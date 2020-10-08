@@ -6,8 +6,8 @@ import "./QuestionBody.scss";
 
 export default function MultipleSelection(props) {
   const { formData, setStatusForm, mode } = props;
-  const [inputList, setInputList] = useState(formData.respuestas);
-  const [correctList, setCorrectList] = useState(formData.correctas);
+  const [inputList, setInputList] = useState(formData.options);
+  const [correctList, setCorrectList] = useState(formData.answer);
 
   const handleInputChange = (e, index) => {
     var value = e.target.value;
@@ -42,22 +42,21 @@ export default function MultipleSelection(props) {
   };
 
   const handleSubmit = () => {
-    formData.respuestas = inputList;
-    formData.correctas = correctList;
+    formData.options = inputList;
+    formData.answer = correctList;
     let valido = true;
-    formData.respuestas.forEach(function (value, i) {
+    formData.options.forEach(function (value, i) {
       if (value === "") {
         toast.warning(`Por favor escriba algo en la pregunta ${i + 1}.`);
         valido = false;
       }
     });
     if (valido) {
-      if (formData.respuestas.length < 2) {
+      if (formData.options.length < 2) {
         toast.warning("Ingrese al menos dos opciones.");
-      } else if (formData.correctas.length < 1) {
+      } else if (formData.answer.length < 1) {
         toast.warning("Al menos una respuesta debe ser correcta.");
       } else {
-        toast.success("Todo bien.");
         questionSubmit(formData, mode);
       }
     }

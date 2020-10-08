@@ -6,8 +6,8 @@ import "./QuestionBody.scss";
 
 export default function SingleAnswer(props) {
   const { formData, setStatusForm, mode } = props;
-  const [inputList, setInputList] = useState(formData.respuestas);
-  const [respCorrecta, setCorrecta] = useState(formData.correctas[0]);
+  const [inputList, setInputList] = useState(formData.options);
+  const [respCorrecta, setCorrecta] = useState(formData.answer[0]);
 
   const handleInputChange = (e, index) => {
     const list = [...inputList];
@@ -30,27 +30,26 @@ export default function SingleAnswer(props) {
   };
 
   const getSeleccionada = (e) => {
-    let idx = formData.respuestas.indexOf(e.target.value);
+    let idx = formData.options.indexOf(e.target.value);
     setCorrecta(idx);
   };
 
   const handleSubmit = () => {
-    formData.respuestas = inputList;
-    formData.correctas = [respCorrecta];
+    formData.options = inputList;
+    formData.answer = [respCorrecta];
     let valido = true;
-    formData.respuestas.forEach(function (value, i) {
+    formData.options.forEach(function (value, i) {
       if (value === "") {
         toast.warning(`Por favor escriba algo en la pregunta ${i + 1}.`);
         valido = false;
       }
     });
     if (valido) {
-      if (formData.respuestas.length < 2) {
+      if (formData.options.length < 2) {
         toast.warning("Ingrese al menos dos opciones.");
-      } else if (formData.correctas.length < 1) {
+      } else if (formData.answer.length < 1) {
         toast.warning("Al menos una respuesta debe ser correcta.");
       } else {
-        toast.success("Todo bien.");
         questionSubmit(formData, mode);
       }
     }
@@ -104,10 +103,10 @@ export default function SingleAnswer(props) {
           <Col>
             <Form.Control
               as="select"
-              value={formData.respuestas[respCorrecta]}
+              value={formData.options[respCorrecta]}
               name="correctas"
               onChange={(e) => getSeleccionada(e)}
-              defaultValue={formData.respuestas}
+              defaultValue={formData.options}
             >
               {inputList.map((x, i) => {
                 return <option>{x}</option>;

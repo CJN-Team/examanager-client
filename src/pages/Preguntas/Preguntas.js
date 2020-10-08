@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Button, Modal, Container, Row, Col } from "react-bootstrap";
+import { Button, Modal, Container } from "react-bootstrap";
 import { listQuestionsAPI } from "../../api/preguntas";
 import CreateQuestion from "../../components/CreateQuestion/CreateQuestion";
 import ListQuestions from "../../components/ListQuestions/ListQuestions";
@@ -7,7 +7,7 @@ import ListQuestions from "../../components/ListQuestions/ListQuestions";
 export default function Preguntas() {
   const [showModal, setShowModal] = useState(false);
   const [contentModal, setcontentModal] = useState(null);
-  const [preguntasAPI, setpreguntas] = useState(["init", "test"]);
+  const [preguntasAPI, setpreguntas] = useState(["init"]);
 
   useEffect(() => {
     listQuestionsAPI(1, "Inglés", 1).then((response) => {
@@ -29,8 +29,8 @@ export default function Preguntas() {
       </Container>
       <ListQuestions
         questList={preguntasAPI}
-        show={showModal}
-        setShow={setShowModal}
+        showModal={showModal}
+        setShowModal={setShowModal}
       />
 
       <ModalPreguntas show={showModal} setShow={setShowModal}>
@@ -79,13 +79,13 @@ function ModalPreguntas(props) {
 
 function initialValues() {
   return {
-    materia: "Idiomas",
-    tema: "Inglés",
+    subject: "Idiomas",
+    topic: "Inglés",
     id: "",
-    pregunta: "",
-    categoria: "Pregunta abierta",
-    dificultad: "Básico",
-    respuestas: [""],
-    correctas: [],
+    question: "",
+    category: "Pregunta abierta",
+    difficulty: 1,
+    options: [""],
+    answer: [],
   };
 }
