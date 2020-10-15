@@ -3,7 +3,7 @@ import BasicModal from "../../components/BasicModal/BasicModal.js";
 import CreateAsigments from "../../components/CreateAsigment/CreateAsigment.js";
 import ListAsig from "../../components/ListAsig/ListAsig";
 import React, { useState, useEffect } from "react";
-import { Container, Row, Col, Button } from "react-bootstrap";
+import { Container, Col, Button } from "react-bootstrap";
 import { listAsigmentApi } from "../../api/asigment";
 
 import "./Asignaturas.scss";
@@ -36,13 +36,13 @@ export default function Asignaturas(props) {
 
 function Asig(props) {
   const { openModal, setShowModal} = props;
-  const [asignaturas, setAsignaturas] = useState([["Matematicas","lkasnd"],["funciones", "trigonometría"]], ["Español",["literatura", "gramática"]]);
+  const [ asignaturas, setAsignaturas] = useState([]);
   const [ listState, setListState ] = useState(1)
 
   useEffect(() => {
-    //listAsigmentApi().then((response) => {
-      //setAsignaturas(response);
-    //});
+    listAsigmentApi().then((response) => {
+      setAsignaturas(response);
+    });
   }, [listState]);
 
   return (

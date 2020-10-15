@@ -2,18 +2,18 @@ import React, { useState } from "react";
 import { Row, Col, Form, Button, Spinner } from "react-bootstrap";
 import { values, size } from "lodash";
 import { toast } from "react-toastify";
-import { createAsigmentApi } from "../../api/asigment";
+import { updateAsigmentApi } from "../../api/asigment";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTimes } from "@fortawesome/free-solid-svg-icons";
 
-import "./CreateAsigment.scss";
+import "./UpdateAsigment.scss";
 
-export default function CreateAsigment(props) {
-  const { setShowModal, setListState, listState } = props;
+export default function UpdateAsigment(props) {
+  const { temas, setShowModal, setListState, listState } = props;
 
-  const [formData, setFormData] = useState(initialValues());
+  const [formData, setFormData] = useState(initialValues(temas));
   const [inputList, setInputList] = useState(formData.topics);
-  const [createAsigLoading, setCreateAsigLoading] = useState(false);
+  const [updateAsigLoading, setUpdateAsigLoading] = useState(false);
 
   const handleAddClick = () => {
     const newItem = [""];
@@ -22,6 +22,7 @@ export default function CreateAsigment(props) {
 
   const handleInputChange = (e, index) => {
     if (e.target.name === "topics") {
+      console.log(e.target.value)
       formData["topics"][index] = e.target.value;
       setFormData({
         name: formData["name"],
@@ -50,16 +51,16 @@ export default function CreateAsigment(props) {
     if (validCount !== size(formData)) {
       toast.warning("Complete todos los campos");
     } else {
-      setCreateAsigLoading(true);
-      createAsigmentApi(formData)
+      setUpdateAsigLoading(true);
+      updateAsigmentApi(formData["name"], formData["topics"])
         .then((response) => {
           if (response.code) {
             toast.warning(response.message);
           } else {
-            toast.success("Se creó la asignatura exitosamente");
+            toast.success("Se actualizó la asignatura exitosamente");
             setListState(!listState)
             setShowModal(false);
-            setFormData(initialValues());
+            setFormData(initialValues(formData));
           }
         })
         .catch((err) => {
@@ -67,15 +68,15 @@ export default function CreateAsigment(props) {
           toast.error("Error del servidor, intente más tarde");
         })
         .finally(() => {
-          setCreateAsigLoading(false);
+          setUpdateAsigLoading(false);
         });
     }
   };
 
   return (
-    <div className="create-asigment-form">
+    <div className="update-asigment-form">
       <Form onSubmit={onSubmit}>
-        <h6>Crea una asignatura</h6>
+        <h6>Editar Asignatura</h6>
         <Form.Group>
           <Row>
             <Col>
@@ -84,8 +85,8 @@ export default function CreateAsigment(props) {
             <Col>
               <Form.Control
                 type="text"
-                placeholder="Ingrese el nombre"
                 name="name"
+                value={formData["name"]}
                 onChange={(e) => handleInputChange(e, 0)}
               ></Form.Control>
             </Col>
@@ -103,8 +104,8 @@ export default function CreateAsigment(props) {
                     <Col className="item">
                       <Form.Control
                         type="text"
-                        placeholder={"Ingrese temática " + (i + 1)}
                         name="topics"
+                        value={x}
                         onChange={(e) => handleInputChange(e, i)}
                       />
                     </Col>
@@ -128,9 +129,9 @@ export default function CreateAsigment(props) {
           </Col>
         </Row>
         <div className="btn-cont">
-          <Button type="submit" className="btn-create">
-            {!createAsigLoading ? (
-              "Crear"
+          <Button type="submit" className="btn-update">
+            {!updateAsigLoading ? (
+              "Actualizar"
             ) : (
               <Spinner animation="border"></Spinner>
             )}
@@ -141,9 +142,10 @@ export default function CreateAsigment(props) {
   );
 }
 
-function initialValues() {
-  return {
-    name: "",
-    topics: [""],
-  };
+function initialValues(temas) {    
+    let claves = Object.keys(temas);
+    return {
+        name: claves[0],
+        topics: temas[claves[0]],
+    };
 }

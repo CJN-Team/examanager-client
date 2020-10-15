@@ -61,11 +61,12 @@ export function deleteAsigmentApi(subject) {
   });
 }
 
-export function updateAsigmentApi(data) {
-  const url = API_HOST + "/subject?name=" + data[0];
+export function updateAsigmentApi(name, data) {
+  const url = API_HOST + "/subject?name=" + name;
 
   const asig = {
-    ...data,
+    "name": name,
+    "topics": data,
   };
 
   const params = {
@@ -84,7 +85,7 @@ export function updateAsigmentApi(data) {
         return response.json();
       }
       console.log(response);
-      return { code: 404, message: "Error al crear asignatura" };
+      return { code: 404, message: "Error al actualizar asignatura" };
     })
     .then((result) => {
       return result;
@@ -111,6 +112,29 @@ export function listAsigmentApi() {
         return response.json();
       }
       return { message: "No se pudieron obtener las asignaturas" };
+    })
+    .catch((err) => {
+      return err;
+    });
+}
+
+export function listOneAsigmentApi(name) {
+  const url = API_HOST + "/subject?name=" + name;
+
+  const params = {
+    method: "GET",
+    headers: {
+      "Content-type": "application/json",
+      Authorization: "Bearer" + localStorage.getItem(TOKEN),
+    },
+  };
+
+  return fetch(url, params)
+    .then((response) => {
+      if (response.status >= 200 && response.status < 300) {
+        return response.json();
+      }
+      return { message: "No se pudo obtener la asignatura" };
     })
     .catch((err) => {
       return err;
