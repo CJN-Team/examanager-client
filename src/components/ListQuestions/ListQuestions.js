@@ -9,7 +9,7 @@ import CreateQuestion from "../../components/CreateQuestion/CreateQuestion";
 export default function ListQuestions(props) {
   const { questList } = props;
   const [showModal, setShowModal] = useState(false);
-  const [qinfo, setqInfo] = useState(questList[0]);
+  const [qinfo, setqInfo] = useState(null);
 
   const editQuestion = (e) => {
     setqInfo(e);
