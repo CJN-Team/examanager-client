@@ -26,22 +26,22 @@ export default function LeftMenu() {
                     </div>
                 </Col>                
             </Row>
-            <Item className="item" name="asignaturas" icon={faTasks}></Item>
-            <Item className="item" name="departamentos" icon={faBuilding}></Item>
-            <Item className="item" name="administradores" icon={faUser}></Item>
-            <Item className="item" name="profesores" icon={faUser}></Item>
-            <Item className="item" name="estudiantes" icon={faUser}></Item>
-            <Item className="item" name="grupos" icon={faUsers}></Item>
+            <Item className="item" name="asignaturas" icon={faTasks} value="Asignaturas"></Item>
+            <Item className="item" name="departamentos" icon={faBuilding} value="Departamentos"></Item>
+            <Item className="item" name="administradores" icon={faUser} value="Administradores"></Item>
+            <Item className="item" name="profesores" icon={faUser} value="Profesores"></Item>
+            <Item className="item" name="estudiantes" icon={faUser} value="Estudiantes"></Item>
+            <Item className="item" name="grupos" icon={faUsers} value="Grupos"></Item>
         </div>
     )
 }
 
 function Item(props) {
-    const { name, icon } = props;
+    const { name, icon, value } = props;
     return (
         <Link to={"/"+name}>
             <FontAwesomeIcon icon={icon}></FontAwesomeIcon> 
-            {name} 
+            {value} 
         </Link>
     );
 }

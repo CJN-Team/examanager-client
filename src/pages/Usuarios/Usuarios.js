@@ -53,7 +53,7 @@ function EncabezadoLista(props) {
   const { setShowModal, openModal, userType, listState, setListState } = props;
   return (
     <>
-      <h4>{userType}</h4>
+      <h4>{userType === "Estudiante" ? "Estudiantes" : userType + "es"}</h4>
       <Button
         variant="primary"
         onClick={() =>

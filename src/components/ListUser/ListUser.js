@@ -11,7 +11,7 @@ import "./ListUser.scss";
 export default function ListUser(props) {
   const { userList, listState, setListState } = props;
   const [showModal, setShowModal] = useState(false);
-  const [uinfo, setUinfo] = useState(userList[0]);
+  const [uinfo, setUinfo] = useState(null);
 
   const deleteUser = (u) => {
     setUinfo(u);
