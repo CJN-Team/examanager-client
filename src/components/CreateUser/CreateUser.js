@@ -11,7 +11,7 @@ import { Row, Col, Form, Button } from "react-bootstrap";
 import "./CreateUser.scss";
 
 export default function CreateUser(props) {
-  const { setShowModal, userData, mode } = props;
+  const { setShowModal, userData, mode, listState, setListState } = props;
   const [formData, setFormData] = useState(userData);
   const [fecha, setFecha] = useState(
     formData.birthDate === "" ? new Date() : new Date(formData.birthDate)
@@ -42,8 +42,6 @@ export default function CreateUser(props) {
       if (!isEmailValid(formData.email)) {
         toast.warning("Ingrese un email válido");
       } else {
-        console.log(formData);
-        toast.success("OK");
         if (editing) {
           updateUserAPI(formData)
             .then((response) => {
@@ -51,6 +49,7 @@ export default function CreateUser(props) {
                 toast.warning(response.message);
               } else {
                 toast.success("La actualización fue existosa");
+                setListState(listState + 1);
                 setShowModal(false);
               }
             })
@@ -68,6 +67,7 @@ export default function CreateUser(props) {
                 toast.warning(response.message);
               } else {
                 toast.success("El registro fue existoso");
+                setListState(listState + 1);
                 setShowModal(false);
               }
             })
@@ -175,9 +175,8 @@ export default function CreateUser(props) {
           </Row>
         </Form.Group>
         <center>
-          <h6>{JSON.stringify(formData.birthDate)}</h6>
           <Button variant="primary" type="submit">
-            Crear
+            {editing ? <>Actualizar</> : <>Crear</>}
           </Button>
         </center>
       </Form>

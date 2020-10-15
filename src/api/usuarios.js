@@ -27,7 +27,6 @@ export function createUserAPI(data) {
 
   return fetch(urlU, params)
     .then((response) => {
-      console.log(response.status);
       if (response.status >= 200 && response.status < 300) {
         return response.json();
       }
@@ -90,7 +89,6 @@ export function updateUserAPI(data) {
 
   return fetch(urlU, params)
     .then((response) => {
-      console.log(response.status);
       if (response.status >= 200 && response.status < 300) {
         return response.json();
       }
@@ -106,7 +104,6 @@ export function updateUserAPI(data) {
 
 export function deleteUserAPI(data) {
   const url = API_HOST + "/user?id=" + data.id;
-
   const params = {
     method: "DELETE",
     headers: {

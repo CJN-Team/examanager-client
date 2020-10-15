@@ -9,20 +9,19 @@ import { faTrash, faEye } from "@fortawesome/free-solid-svg-icons";
 import "./ListUser.scss";
 
 export default function ListUser(props) {
-  const { userList } = props;
+  const { userList, listState, setListState } = props;
   const [showModal, setShowModal] = useState(false);
   const [uinfo, setUinfo] = useState(userList[0]);
 
-  console.log(userList);
-
   const deleteUser = (u) => {
     setUinfo(u);
-    deleteUserAPI(uinfo)
+    deleteUserAPI(u)
       .then((response) => {
         if (response.code) {
           toast.warning(response.message);
         } else {
-          toast.success("El registro fue existoso");
+          toast.success("El borrado fue existoso");
+          setListState(listState + 1);
         }
       })
       .catch((err) => {
@@ -30,7 +29,6 @@ export default function ListUser(props) {
         toast.error("Error del servidor, intente más tarde");
       })
       .finally(() => {
-        window.location.reload();
       });
   };
 
@@ -79,6 +77,8 @@ export default function ListUser(props) {
             userData={uinfo}
             mode="edit"
             setShowModal={setShowModal}
+            listState={listState}
+            setListState={setListState}
           />
         </BasicModal>
       </Container>

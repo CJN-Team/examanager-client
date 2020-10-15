@@ -11,12 +11,13 @@ export default function Usuarios(props) {
   const [showModal, setShowModal] = useState(false);
   const [contentModal, setcontentModal] = useState(null);
   const [usuariosAPI, setUsuarios] = useState(["init"]);
+  const [listState, setListState] = useState(1);
 
   useEffect(() => {
     listUsersAPI(userType).then((response) => {
       setUsuarios(response);
     });
-  }, []);
+  }, [listState]);
 
   const openModal = (content) => {
     setShowModal(true);
@@ -24,28 +25,32 @@ export default function Usuarios(props) {
   };
 
   return (
-    <Col className="usuarios">
-      <div className="usuarios-body">
-        <EncabezadoLista
-          setShowModal={setShowModal}
-          openModal={openModal}
-          userType={userType}
-        />
-        <ListUser userList={usuariosAPI} />
-        <Container fluid>
-          <BasicModal openModal={openModal} setShowModal={setShowModal} />
-        </Container>
+    <Container className="usuarios-cont" fluid>
+      <Col className="usuarios">
+        <div className="usuarios__body">
+          <EncabezadoLista
+            setShowModal={setShowModal}
+            openModal={openModal}
+            userType={userType}
+            listState={listState}
+            setListState={setListState}
+          />
+          <ListUser userList={usuariosAPI} listState={listState} setListState={setListState} />
+          <Container fluid>
+            <BasicModal openModal={openModal} setShowModal={setShowModal} />
+          </Container>
 
-        <BasicModal show={showModal} setShow={setShowModal}>
-          {contentModal}
-        </BasicModal>
-      </div>
-    </Col>
+          <BasicModal show={showModal} setShow={setShowModal}>
+            {contentModal}
+          </BasicModal>
+        </div>
+      </Col>
+    </Container>
   );
 }
 
 function EncabezadoLista(props) {
-  const { setShowModal, openModal, userType } = props;
+  const { setShowModal, openModal, userType, listState, setListState } = props;
   return (
     <>
       <h4>{userType}</h4>
@@ -57,6 +62,8 @@ function EncabezadoLista(props) {
               setShowModal={setShowModal}
               userData={() => initialValues(userType, "EAFIT")}
               mode="create"
+              listState={listState}
+              setListState={setListState}
             />
           )
         }
@@ -67,7 +74,7 @@ function EncabezadoLista(props) {
         variant="info"
         onClick={() => openModal(<Yes setShowModal={setShowModal} />)}
       >
-        Cargar archivo
+        Cargar
       </Button>
     </>
   );
@@ -81,7 +88,7 @@ function initialValues(userType, institution) {
   return {
     id: "",
     profile: userType,
-    idType: "",
+    idType: "CC",
     name: "",
     lastName: "",
     birthDate: "",
