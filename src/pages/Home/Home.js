@@ -1,5 +1,5 @@
 import React from "react";
-import BasicLayout from "../../layout/basicLayout/BasicLayout.js";
+import BasicLayout from "../../layouts/basicLayouts/BasicLayout.js";
 
 import "./Home.scss";
 

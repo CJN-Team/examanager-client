@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import BasicLayout from "../../layout/basicLayout/BasicLayout.js";
+import BasicLayout from "../../layouts/basicLayouts/BasicLayout.js";
 import BasicModal from "../../components/BasicModal/BasicModal.js";
 import ListTemas from "../../components/ListTemas/ListTemas.js";
 import UpdateAsigment from "../../components/UpdateAsigment/UpdateAsigment.js"

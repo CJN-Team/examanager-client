@@ -1,4 +1,4 @@
-import BasicLayout from "../../layout/basicLayout/BasicLayout.js";
+import BasicLayout from "../../layouts/basicLayouts/BasicLayout.js";
 import BasicModal from "../../components/BasicModal/BasicModal.js";
 import CreateAsigments from "../../components/CreateAsigment/CreateAsigment.js";
 import ListAsig from "../../components/ListAsig/ListAsig";

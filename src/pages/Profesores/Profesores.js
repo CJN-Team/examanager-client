@@ -1,6 +1,6 @@
 import React from "react";
 import Usuarios from "../Usuarios/Usuarios";
-import BasicLayout from "../../layout/basicLayout/BasicLayout";
+import BasicLayout from "../../layouts/basicLayouts/BasicLayout";
 import { Container } from "react-bootstrap";
 import "../Usuarios/Usuarios.scss";
 
