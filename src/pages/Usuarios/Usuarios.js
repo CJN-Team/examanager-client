@@ -13,6 +13,9 @@ export default function Usuarios(props) {
   const [usuariosAPI, setUsuarios] = useState(["init"]);
   const [listState, setListState] = useState(1);
 
+  const title = userType === "Estudiante" ? "Estudiantes" : userType + "es";
+  document.title = title;
+
   useEffect(() => {
     listUsersAPI(userType).then((response) => {
       setUsuarios(response);
@@ -34,8 +37,13 @@ export default function Usuarios(props) {
             userType={userType}
             listState={listState}
             setListState={setListState}
+            title={title}
           />
-          <ListUser userList={usuariosAPI} listState={listState} setListState={setListState} />
+          <ListUser
+            userList={usuariosAPI}
+            listState={listState}
+            setListState={setListState}
+          />
           <Container fluid>
             <BasicModal openModal={openModal} setShowModal={setShowModal} />
           </Container>
@@ -50,10 +58,17 @@ export default function Usuarios(props) {
 }
 
 function EncabezadoLista(props) {
-  const { setShowModal, openModal, userType, listState, setListState } = props;
+  const {
+    setShowModal,
+    openModal,
+    userType,
+    listState,
+    setListState,
+    title,
+  } = props;
   return (
     <>
-      <h4>{userType === "Estudiante" ? "Estudiantes" : userType + "es"}</h4>
+      <h4>{title}</h4>
       <Button
         variant="primary"
         onClick={() =>

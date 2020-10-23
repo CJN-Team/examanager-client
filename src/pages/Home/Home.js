@@ -4,11 +4,13 @@ import BasicLayout from "../../layouts/basicLayouts/BasicLayout.js";
 import "./Home.scss";
 
 export default function Home(props) {
+  document.title = "Examanager";
+
   return (
     <BasicLayout setRefreshLogin={props.setRefreshLogin}>
       <div className="home">
         <h2>Bienvenidos a Examanager</h2>
-      </div>      
+      </div>
     </BasicLayout>
   );
 }
