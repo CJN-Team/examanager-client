@@ -55,9 +55,12 @@ export default function ListGroups(props) {
                     <td>
                       <Row>
                         <Col className="button">
-                          <Button variant="info">
-                            <FontAwesomeIcon icon={faEye} />
-                          </Button>
+                          <Link to={"/grupos/" + x.id}>
+                            <FontAwesomeIcon
+                              className="btn-ver"
+                              icon={faEye}
+                            ></FontAwesomeIcon>
+                          </Link>
                         </Col>
                         <Col className="button">
                           <Button

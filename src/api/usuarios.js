@@ -63,6 +63,32 @@ export function listUsersAPI(userType) {
     });
 }
 
+export function getUserAPI(id) {
+  var urlU = API_HOST + "/user?id=" + id;
+
+  const params = {
+    method: "GET",
+    headers: {
+      "Content-type": "application/json",
+      Authorization: "Bearer" + localStorage.getItem(TOKEN),
+    },
+  };
+
+  return fetch(urlU, params)
+    .then((response) => {
+      if (response.status >= 200 && response.status < 300) {
+        return response.json();
+      }
+      return { code: 404, message: "Error al registrar usuario" };
+    })
+    .then((result) => {
+      return result;
+    })
+    .catch((err) => {
+      return err;
+    });
+}
+
 export function updateUserAPI(data) {
   var urlU = API_HOST + "/user?id=" + data.id;
 
