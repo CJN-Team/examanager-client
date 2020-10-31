@@ -75,7 +75,7 @@ function EncabezadoLista(props) {
           openModal(
             <CreateUser
               setShowModal={setShowModal}
-              userData={() => initialValues(userType, "EAFIT")}
+              userData={() => initialValues(userType)}
               mode="create"
               listState={listState}
               setListState={setListState}
@@ -99,7 +99,7 @@ function Yes(props) {
   return <h2>Not yet Implemented</h2>;
 }
 
-function initialValues(userType, institution) {
+function initialValues(userType) {
   return {
     id: "",
     profile: userType,
@@ -108,7 +108,6 @@ function initialValues(userType, institution) {
     lastName: "",
     birthDate: "",
     email: "",
-    institution: institution,
     password: "user",
   };
 }

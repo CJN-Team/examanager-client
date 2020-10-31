@@ -1,13 +1,18 @@
 import React, { useState, useEffect } from "react";
 import BasicLayout from "../../layouts/basicLayouts/BasicLayout";
-import { Container } from "react-bootstrap";
+import BasicModal from "../../components/BasicModal/BasicModal";
+
+import { Button, Container } from "react-bootstrap";
+import CreateGroup from "../../components/CreateGroup/CreateGroup";
 import ListGroups from "../../components/ListGroups/ListGroups";
 import { listGroupsAPI } from "../../api/grupos";
-import "../Usuarios/Usuarios.scss";
+
+import "./Grupos.scss";
 
 export default function Grupos(props) {
   const { setRefreshLogin } = props;
 
+  const [showModal, setShowModal] = useState(false);
   const [gruposAPI, setGrupos] = useState(["init"]);
   const [listState, setListState] = useState(1);
   const [page, setPage] = useState(1);
@@ -20,18 +25,44 @@ export default function Grupos(props) {
     });
   }, [listState]);
 
+  const openModal = () => {
+    setShowModal(true);
+  };
+
   return (
     <div>
       <BasicLayout setRefreshLogin={setRefreshLogin}>
         <Container className="grupos-cont" fluid>
-          <div>Grupos</div>
-          <ListGroups
-            groupList={gruposAPI}
-            setListState={setListState}
-            listState={listState}
-          />
+          <div className="grupos">
+            <h4>Grupos</h4>
+            <div className="grupos__body">
+              <Button onClick={() => openModal()}>Añadir</Button>
+              <ListGroups
+                groupList={gruposAPI}
+                setListState={setListState}
+                listState={listState}
+              />
+              <BasicModal show={showModal} setShow={setShowModal}>
+                <CreateGroup
+                  groupData={initialValues()}
+                  listState={listState}
+                  setListState={setListState}
+                  setShowModal={setShowModal}
+                />
+              </BasicModal>
+            </div>
+          </div>
         </Container>
       </BasicLayout>
     </div>
   );
+}
+
+function initialValues() {
+  return {
+    id: "",
+    name: "",
+    studentsList: {},
+    teacher: "",
+  };
 }

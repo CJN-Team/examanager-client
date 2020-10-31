@@ -1,0 +1,21 @@
+@import "../../index.scss";
+
+.grupos-cont {
+  .grupos {
+    padding: 0px;
+
+    h4 {
+      color: $font-grey;
+      margin-bottom: 20px;
+      font-size: 30px;
+    }
+
+    &__body {
+      Button {
+        width: 100px;
+        margin-bottom: 30px;
+        margin-right: 5px;
+      }
+    }
+  }
+}
