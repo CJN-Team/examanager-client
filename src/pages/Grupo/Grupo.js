@@ -1,25 +1,18 @@
 import React, { useState, useEffect } from "react";
 import BasicLayout from "../../layouts/basicLayouts/BasicLayout";
 import { withRouter } from "react-router-dom";
-import { getGroupAPI } from "../../api/grupos";
-import { getUserAPI, listUsersAPI } from "../../api/usuarios";
-import { Table, Row, Col, Button, Form } from "react-bootstrap";
+import { getGroupAPI, updateGroupAPI } from "../../api/grupos";
+import { listUsersAPI } from "../../api/usuarios";
+import { Row, Col, Button, Form } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faTrash,
-  faEye,
-  faCheck,
-  faPen,
-} from "@fortawesome/free-solid-svg-icons";
+import StudentTable from "../../components/studentTable/studentTable";
+import { toast } from "react-toastify";
+import { faCheck, faPen } from "@fortawesome/free-solid-svg-icons";
 
 export default withRouter(Grupo);
 
 function Grupo(props) {
   const { setRefreshLogin, match } = props;
-
-  const [showModal, setShowModal] = useState(false);
-  const [contentModal, setContentModal] = useState(null);
-
   const [groupData, setGroupData] = useState(exampleInit);
   const [profesor, setProfesor] = useState("init");
   const [listaProfesores, setListaProfesores] = useState([]);
@@ -29,6 +22,13 @@ function Grupo(props) {
   const grupo = match["params"]["id"];
 
   useEffect(() => {
+    getGroupAPI(grupo).then((response) => {
+      setGroupData(response);
+    });
+  }, []);
+
+  useEffect(() => {
+    document.title = groupData.name;
     listUsersAPI("Profesor").then((response) => {
       setListaProfesores(response);
     });
@@ -38,20 +38,33 @@ function Grupo(props) {
     setProfesor(groupData.teacher);
   }, [groupData]);
 
-  useEffect(() => {
-    getGroupAPI(grupo).then((response) => {
-      setGroupData(response);
-    });
-  }, []);
-
   const updateTeacher = () => {
     if (changingTeacher) {
       setGroupData({ ...groupData, teacher: profesor });
+      sendTeacherUpdate();
     }
     setChangingTeacher(!changingTeacher);
   };
 
-  document.title = groupData.name;
+  const sendTeacherUpdate = () => {
+    const change = {
+      teacher: profesor,
+    };
+
+    updateGroupAPI(change, groupData.id)
+      .then((response) => {
+        if (response.code) {
+          toast.warning(response.message);
+        } else {
+          toast.success("Se ha actualizado el profesor.");
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+        toast.error(`Error: ${err}, intente denuevo más tarde.`);
+      })
+      .finally(() => {});
+  };
 
   return (
     <BasicLayout setRefreshLogin={setRefreshLogin}>
@@ -94,54 +107,12 @@ function Grupo(props) {
 
       <h5>Progreso: 0/0</h5>
       <h5>Estudiantes:</h5>
-      <TablaEstudiantes alumnos={listaAlumnos} lista={groupData.studentsList} />
-      <div>{JSON.stringify(groupData)}</div>
+      <StudentTable
+        alumnos={listaAlumnos}
+        lista={groupData.studentsList}
+        id={groupData.id}
+      />
     </BasicLayout>
-  );
-}
-
-function TablaEstudiantes(props) {
-  const { alumnos, lista } = props;
-  return (
-    <Table hover className="table" bordered={false}>
-      <thead>
-        <tr>
-          <th>ID</th>
-          <th>Nombres</th>
-          <th>Apellidos</th>
-          <th>Examenes</th>
-          <th>Acciones</th>
-        </tr>
-      </thead>
-      <tbody>
-        {alumnos.map((x, i) => {
-          if (x.id in lista) {
-            return (
-              <tr>
-                <td>{x.id}</td>
-                <td>{x.name}</td>
-                <td>{x.lastName}</td>
-                <td>{lista[x.id].length}</td>
-                <td>
-                  <Row>
-                    <Col className="button">
-                      <Button variant="info">
-                        <FontAwesomeIcon icon={faEye} />
-                      </Button>
-                    </Col>
-                    <Col className="button">
-                      <Button variant="danger">
-                        <FontAwesomeIcon icon={faTrash} />
-                      </Button>
-                    </Col>
-                  </Row>
-                </td>
-              </tr>
-            );
-          }
-        })}
-      </tbody>
-    </Table>
   );
 }
 
