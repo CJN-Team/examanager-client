@@ -74,6 +74,11 @@ function Grupo(props) {
         </Row>
         <Row>
           <Col>
+            <h5>Asignatura: {groupData.subject}</h5>
+          </Col>
+        </Row>
+        <Row>
+          <Col>
             <h5>Docente: </h5>
           </Col>
           <Col>
@@ -122,5 +127,6 @@ function exampleInit() {
     name: "init",
     studentsList: { init: ["init"] },
     teacher: "init",
+    subject: "init",
   };
 }

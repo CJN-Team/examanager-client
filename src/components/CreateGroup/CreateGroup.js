@@ -3,6 +3,7 @@ import { toast } from "react-toastify";
 import { Form, Row, Col, Button } from "react-bootstrap";
 import { listUsersAPI } from "../../api/usuarios";
 import { createGroupAPI } from "../../api/grupos";
+import { listAsigmentApi } from "../../api/asigment";
 
 export default function CreateGroup(props) {
   const { groupData, listState, setListState, setShowModal } = props;
@@ -16,12 +17,19 @@ export default function CreateGroup(props) {
     { name: "init", id: "init" },
   ]);
 
+  const [subjectList, setSubjectList] = useState([
+    { name: "init", id: "init" },
+  ]);
+
   useEffect(() => {
     listUsersAPI("Profesor").then((response) => {
       setTeacherList(response);
     });
     listUsersAPI("Estudiante").then((response) => {
       setStudentList(response);
+    });
+    listAsigmentApi().then((response) => {
+      setSubjectList(Object.entries(response));
     });
   }, []);
 
@@ -43,24 +51,28 @@ export default function CreateGroup(props) {
     if (formData.id !== "") {
       if (formData.name !== "") {
         if (formData.teacher !== "") {
-          if (Object.keys(formData.studentsList).length > 0) {
-            createGroupAPI(formData)
-              .then((response) => {
-                if (response.code) {
-                  toast.warning(response.message);
-                } else {
-                  toast.success("Creación exitosa.");
-                  setListState(listState + 1);
-                  setShowModal(false);
-                }
-              })
-              .catch((err) => {
-                console.log(err);
-                toast.error(`Error: ${err}, intente denuevo más tarde.`);
-              })
-              .finally(() => {});
+          if (formData.subject !== "") {
+            if (Object.keys(formData.studentsList).length > 0) {
+              createGroupAPI(formData)
+                .then((response) => {
+                  if (response.code) {
+                    toast.warning(response.message);
+                  } else {
+                    toast.success("Creación exitosa.");
+                    setListState(listState + 1);
+                    setShowModal(false);
+                  }
+                })
+                .catch((err) => {
+                  console.log(err);
+                  toast.error(`Error: ${err}, intente denuevo más tarde.`);
+                })
+                .finally(() => {});
+            } else {
+              toast.warning("Debes seleccionar al menos un estudiante.");
+            }
           } else {
-            toast.warning("Debes seleccionar al menos un estudiante.");
+            toast.warning("Debes seleccionar una materia.");
           }
         } else {
           toast.warning("Debes seleccionar un profesor.");
@@ -101,6 +113,27 @@ export default function CreateGroup(props) {
                 name="name"
                 defaultValue={formData.name}
               />
+            </Col>
+          </Row>
+          <Row>
+            <Col>
+              <Form.Label>Asignatura</Form.Label>
+            </Col>
+            <Col>
+              <Form.Control
+                as="select"
+                value={formData.subject}
+                name="subject"
+                defaultValue={formData.subject}
+                onChange={(e) =>
+                  setFormData({ ...formData, subject: e.target.value })
+                }
+              >
+                <option value="">Seleccionar</option>
+                {subjectList.map((x, i) => {
+                  return <option value={x[0]}>{`${x[0]}`}</option>;
+                })}
+              </Form.Control>
             </Col>
           </Row>
           <Row>

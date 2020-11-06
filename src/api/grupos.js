@@ -9,6 +9,7 @@ export function createGroupAPI(data) {
     name: data.name,
     studentsList: data.studentsList,
     teacher: data.teacher,
+    subject: data.subject,
   };
 
   const params = {
