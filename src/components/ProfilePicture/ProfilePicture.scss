@@ -1,0 +1,13 @@
+@import "../../index.scss";
+
+.avatar {
+  position: absolute;
+  border-radius: 50%;
+  border: 2px solid rgb(94, 93, 93);
+  height: 40px;
+  width: 50px;
+  background-color: $background-dark;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}

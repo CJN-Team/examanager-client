@@ -149,3 +149,29 @@ export function deleteUserAPI(data) {
       return err;
     });
 }
+
+export function updloadImageAPI(id, image) {
+  const url = API_HOST + "/photo?id=" + id;
+
+  const form = new FormData();
+  form.append("image", image);
+
+  const params = {
+    method: "PUT",
+    headers: {
+      Authorization: "Bearer" + localStorage.getItem(TOKEN),
+    },
+    body: form,
+  };
+
+  return fetch(url, params)
+    .then((response) => {
+      if (response.status >= 200 && response.status < 300) {
+        return response.json();
+      }
+      return { message: "Fallo" };
+    })
+    .catch((err) => {
+      return err;
+    });
+}

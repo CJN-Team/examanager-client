@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash, faEye } from "@fortawesome/free-solid-svg-icons";
 import { updateGroupAPI } from "../../api/grupos";
 import { toast } from "react-toastify";
-import BasicModal from "../../components/BasicModal/BasicModal";
+import BasicModal from "../BasicModal/BasicModal";
 
 export default function StudentTable(props) {
   const { alumnos, lista, id } = props;
@@ -88,7 +88,7 @@ export default function StudentTable(props) {
           )
         }
       >
-        Agregar alumnos
+        Agregar
       </Button>
       <BasicModal show={showModal} setShow={setShowModal}>
         {contentModal}

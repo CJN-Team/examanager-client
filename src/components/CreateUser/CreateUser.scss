@@ -1,1 +1,33 @@
 @import "../../styles/colors";
+
+.imagen {
+  background-color: $background-dark;
+  position: relative;
+  text-align: center;
+  margin: 0 auto;
+  margin-bottom: 5px;
+  height: 120px;
+  width: 120px;
+  border: 2px solid rgb(94, 93, 93);
+  border-radius: 50%;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  &:hover {
+    cursor: pointer;
+    border: 2px solid darkgrey;
+  }
+
+  .icon {
+    width: 50px;
+    color: rgb(94, 93, 93);
+
+    &:hover {
+      color: darkgrey;
+    }
+  }
+}

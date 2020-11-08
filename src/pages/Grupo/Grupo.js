@@ -5,7 +5,7 @@ import { getGroupAPI, updateGroupAPI } from "../../api/grupos";
 import { listUsersAPI } from "../../api/usuarios";
 import { Row, Col, Button, Form } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import StudentTable from "../../components/studentTable/studentTable";
+import StudentTable from "../../components/StudentTable/StudentTable";
 import { toast } from "react-toastify";
 import { faCheck, faPen } from "@fortawesome/free-solid-svg-icons";
 

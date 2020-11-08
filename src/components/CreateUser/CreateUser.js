@@ -1,25 +1,57 @@
-import React, { useState } from "react";
-import { values, size } from "lodash";
+import React, { useState, useCallback } from "react";
+
 import { toast } from "react-toastify";
-import { isEmailValid } from "../../utils/validation.js";
 import DatePicker from "react-datepicker";
-import { createUserAPI, updateUserAPI } from "../../api/usuarios";
+import { faCamera } from "@fortawesome/free-solid-svg-icons";
+import { API_HOST } from "../../utils/constants";
+import DefaultAvatar from "../../assets/images/DefaultAvatar.png";
+import { useDropzone } from "react-dropzone";
+import { isEmailValid } from "../../utils/validation.js";
+import { values, size } from "lodash";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Row, Col, Form, Button, Spinner } from "react-bootstrap";
+
+import {
+  createUserAPI,
+  updateUserAPI,
+  updloadImageAPI,
+} from "../../api/usuarios";
+
 import "react-datepicker/dist/react-datepicker.css";
-
-import { Row, Col, Form, Button } from "react-bootstrap";
-
 import "./CreateUser.scss";
 
 export default function CreateUser(props) {
+  //Props
   const { setShowModal, userData, mode, listState, setListState } = props;
+  //Estados
   const [formData, setFormData] = useState(userData);
+  const [imageFile, setImageFile] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [imageUrl, setImageUrl] = useState(
+    formData?.photo ? `${API_HOST}/photo?id=${formData.id}` : DefaultAvatar
+  );
   const [fecha, setFecha] = useState(
     formData.birthDate === "" ? new Date() : new Date(formData.birthDate)
   );
-
+  //Modo edición
   var editing = false;
   mode === "create" ? (editing = false) : (editing = true);
 
+  //Callback para imagenes
+  const onDropImage = useCallback((acceptedFile) => {
+    const file = acceptedFile[0];
+    setImageUrl(URL.createObjectURL(file));
+    setImageFile(file);
+  });
+
+  const { getRootProps, getInputProps } = useDropzone({
+    accept: "image/jpeg, image/png",
+    noKeyboard: true,
+    multiple: false,
+    onDrop: onDropImage,
+  });
+
+  //Métodos
   const onChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
@@ -29,8 +61,9 @@ export default function CreateUser(props) {
     setFecha(e);
   };
 
-  const onSubmit = (e) => {
+  const onSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
     let validCount = 0;
     values(formData).some((value) => {
       value && validCount++;
@@ -43,7 +76,14 @@ export default function CreateUser(props) {
         toast.warning("Ingrese un email válido");
       } else {
         if (editing) {
-          updateUserAPI(formData)
+          if (imageFile) {
+            await updloadImageAPI(formData.id, imageFile).catch((err) => {
+              console.log(err);
+              toast.error("Error del servidor al cargar imagen.");
+              setListState(listState + 1);
+            });
+          }
+          await updateUserAPI(formData)
             .then((response) => {
               if (response.code) {
                 toast.warning(response.message);
@@ -56,12 +96,9 @@ export default function CreateUser(props) {
             .catch((err) => {
               console.log(err);
               toast.error("Error del servidor, intente más tarde");
-            })
-            .finally(() => {
-              //window.location.reload();
             });
         } else {
-          createUserAPI(formData)
+          await createUserAPI(formData)
             .then((response) => {
               if (response.code) {
                 toast.warning(response.message);
@@ -74,16 +111,26 @@ export default function CreateUser(props) {
             .catch((err) => {
               console.log(err);
               toast.error("Error del servidor, intente más tarde");
-            })
-            .finally(() => {
-              //window.location.reload();
             });
         }
+        setLoading(false);
+        window.location.reload();
       }
     }
   };
+
   return (
     <div className="login">
+      {editing ? (
+        <div
+          className="imagen"
+          style={{ backgroundImage: `url('${imageUrl}')` }}
+          {...getRootProps()}
+        >
+          <input {...getInputProps()} />
+          <FontAwesomeIcon icon={faCamera} className="icon" />
+        </div>
+      ) : null}
       <Form onSubmit={onSubmit} onChange={onChange}>
         <Form.Group>
           <Row>
@@ -178,6 +225,7 @@ export default function CreateUser(props) {
           <Button variant="primary" type="submit">
             {editing ? <>Actualizar</> : <>Crear</>}
           </Button>
+          {loading && <Spinner animation="border" />}
         </center>
       </Form>
     </div>
