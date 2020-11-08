@@ -3,6 +3,7 @@ import { Button, Container, Col } from "react-bootstrap";
 import CreateUser from "../../components/CreateUser/CreateUser.js";
 import BasicModal from "../../components/BasicModal/BasicModal";
 import ListUser from "../../components/ListUser/ListUser";
+import FileLoad from "../../components/FileLoad/FileLoad";
 import { listUsersAPI } from "../../api/usuarios";
 import "./Usuarios.scss";
 
@@ -87,16 +88,21 @@ function EncabezadoLista(props) {
       </Button>
       <Button
         variant="info"
-        onClick={() => openModal(<Yes setShowModal={setShowModal} />)}
+        onClick={() =>
+          openModal(
+            <FileLoad
+              setShowModal={setShowModal}
+              listState={listState}
+              setListState={setListState}
+              profile={userType}
+            />
+          )
+        }
       >
         Cargar
       </Button>
     </>
   );
-}
-
-function Yes(props) {
-  return <h2>Not yet Implemented</h2>;
 }
 
 function initialValues(userType) {

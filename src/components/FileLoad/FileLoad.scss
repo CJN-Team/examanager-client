@@ -1,0 +1,15 @@
+@import "../../index.scss";
+
+.file-load {
+  .url {
+    margin-top: 30px;
+
+    &_input {
+      width: 500px;
+    }
+  }
+}
+
+.txt-cont {
+  justify-content: center;
+}
