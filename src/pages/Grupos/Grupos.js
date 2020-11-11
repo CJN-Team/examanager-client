@@ -64,5 +64,6 @@ function initialValues() {
     name: "",
     studentsList: {},
     teacher: "",
+    subject: "",
   };
 }

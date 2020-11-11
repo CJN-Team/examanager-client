@@ -6,6 +6,7 @@ import { toast } from "react-toastify";
 import { Container, Row, Col, Button } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash, faEye } from "@fortawesome/free-solid-svg-icons";
+import ProfilePicture from "../../components/ProfilePicture/ProfilePicture";
 import "./ListUser.scss";
 
 export default function ListUser(props) {
@@ -28,8 +29,7 @@ export default function ListUser(props) {
         console.log(err);
         toast.error("Error del servidor, intente más tarde");
       })
-      .finally(() => {
-      });
+      .finally(() => {});
   };
 
   const editUser = (u) => {
@@ -52,6 +52,9 @@ export default function ListUser(props) {
             return (
               <li class="list-group-item">
                 <Row>
+                  <Col>
+                    <ProfilePicture user={x} />
+                  </Col>
                   <Col>
                     <h2>{`${x.name}  ${x.lastName}`}</h2>
                   </Col>

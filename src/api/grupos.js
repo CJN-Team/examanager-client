@@ -9,6 +9,7 @@ export function createGroupAPI(data) {
     name: data.name,
     studentsList: data.studentsList,
     teacher: data.teacher,
+    subject: data.subject,
   };
 
   const params = {
@@ -51,7 +52,34 @@ export function getGroupAPI(id) {
       if (response.status >= 200 && response.status < 300) {
         return response.json();
       }
-      return { code: 404, message: "Error al registrar grupo" };
+      return { code: 404, message: "Error al obtener" };
+    })
+    .then((result) => {
+      return result;
+    })
+    .catch((err) => {
+      return err;
+    });
+}
+
+export function updateGroupAPI(data, id) {
+  var urlU = API_HOST + `/group?id=${id}`;
+
+  const params = {
+    method: "PUT",
+    headers: {
+      "Content-type": "application/json",
+      Authorization: "Bearer" + localStorage.getItem(TOKEN),
+    },
+    body: JSON.stringify(data),
+  };
+
+  return fetch(urlU, params)
+    .then((response) => {
+      if (response.status >= 200 && response.status < 300) {
+        return response.json();
+      }
+      return { code: 404, message: "Error al actualizar grupo" };
     })
     .then((result) => {
       return result;
