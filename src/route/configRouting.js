@@ -1,16 +1,17 @@
-import Home from "../pages/Home/Home.js";
+import Administradores from "../pages/Administradores/Administradores.js";
 import Asignaturas from "../pages/Asignaturas/Asignaturas";
 import Departamentos from "../pages/Departamentos/Departamentos";
+import Error404 from "../pages/Error404/Error404.js";
 import Estudiantes from "../pages/Estudiantes/Estudiantes";
-import Profesores from "../pages/Profesores/Profesores";
-import Administradores from "../pages/Administradores/Administradores.js";
+import Examenes from "../pages/Examenes/Examenes.js"
+import Grupo from "../pages/Grupo/Grupo";
+import Grupos from "../pages/Grupos/Grupos";
+import Home from "../pages/Home/Home.js";
 import Marketplace from "../pages/Marketplace/Marketplace.js";
+import Preguntas from "../pages/Preguntas/Preguntas";
+import Profesores from "../pages/Profesores/Profesores";
 import Profile from "../pages/Profile/Profile.js";
 import Temas from "../pages/Temas/Temas.js";
-import Grupos from "../pages/Grupos/Grupos";
-import Grupo from "../pages/Grupo/Grupo";
-import Preguntas from "../pages/Preguntas/Preguntas";
-import Error404 from "../pages/Error404/Error404.js";
 
 export default [
   {
@@ -47,6 +48,11 @@ export default [
     path: "/grupos",
     exact: true,
     page: Grupos,
+  },
+  {
+    path: "/examenes",
+    exact: true,
+    page: Examenes,
   },
   {
     path: "/preguntas",

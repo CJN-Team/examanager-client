@@ -1,14 +1,14 @@
 import BasicLayout from "../../layouts/basicLayouts/BasicLayout.js";
 import BasicModal from "../../components/BasicModal/BasicModal.js";
-import CreateAsigments from "../../components/CreateAsigment/CreateAsigment.js";
-import ListAsig from "../../components/ListAsig/ListAsig";
+import CreateExam from "../../components/CreateExam/CreateExam.js";
+import ListExam from "../../components/ListExam/ListExam";
 import React, { useState, useEffect } from "react";
 import { Container, Col, Button } from "react-bootstrap";
-import { listAsigmentApi } from "../../api/asigment";
+import { listExamApi } from "../../api/examenes";
 
-import "./Asignaturas.scss";
+import "./Examenes.scss";
 
-export default function Asignaturas(props) {
+export default function Examenes(props) {
   const { setRefreshLogin } = props;
   const [showModal, setShowModal] = useState(false);
   const [contentModal, setContentModal] = useState(null);
@@ -21,11 +21,11 @@ export default function Asignaturas(props) {
 
   return (
     <BasicLayout setRefreshLogin={setRefreshLogin}>
-      <Container className="asignaturas-cont" fluid>
-        <Asig
+      <Container className="examenes-cont" fluid>
+        <Exam
           openModal={openModal}
           setShowModal={setShowModal}
-        ></Asig>
+        ></Exam>
       </Container>      
       <BasicModal show={showModal} setShow={setShowModal}>
         {contentModal}
@@ -34,38 +34,38 @@ export default function Asignaturas(props) {
   );
 }
 
-function Asig(props) {
+function Exam (props) {
   const { openModal, setShowModal} = props;
-  const [ asignaturas, setAsignaturas] = useState([]);
-  const [ listState, setListState ] = useState(1)
+  const [ examenes, setExamenes] = useState([]);
+  const [ listState, setListState ] = useState(1);
+  const [ prueba, setPrueba ] = useState(false);
 
   useEffect(() => {
-    listAsigmentApi().then((response) => {
-      setAsignaturas(response);
-      console.log(asignaturas);
+    listExamApi().then((response) => {
+      setExamenes(response);
     });
   }, [listState]);
 
   return (
-    <Col className="asignaturas">
-      <div className="asignaturas__body">
-        <h4>Asignaturas</h4>
+    <Col className="examenes">
+      <div className="examenes__body">
+        <h4>Examenes</h4>
         <Button
           variant="primary"
           onClick={() =>
             openModal(
-              <CreateAsigments
+              <CreateExam
                 setShowModal={setShowModal}
                 setListState={setListState}
                 listState={listState}
-              ></CreateAsigments>
+              ></CreateExam>
             )
           }
         >
           Añadir
         </Button>
-        <ListAsig 
-          asigList={asignaturas} 
+        <ListExam 
+          examList={examenes} 
           setListState={setListState}
           listState={listState}
         />
