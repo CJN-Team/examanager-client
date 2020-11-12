@@ -39,10 +39,8 @@ export function createInstApi(data) {
 }
 
 export function createUserApi(data, institutionId) {
-  const url = API_HOST + "/user";
+  const url = API_HOST + "/admin";
   console.log(institutionId);
-
-  console.log("hola2");
 
   var user = {
     id: data.id,
