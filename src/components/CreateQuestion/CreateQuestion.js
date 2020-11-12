@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { values, size } from "lodash";
 import { toast } from "react-toastify";
-import { Row, Col, Form, Button } from "react-bootstrap";
+import { Row, Col, Form, Button, Spinner } from "react-bootstrap";
 import MultipleSelection from "./QuestionBody/MultipleSelection";
 import OpenQuestion from "./QuestionBody/OpenQuestion";
 import SingleAnswer from "./QuestionBody/SingleAnswer";
@@ -33,7 +33,6 @@ export default function CreateQuestion(props) {
       setStatusForm("advanced");
     }
   };
-
   if (statusForm === "basic") {
     return (
       <div className="login">

@@ -7,7 +7,7 @@ import { faTrash, faEye } from "@fortawesome/free-solid-svg-icons";
 import CreateQuestion from "../../components/CreateQuestion/CreateQuestion";
 
 export default function ListQuestions(props) {
-  const { questList } = props;
+  const { questList, listState, setListState } = props;
   const [showModal, setShowModal] = useState(false);
   const [qinfo, setqInfo] = useState(null);
 
@@ -22,6 +22,7 @@ export default function ListQuestions(props) {
           toast.warning(response.message);
         } else {
           toast.success("El borrado fue existoso");
+          setListState(listState + 1);
         }
       })
       .catch((err) => {
