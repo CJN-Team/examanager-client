@@ -5,7 +5,14 @@ import { questionSubmit } from "./QuestionSubmitter";
 import "./QuestionBody.scss";
 
 export default function TrueOrFalse(props) {
-  const { formData, setStatusForm, mode } = props;
+  const {
+    formData,
+    setStatusForm,
+    mode,
+    listState,
+    setListState,
+    setShowModal,
+  } = props;
   const [option, setOption] = useState("Verdadero");
   const options = ["Verdadero", "Falso"];
 
@@ -18,7 +25,7 @@ export default function TrueOrFalse(props) {
   const handleSubmit = () => {
     formData.options = options;
     formData.answer = [options.indexOf(option)];
-    questionSubmit(formData, mode);
+    questionSubmit(formData, mode, listState, setListState, setShowModal);
   };
 
   return (
@@ -42,7 +49,9 @@ export default function TrueOrFalse(props) {
       </Row>
       <Row>
         <Col>
-          <Button onClick={handleSubmit}>Aceptar</Button>
+          <Button onClick={handleSubmit}>
+            {mode === "create" ? <>Crear</> : <>Guardar</>}
+          </Button>
         </Col>
       </Row>
     </div>

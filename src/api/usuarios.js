@@ -101,7 +101,6 @@ export function updateUserAPI(data) {
     lastName: data.lastName,
     email: data.email.toLowerCase(),
     birthDate: data.birthDate,
-    password: data.password,
   };
 
   const params = {

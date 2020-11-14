@@ -5,9 +5,16 @@ import { questionSubmit } from "./QuestionSubmitter";
 import "./QuestionBody.scss";
 
 export default function SingleAnswer(props) {
-  const { formData, setStatusForm, mode } = props;
+  const {
+    formData,
+    setStatusForm,
+    mode,
+    listState,
+    setListState,
+    setShowModal,
+  } = props;
   const [inputList, setInputList] = useState(formData.options);
-  const [respCorrecta, setCorrecta] = useState(formData.answer[0]);
+  const [respCorrecta, setCorrecta] = useState(Math.abs(formData.answer[0]));
 
   const handleInputChange = (e, index) => {
     const list = [...inputList];
@@ -50,7 +57,7 @@ export default function SingleAnswer(props) {
       } else if (formData.answer.length < 1) {
         toast.warning("Al menos una respuesta debe ser correcta.");
       } else {
-        questionSubmit(formData, mode);
+        questionSubmit(formData, mode, listState, setListState, setShowModal);
       }
     }
   };
@@ -106,7 +113,6 @@ export default function SingleAnswer(props) {
               value={formData.options[respCorrecta]}
               name="correctas"
               onChange={(e) => getSeleccionada(e)}
-              defaultValue={formData.options}
             >
               {inputList.map((x, i) => {
                 return <option>{x}</option>;
@@ -116,7 +122,9 @@ export default function SingleAnswer(props) {
         </Row>
       </div>
       <div>
-        <Button onClick={handleSubmit}>Crear</Button>
+        <Button onClick={handleSubmit}>
+          {mode === "create" ? <>Crear</> : <>Guardar</>}
+        </Button>
       </div>
     </div>
   );

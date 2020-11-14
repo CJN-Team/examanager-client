@@ -78,7 +78,13 @@ export default function ListQuestions(props) {
             <Modal.Title>Editar pregunta</Modal.Title>
           </Modal.Header>
           <Modal.Body>
-            <CreateQuestion form={qinfo} mode="edit" />
+            <CreateQuestion
+              form={qinfo}
+              mode="edit"
+              listState={listState}
+              setListState={setListState}
+              setShowModal={setShowModal}
+            />
           </Modal.Body>
         </Modal>
       </Container>

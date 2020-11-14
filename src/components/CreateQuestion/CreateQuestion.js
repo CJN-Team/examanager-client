@@ -8,7 +8,7 @@ import SingleAnswer from "./QuestionBody/SingleAnswer";
 import TrueOrFalse from "./QuestionBody/TrueOrFalse";
 
 export default function CreateQuestion(props) {
-  const { form, mode } = props;
+  const { form, mode, listState, setListState, setShowModal } = props;
   const [statusForm, setStatusForm] = useState("basic");
   const [formData, setFormData] = useState(form);
 
@@ -125,6 +125,9 @@ export default function CreateQuestion(props) {
           formData={formData}
           setStatusForm={setStatusForm}
           mode={mode}
+          listState={listState}
+          setListState={setListState}
+          setShowModal={setShowModal}
         />
       );
     } else if (formData.category === "Selección múltiple") {
@@ -133,6 +136,9 @@ export default function CreateQuestion(props) {
           formData={formData}
           setStatusForm={setStatusForm}
           mode={mode}
+          listState={listState}
+          setListState={setListState}
+          setShowModal={setShowModal}
         />
       );
     } else if (formData.category === "Respuesta única") {
@@ -141,6 +147,9 @@ export default function CreateQuestion(props) {
           formData={formData}
           setStatusForm={setStatusForm}
           mode={mode}
+          listState={listState}
+          setListState={setListState}
+          setShowModal={setShowModal}
         />
       );
     } else if (formData.category === "Verdadero o falso") {
@@ -149,6 +158,9 @@ export default function CreateQuestion(props) {
           formData={formData}
           setStatusForm={setStatusForm}
           mode={mode}
+          listState={listState}
+          setListState={setListState}
+          setShowModal={setShowModal}
         />
       );
     }

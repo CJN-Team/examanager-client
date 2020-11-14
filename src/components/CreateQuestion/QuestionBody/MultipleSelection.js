@@ -5,7 +5,14 @@ import { questionSubmit } from "./QuestionSubmitter";
 import "./QuestionBody.scss";
 
 export default function MultipleSelection(props) {
-  const { formData, setStatusForm, mode } = props;
+  const {
+    formData,
+    setStatusForm,
+    mode,
+    listState,
+    setListState,
+    setShowModal,
+  } = props;
   const [inputList, setInputList] = useState(formData.options);
   const [correctList, setCorrectList] = useState(formData.answer);
 
@@ -57,7 +64,7 @@ export default function MultipleSelection(props) {
       } else if (formData.answer.length < 1) {
         toast.warning("Al menos una respuesta debe ser correcta.");
       } else {
-        questionSubmit(formData, mode);
+        questionSubmit(formData, mode, listState, setListState, setShowModal);
       }
     }
   };
@@ -114,7 +121,9 @@ export default function MultipleSelection(props) {
         );
       })}
       <div>
-        <Button onClick={handleSubmit}>Crear</Button>
+        <Button onClick={handleSubmit}>
+          {mode === "create" ? <>Crear</> : <>Guardar</>}
+        </Button>
       </div>
     </div>
   );
