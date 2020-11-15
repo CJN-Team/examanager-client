@@ -51,24 +51,29 @@ export default function LeftMenu() {
         icon={faBuilding}
         value="Departamentos"
       ></Item>
-      <Item
-        className="item"
-        name="administradores"
-        icon={faUser}
-        value="Administradores"
-      ></Item>
-      <Item
-        className="item"
-        name="profesores"
-        icon={faUser}
-        value="Profesores"
-      ></Item>
-      <Item
-        className="item"
-        name="estudiantes"
-        icon={faUser}
-        value="Estudiantes"
-      ></Item>
+      {user.profile === "Administrador" && (
+        <>
+          <Item
+            className="item"
+            name="administradores"
+            icon={faUser}
+            value="Administradores"
+          ></Item>
+          <Item
+            className="item"
+            name="profesores"
+            icon={faUser}
+            value="Profesores"
+          ></Item>
+          <Item
+            className="item"
+            name="estudiantes"
+            icon={faUser}
+            value="Estudiantes"
+          ></Item>
+        </>
+      )}
+
       <Item className="item" name="grupos" icon={faUsers} value="Grupos"></Item>
     </div>
   );

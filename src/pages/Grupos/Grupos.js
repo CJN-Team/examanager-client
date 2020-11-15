@@ -8,9 +8,12 @@ import ListGroups from "../../components/ListGroups/ListGroups";
 import { listGroupsAPI } from "../../api/grupos";
 
 import "./Grupos.scss";
+import useAuth from "../../hooks/useAuth";
 
 export default function Grupos(props) {
   const { setRefreshLogin } = props;
+
+  const user = useAuth();
 
   const [showModal, setShowModal] = useState(false);
   const [gruposAPI, setGrupos] = useState(["init"]);
@@ -36,7 +39,10 @@ export default function Grupos(props) {
           <div className="grupos">
             <h4>Grupos</h4>
             <div className="grupos__body">
-              <Button onClick={() => openModal()}>Añadir</Button>
+              {user.profile === "Administrador" && (
+                <Button onClick={() => openModal()}>Añadir</Button>
+              )}
+
               <ListGroups
                 groupList={gruposAPI}
                 setListState={setListState}

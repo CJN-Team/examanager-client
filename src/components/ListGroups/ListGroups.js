@@ -5,11 +5,13 @@ import { faTrash, faEye } from "@fortawesome/free-solid-svg-icons";
 import { toast } from "react-toastify";
 import { Link } from "react-router-dom";
 import { deleteGroupAPI } from "../../api/grupos";
+import useAuth from "../../hooks/useAuth";
 
 import "./ListGroups.scss";
 
 export default function ListGroups(props) {
   const { groupList, setListState, listState } = props;
+  const user = useAuth();
 
   const deleteGroup = (group) => {
     deleteGroupAPI(group.id)
@@ -63,12 +65,14 @@ export default function ListGroups(props) {
                           </Link>
                         </Col>
                         <Col className="button">
-                          <Button
-                            variant="danger"
-                            onClick={() => deleteGroup(x)}
-                          >
-                            <FontAwesomeIcon icon={faTrash} />
-                          </Button>
+                          {user.profile === "Administrador" && (
+                            <Button
+                              variant="danger"
+                              onClick={() => deleteGroup(x)}
+                            >
+                              <FontAwesomeIcon icon={faTrash} />
+                            </Button>
+                          )}
                         </Col>
                       </Row>
                     </td>

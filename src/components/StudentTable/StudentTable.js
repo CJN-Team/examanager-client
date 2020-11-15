@@ -5,10 +5,12 @@ import { faTrash, faEye } from "@fortawesome/free-solid-svg-icons";
 import { updateGroupAPI } from "../../api/grupos";
 import { toast } from "react-toastify";
 import BasicModal from "../BasicModal/BasicModal";
+import useAuth from "../../hooks/useAuth";
 
 export default function StudentTable(props) {
   const { alumnos, lista, id } = props;
   const [listState, setListState] = useState(0);
+  const user = useAuth();
 
   const [showModal, setShowModal] = useState(false);
   const [contentModal, setContentModal] = useState(null);
@@ -47,23 +49,25 @@ export default function StudentTable(props) {
                         </Button>
                       </Col>
                       <Col className="button">
-                        <Button
-                          variant="danger"
-                          onClick={() =>
-                            openModal(
-                              <BorrarAlumno
-                                alumno={x}
-                                id={id}
-                                lista={lista}
-                                listState={listState}
-                                setListState={setListState}
-                                setShowModal={setShowModal}
-                              />
-                            )
-                          }
-                        >
-                          <FontAwesomeIcon icon={faTrash} />
-                        </Button>
+                        {user.profile !== "Estudiante" && (
+                          <Button
+                            variant="danger"
+                            onClick={() =>
+                              openModal(
+                                <BorrarAlumno
+                                  alumno={x}
+                                  id={id}
+                                  lista={lista}
+                                  listState={listState}
+                                  setListState={setListState}
+                                  setShowModal={setShowModal}
+                                />
+                              )
+                            }
+                          >
+                            <FontAwesomeIcon icon={faTrash} />
+                          </Button>
+                        )}
                       </Col>
                     </Row>
                   </td>
@@ -73,23 +77,26 @@ export default function StudentTable(props) {
           })}
         </tbody>
       </Table>
-      <Button
-        variant="primary"
-        onClick={() =>
-          openModal(
-            <AgregarEstudiantes
-              alumnos={alumnos}
-              lista={lista}
-              id={id}
-              listState={listState}
-              setListState={setListState}
-              setShowModal={setShowModal}
-            />
-          )
-        }
-      >
-        Agregar
-      </Button>
+      {user.profile !== "Estudiante" && (
+        <Button
+          variant="primary"
+          onClick={() =>
+            openModal(
+              <AgregarEstudiantes
+                alumnos={alumnos}
+                lista={lista}
+                id={id}
+                listState={listState}
+                setListState={setListState}
+                setShowModal={setShowModal}
+              />
+            )
+          }
+        >
+          Agregar
+        </Button>
+      )}
+
       <BasicModal show={showModal} setShow={setShowModal}>
         {contentModal}
       </BasicModal>

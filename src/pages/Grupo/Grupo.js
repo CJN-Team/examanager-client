@@ -8,6 +8,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import StudentTable from "../../components/StudentTable/StudentTable";
 import { toast } from "react-toastify";
 import { faCheck, faPen } from "@fortawesome/free-solid-svg-icons";
+import useAuth from "../../hooks/useAuth";
 
 export default withRouter(Grupo);
 
@@ -20,6 +21,7 @@ function Grupo(props) {
   const [changingTeacher, setChangingTeacher] = useState(false);
 
   const grupo = match["params"]["id"];
+  const user = useAuth();
 
   useEffect(() => {
     getGroupAPI(grupo).then((response) => {
@@ -99,13 +101,15 @@ function Grupo(props) {
             </Form.Control>
           </Col>
           <Col>
-            <Button variant="info" onClick={updateTeacher}>
-              {changingTeacher ? (
-                <FontAwesomeIcon icon={faCheck} />
-              ) : (
-                <FontAwesomeIcon icon={faPen} />
-              )}
-            </Button>
+            {user.profile === "Administrador" && (
+              <Button variant="info" onClick={updateTeacher}>
+                {changingTeacher ? (
+                  <FontAwesomeIcon icon={faCheck} />
+                ) : (
+                  <FontAwesomeIcon icon={faPen} />
+                )}
+              </Button>
+            )}
           </Col>
         </Row>
       </Form>
