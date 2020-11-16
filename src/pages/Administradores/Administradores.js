@@ -8,7 +8,7 @@ export default function Administradores(props) {
   const { setRefreshLogin } = props;
   return (
     <div>
-      <BasicLayout setRefreshLogin={setRefreshLogin}>
+      <BasicLayout setRefreshLogin={setRefreshLogin} ruta="administradores">
         <Container className="usuarios-cont" fluid>
           <Usuarios userType="Administrador" />
         </Container>

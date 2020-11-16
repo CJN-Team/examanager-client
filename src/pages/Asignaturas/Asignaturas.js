@@ -20,7 +20,7 @@ export default function Asignaturas(props) {
   };
 
   return (
-    <BasicLayout setRefreshLogin={setRefreshLogin}>
+    <BasicLayout setRefreshLogin={setRefreshLogin} ruta="asignaturas">
       <Container className="asignaturas-cont" fluid>
         <Asig openModal={openModal} setShowModal={setShowModal}></Asig>
       </Container>

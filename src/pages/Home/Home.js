@@ -7,7 +7,7 @@ export default function Home(props) {
   document.title = "Examanager";
 
   return (
-    <BasicLayout setRefreshLogin={props.setRefreshLogin}>
+    <BasicLayout setRefreshLogin={props.setRefreshLogin} ruta="home">
       <div className="home">
         <h2>Bienvenidos a Examanager</h2>
       </div>

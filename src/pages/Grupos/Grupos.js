@@ -34,7 +34,7 @@ export default function Grupos(props) {
 
   return (
     <div>
-      <BasicLayout setRefreshLogin={setRefreshLogin}>
+      <BasicLayout setRefreshLogin={setRefreshLogin} ruta="grupos">
         <Container className="grupos-cont" fluid>
           <div className="grupos">
             <h4>Grupos</h4>

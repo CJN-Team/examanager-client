@@ -14,6 +14,7 @@ import {
 import "./Navigation.scss";
 
 export default function Navigation(props) {
+  const ruta = props.ruta;
   const user = useAuth();
 
   const logout = () => {
@@ -21,26 +22,34 @@ export default function Navigation(props) {
     props.setRefreshLogin(true);
   };
 
+  const active = (pageName) => {
+    if(pageName == ruta) {
+      return "actualPage"
+    } else {
+      return "non"
+    }
+  }
+
   return (
     <div className="navigation">
       <img src={Logo} alt="logo"></img>
       <div className="icons">
-        <Link to="/">
-          <FontAwesomeIcon icon={faHome}></FontAwesomeIcon>
+        <Link to="/" class={active("home")}>
+          <FontAwesomeIcon icon={faHome} ></FontAwesomeIcon>
         </Link>
         {user.profile !== "Estudiante" && (
-          <Link to="/preguntas">
-            <FontAwesomeIcon icon={faUniversity}></FontAwesomeIcon>
+          <Link to="/preguntas" class={active("bank")}>
+            <FontAwesomeIcon icon={faUniversity} ></FontAwesomeIcon>
           </Link>
         )}
         {user.profile === "Administrador" && (
-          <Link to="/marketplace">
+          <Link to="/marketplace" class={active("store")}>
             <FontAwesomeIcon icon={faStore}></FontAwesomeIcon>
           </Link>
         )}
 
-        <Link to="" onClick={logout}>
-          <FontAwesomeIcon icon={faSignOutAlt}></FontAwesomeIcon>
+        <Link to="" onClick={logout} class="non">
+          <FontAwesomeIcon icon={faSignOutAlt} ></FontAwesomeIcon>
         </Link>
       </div>
     </div>

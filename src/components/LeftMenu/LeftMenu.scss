@@ -9,6 +9,7 @@
     border-right: 2px solid $border-grey;
 
     .perfil {
+        height: 100px;
         margin-bottom: 20px;
         padding-bottom: 20px;
         border-bottom: 1px solid $border-grey;
@@ -32,12 +33,13 @@
         }
     }
 
-    a {
+    .non {
+        font-size: 20px;
         color: $font-grey;
         margin-bottom: 20px;
 
         svg {
-            margin-right: 15px; 
+            margin-right: 20px; 
             color: $primary-light;  
         }
 
@@ -45,5 +47,21 @@
             text-decoration: none;
             color: $primary-light;
         }
-    }    
+    }
+    
+    .actualPage {
+        font-size: 20px;
+        color: $primary-light;
+        margin-bottom: 20px;
+
+        svg {
+            margin-right: 20px; 
+            color: $primary-light;  
+        }
+
+        &:hover {
+            text-decoration: none;
+            color: $primary-light;
+        }
+    }
 }

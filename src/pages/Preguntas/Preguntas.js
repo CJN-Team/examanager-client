@@ -94,7 +94,7 @@ export default function Preguntas(props) {
 
   return (
     <div>
-      <BasicLayout setRefreshLogin={setRefreshLogin}>
+      <BasicLayout setRefreshLogin={setRefreshLogin} ruta="bank">
         <div className="encabezado">
           <h1>Preguntas</h1>
           <h6>Materia: </h6>

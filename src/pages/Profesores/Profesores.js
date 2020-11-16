@@ -8,7 +8,7 @@ export default function Profesores(props) {
   const { setRefreshLogin } = props;
   return (
     <div>
-      <BasicLayout setRefreshLogin={setRefreshLogin}>
+      <BasicLayout setRefreshLogin={setRefreshLogin} ruta="profesores">
         <Container className="usuarios-cont" fluid>
           <Usuarios userType="Profesor" />
         </Container>

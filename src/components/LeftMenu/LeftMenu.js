@@ -14,7 +14,8 @@ import useAuth from "../../hooks/useAuth";
 
 import "./LeftMenu.scss";
 
-export default function LeftMenu() {
+export default function LeftMenu(props) {
+  const ruta = props.ruta;
   const user = useAuth();
   const pictureURL = `${API_HOST}/photo?id=${user.id}`;
 
@@ -34,7 +35,7 @@ export default function LeftMenu() {
         </Col>
         <Col className="col2">
           <div>
-            <Link to={"/" + user?.id}>{user.name}</Link>
+            <Link to={"/" + user?.id} class="non">{user.name}</Link>
             <h6>{user.lastName}</h6>
           </div>
         </Col>
@@ -44,12 +45,14 @@ export default function LeftMenu() {
         name="asignaturas"
         icon={faTasks}
         value="Asignaturas"
+        ruta={ruta}
       ></Item>
       <Item
         className="item"
         name="departamentos"
         icon={faBuilding}
         value="Departamentos"
+        ruta={ruta}
       ></Item>
       {user.profile === "Administrador" && (
         <>
@@ -58,33 +61,47 @@ export default function LeftMenu() {
             name="administradores"
             icon={faUser}
             value="Administradores"
+            ruta={ruta}
           ></Item>
           <Item
             className="item"
             name="profesores"
             icon={faUser}
             value="Profesores"
+            ruta={ruta}
           ></Item>
           <Item
             className="item"
             name="estudiantes"
             icon={faUser}
             value="Estudiantes"
+            ruta={ruta}
           ></Item>
         </>
       )}
 
-      <Item className="item" name="grupos" icon={faUsers} value="Grupos"></Item>
+      <Item className="item" name="grupos" icon={faUsers} value="Grupos" ruta={ruta}></Item>
     </div>
   );
 }
 
 function Item(props) {
-  const { name, icon, value } = props;
+  const { name, icon, value, ruta } = props;
+
+  const active = (pageName) => {
+    if(pageName == ruta) {
+      return "actualPage"
+    } else {
+      return "non"
+    }
+  };
+
   return (
-    <Link to={"/" + name}>
+    <Link to={"/" + name} class={active(name)}>
       <FontAwesomeIcon icon={icon}></FontAwesomeIcon>
       {value}
     </Link>
   );
 }
+
+
