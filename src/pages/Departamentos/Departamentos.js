@@ -4,15 +4,19 @@ import BasicModal from "../../components/BasicModal/BasicModal";
 import CreateDept from "../../components/CreateDept/CreateDept";
 import ListDepts from "../../components/ListDepts/ListDepts";
 import { Container, Col, Spinner, Button } from "react-bootstrap";
-import { CreateDeptAPI, listDeptsAPI } from "../../api/departamentos";
+import { listDeptsAPI } from "../../api/departamentos";
 
 import "./Departamentos.scss";
+import useAuth from "../../hooks/useAuth";
 
 export default function Departamentos(props) {
   const { setRefreshLogin } = props;
   const [departamentos, setDepartamentos] = useState(null);
   const [loading, setLoading] = useState(true);
   const [showModal, setShowModal] = useState(false);
+  const [listState, setListState] = useState(1);
+
+  const user = useAuth();
   document.title = "Departamentos";
 
   useEffect(() => {
@@ -21,6 +25,13 @@ export default function Departamentos(props) {
       setLoading(false);
     });
   }, []);
+
+  useEffect(() => {
+    listDeptsAPI().then((response) => {
+      setDepartamentos(response);
+      setLoading(false);
+    });
+  }, [listState]);
 
   return (
     <BasicLayout setRefreshLogin={setRefreshLogin} ruta="departamentos">
@@ -32,7 +43,12 @@ export default function Departamentos(props) {
             {loading ? (
               <Spinner animation="border" />
             ) : (
-              <ListDepts listaDepts={departamentos} />
+              <ListDepts
+                listaDepts={departamentos}
+                listState={listState}
+                setListState={setListState}
+                setShowModal={setShowModal}
+              />
             )}
           </div>
         </Col>
@@ -40,9 +56,23 @@ export default function Departamentos(props) {
 
       <Container>
         <BasicModal show={showModal} setShow={setShowModal}>
-          <CreateDept />
+          <CreateDept
+            form={() => defaultValues(user)}
+            mode="create"
+            listState={listState}
+            setListState={setListState}
+            setShowModal={setShowModal}
+          />
         </BasicModal>
       </Container>
     </BasicLayout>
   );
+}
+
+function defaultValues(user) {
+  return {
+    name: "",
+    institution: user.institution,
+    teachers: [],
+  };
 }

@@ -1,0 +1,38 @@
+@import "../../index.scss";
+
+.list-depts {
+  padding: 0px;
+  margin-right: 100px;
+  margin-left: 0px;
+  max-width: 80%;
+  align-self: start;
+
+  .table {
+    padding: 0px;
+
+    li {
+      height: 60px;
+      padding: 0px 10px 0px 10px;
+
+      div {
+        height: 60px;
+
+        h2 {
+          font-size: 24px;
+          color: $font-grey;
+          line-height: 50px;
+        }
+
+        .button {
+          margin-top: 10px;
+          max-width: 80px;
+
+          Button {
+            width: 50px;
+            height: 40px;
+          }
+        }
+      }
+    }
+  }
+}
