@@ -4,6 +4,7 @@ import { listAsigmentApi } from "../../api/asigment";
 import CreateQuestion from "../../components/CreateQuestion/CreateQuestion";
 import ListQuestions from "../../components/ListQuestions/ListQuestions";
 import BasicLayout from "../../layouts/basicLayouts/BasicLayout";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   Button,
   Modal,
@@ -13,6 +14,10 @@ import {
   Col,
   Spinner,
 } from "react-bootstrap";
+
+import { faAngleLeft, faAngleRight } from "@fortawesome/free-solid-svg-icons";
+
+import "./Preguntas.scss";
 
 export default function Preguntas(props) {
   const { setRefreshLogin } = props;
@@ -95,12 +100,13 @@ export default function Preguntas(props) {
   return (
     <div>
       <BasicLayout setRefreshLogin={setRefreshLogin} ruta="bank">
-        <div className="encabezado">
-          <h1>Preguntas</h1>
-          <h6>Materia: </h6>
+        <Container className="preguntas-cont" fluid>
+          <h4>Preguntas</h4>
+          <h5>Materia: </h5>
           <Form.Control
             as="select"
             defaultValue={selectedAsig}
+            className="dropdown"
             name="asignatura"
             onChange={(e) => {
               setTopics(e.target.value);
@@ -114,10 +120,11 @@ export default function Preguntas(props) {
           </Form.Control>
           {selectedAsig !== "" && (
             <div>
-              <h6>Tema: </h6>
+              <h5>Tema: </h5>
               <Form.Control
                 as="select"
                 value={selectedTema}
+                className="dropdown"
                 name="tema"
                 onChange={(e) => setSelectedTema(e.target.value)}
               >
@@ -129,14 +136,16 @@ export default function Preguntas(props) {
               </Form.Control>
             </div>
           )}
+
           {selectedTema !== "" &&
             (loading ? (
-              <h6>Cargando...</h6>
+              <h5>Cargando...</h5>
             ) : (
               <div>
                 <Row>
                   <Button
                     variant="primary"
+                    className="button-add"
                     onClick={() =>
                       openModal(
                         <CreateQuestion
@@ -153,36 +162,43 @@ export default function Preguntas(props) {
                   </Button>
                 </Row>
                 {preguntasAPI != null && preguntasAPI.message !== "Fallo" && (
-                  <Row>
-                    <Col>
-                      <Button onClick={() => onChangePage(-1)}>{"<"}</Button>
-                    </Col>
-                    <Col>{page}</Col>
-                    <Button onClick={() => onChangePage(1)}>{">"}</Button>
-                  </Row>
+                  <div className="page-selector">
+                    <Button
+                      className="page-sel"
+                      onClick={() => onChangePage(-1)}
+                    >
+                      <FontAwesomeIcon icon={faAngleLeft} />
+                    </Button>
+                    {page}
+                    <Button
+                      className="page-sel"
+                      onClick={() => onChangePage(1)}
+                    >
+                      <FontAwesomeIcon icon={faAngleRight} />
+                    </Button>
+                  </div>
                 )}
               </div>
             ))}
-        </div>
 
-        <Container fluid>
-          <ModalPreguntas openModal={openModal} setShowModal={setShowModal} />
+          <Container fluid>
+            <ModalPreguntas openModal={openModal} setShowModal={setShowModal} />
+          </Container>
+
+          {selectedAsig === "" ? (
+            <h5>Seleccione una materia</h5>
+          ) : selectedTema === "" ? (
+            <h5>Seleccione un tema</h5>
+          ) : loading ? (
+            <Spinner animation="border" />
+          ) : (
+            <ListQuestions
+              questList={preguntasAPI}
+              listState={listState}
+              setListState={setListState}
+            />
+          )}
         </Container>
-
-        {selectedAsig === "" ? (
-          <h4>Seleccione una materia</h4>
-        ) : selectedTema === "" ? (
-          <h4>Seleccione un tema</h4>
-        ) : loading ? (
-          <Spinner animation="border" />
-        ) : (
-          <ListQuestions
-            questList={preguntasAPI}
-            listState={listState}
-            setListState={setListState}
-          />
-        )}
-
         <ModalPreguntas show={showModal} setShow={setShowModal}>
           {contentModal}
         </ModalPreguntas>

@@ -1,0 +1,44 @@
+@import "../../index.scss";
+
+.preguntas-cont {
+  padding: 0px;
+
+  .dropdown {
+    width: 500px;
+  }
+
+  .page-selector {
+    font-weight: bold;
+    color: $font-grey;
+    margin-left: -5px;
+
+    .page-sel {
+      margin-left: 5px;
+      margin-right: 5px;
+      width: 35px;
+      height: 35px;
+    }
+  }
+
+  h4 {
+    color: $font-grey;
+    margin-bottom: 20px;
+    font-size: 30px;
+  }
+
+  h5 {
+    color: $font-grey;
+    font-size: 20px;
+    margin-top: 5px;
+  }
+
+  Button {
+    margin-top: 5px;
+    margin-bottom: 5px;
+  }
+
+  .button-add {
+    margin-left: 15px;
+    margin-top: 7px;
+  }
+}

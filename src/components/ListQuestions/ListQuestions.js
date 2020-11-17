@@ -48,8 +48,9 @@ export default function ListQuestions(props) {
               <li class="list-group-item">
                 <Row>
                   <Col>
-                    <h2>{`${x.id}`}</h2>
+                    <h4>{`${x.id}`}</h4>
                   </Col>
+                  <Col>{x.question}</Col>
                   <Col>
                     <Button variant="info" onClick={() => editQuestion(x)}>
                       <FontAwesomeIcon icon={faEye}></FontAwesomeIcon>
