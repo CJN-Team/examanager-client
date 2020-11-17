@@ -2,19 +2,17 @@ import { API_HOST, TOKEN } from "../utils/constants.js";
 import jwtDecode from "jwt-decode";
 
 export function createDeptAPI(data) {
-  var urlU = API_HOST + "/departamentos";
+  var urlU = API_HOST + "/departaments?page=1";
 
   const user = {
     id: data.id,
   };
 
   const params = {
-    method: "POST",
+    method: "GET",
     headers: {
-      "Content-type": "application/json",
       Authorization: "Bearer" + localStorage.getItem(TOKEN),
     },
-    body: JSON.stringify(user),
   };
 
   return fetch(urlU, params)
@@ -32,23 +30,25 @@ export function createDeptAPI(data) {
     });
 }
 
-export function listDeptsAPI(userType) {
-  const url = API_HOST + `/users?profile=${userType}&page=1`;
+export function listDeptsAPI() {
+  var urlU = API_HOST + "/departaments?page=1";
 
   const params = {
     method: "GET",
     headers: {
-      "Content-type": "application/json",
       Authorization: "Bearer" + localStorage.getItem(TOKEN),
     },
   };
 
-  return fetch(url, params)
+  return fetch(urlU, params)
     .then((response) => {
       if (response.status >= 200 && response.status < 300) {
         return response.json();
       }
-      return { message: "Fallo" };
+      return { code: 404, message: "Error al registrar usuario" };
+    })
+    .then((result) => {
+      return result;
     })
     .catch((err) => {
       return err;

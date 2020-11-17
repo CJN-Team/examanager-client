@@ -35,7 +35,9 @@ export default function LeftMenu(props) {
         </Col>
         <Col className="col2">
           <div>
-            <Link to={"/" + user?.id} class="non">{user.name}</Link>
+            <Link to={"/" + user?.id} class="non">
+              {user.name}
+            </Link>
             <h6>{user.lastName}</h6>
           </div>
         </Col>
@@ -80,7 +82,13 @@ export default function LeftMenu(props) {
         </>
       )}
 
-      <Item className="item" name="grupos" icon={faUsers} value="Grupos" ruta={ruta}></Item>
+      <Item
+        className="item"
+        name="grupos"
+        icon={faUsers}
+        value="Grupos"
+        ruta={ruta}
+      ></Item>
     </div>
   );
 }
@@ -89,19 +97,17 @@ function Item(props) {
   const { name, icon, value, ruta } = props;
 
   const active = (pageName) => {
-    if(pageName == ruta) {
-      return "actualPage"
+    if (pageName == ruta) {
+      return "actualPage";
     } else {
-      return "non"
+      return "non";
     }
   };
 
   return (
     <Link to={"/" + name} class={active(name)}>
-      <FontAwesomeIcon icon={icon}></FontAwesomeIcon>
+      <FontAwesomeIcon icon={icon} className="icon"></FontAwesomeIcon>
       {value}
     </Link>
   );
 }
-
-

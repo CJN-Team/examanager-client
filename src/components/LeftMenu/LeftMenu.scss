@@ -1,67 +1,71 @@
 @import "../../index.scss";
 
 .left-menu {
-    display: flex;
-    align-items: start;
-    flex-direction: column;
-    min-height: 90vh;
-    padding: 20px;
-    border-right: 2px solid $border-grey;
+  display: flex;
+  align-items: start;
+  flex-direction: column;
+  min-height: 90vh;
+  padding: 20px;
+  border-right: 2px solid $border-grey;
 
-    .perfil {
-        height: 100px;
-        margin-bottom: 20px;
-        padding-bottom: 20px;
-        border-bottom: 1px solid $border-grey;
+  .icon {
+    width: 50px;
+  }
 
-        a {
-            font-size: 20px;
-            font-weight: 600;
-        }
+  .perfil {
+    height: 100px;
+    margin-bottom: 20px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid $border-grey;
 
-        .col1 {
-            max-width: 90px;
-        }
-
-        .col2 {
-            width: 250px;
-        }
-    
-        img {
-           width: 70px;
-           border-radius: 50%;
-        }
+    a {
+      font-size: 20px;
+      font-weight: 600;
     }
 
-    .non {
-        font-size: 20px;
-        color: $font-grey;
-        margin-bottom: 20px;
-
-        svg {
-            margin-right: 20px; 
-            color: $primary-light;  
-        }
-
-        &:hover {
-            text-decoration: none;
-            color: $primary-light;
-        }
+    .col1 {
+      max-width: 90px;
     }
-    
-    .actualPage {
-        font-size: 20px;
-        color: $primary-light;
-        margin-bottom: 20px;
 
-        svg {
-            margin-right: 20px; 
-            color: $primary-light;  
-        }
-
-        &:hover {
-            text-decoration: none;
-            color: $primary-light;
-        }
+    .col2 {
+      width: 250px;
     }
+
+    img {
+      width: 70px;
+      border-radius: 50%;
+    }
+  }
+
+  .non {
+    font-size: 20px;
+    color: $font-grey;
+    margin-bottom: 20px;
+
+    svg {
+      margin-right: 20px;
+      color: $primary-light;
+    }
+
+    &:hover {
+      text-decoration: none;
+      color: $primary-light;
+    }
+  }
+
+  .actualPage {
+    font-size: 20px;
+    color: $primary-light;
+    margin-bottom: 20px;
+
+    svg {
+      margin-right: 20px;
+      color: $primary-light;
+    }
+
+    &:hover {
+      text-decoration: none;
+      color: $primary-light;
+    }
+  }
 }
