@@ -5,6 +5,7 @@ import { Row, Col, Button, Container } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash, faEye } from "@fortawesome/free-solid-svg-icons";
 import { deleteDeptAPI } from "../../api/departamentos";
+import { capitalize } from "../../utils/strings";
 import { toast } from "react-toastify";
 
 import "./ListDepts.scss";
@@ -51,7 +52,7 @@ export default function ListDepts(props) {
               <li class="list-group-item">
                 <Row>
                   <Col>
-                    <h2>{x.name}</h2>
+                    <h2>{capitalize(x.name)}</h2>
                   </Col>
                   <Col className="button">
                     <Button variant="info" onClick={() => editDept(x)}>

@@ -6,6 +6,7 @@ import { toast } from "react-toastify";
 import { Container, Row, Col, Button } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash, faEye } from "@fortawesome/free-solid-svg-icons";
+import { capitalize } from "../../utils/strings";
 import ProfilePicture from "../../components/ProfilePicture/ProfilePicture";
 import "./ListUser.scss";
 
@@ -56,7 +57,9 @@ export default function ListUser(props) {
                     <ProfilePicture user={x} />
                   </Col>
                   <Col>
-                    <h2>{`${x.name}  ${x.lastName}`}</h2>
+                    <h2>{`${capitalize(x.name)}  ${capitalize(
+                      x.lastName
+                    )}`}</h2>
                   </Col>
                   <Col className="button">
                     <Button variant="info" onClick={() => editUser(x)}>

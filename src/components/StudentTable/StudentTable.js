@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash, faEye } from "@fortawesome/free-solid-svg-icons";
 import { updateGroupAPI } from "../../api/grupos";
 import { toast } from "react-toastify";
+import { capitalize } from "../../utils/strings";
 import BasicModal from "../BasicModal/BasicModal";
 import useAuth from "../../hooks/useAuth";
 
@@ -38,8 +39,8 @@ export default function StudentTable(props) {
               return (
                 <tr>
                   <td>{x.id}</td>
-                  <td>{x.name}</td>
-                  <td>{x.lastName}</td>
+                  <td>{x.name && capitalize(x.name)}</td>
+                  <td>{x.name && capitalize(x.lastName)}</td>
                   <td>{lista[x.id].length}</td>
                   <td>
                     <Row>

@@ -5,6 +5,7 @@ import { faTrash, faEye } from "@fortawesome/free-solid-svg-icons";
 import { toast } from "react-toastify";
 import { Link } from "react-router-dom";
 import { deleteGroupAPI } from "../../api/grupos";
+import { capitalize } from "../../utils/strings";
 import useAuth from "../../hooks/useAuth";
 
 import "./ListGroups.scss";
@@ -53,7 +54,7 @@ export default function ListGroups(props) {
                 return (
                   <tr>
                     <td>{x.id}</td>
-                    <td>{x.name}</td>
+                    <td>{capitalize(x.name)}</td>
                     <td>
                       <Row>
                         <Col className="button">

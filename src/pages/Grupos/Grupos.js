@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import BasicLayout from "../../layouts/basicLayouts/BasicLayout";
 import BasicModal from "../../components/BasicModal/BasicModal";
 
-import { Button, Container } from "react-bootstrap";
+import { Button, Container, Spinner, Row } from "react-bootstrap";
 import CreateGroup from "../../components/CreateGroup/CreateGroup";
 import ListGroups from "../../components/ListGroups/ListGroups";
 import { listGroupsAPI } from "../../api/grupos";
@@ -18,14 +18,20 @@ export default function Grupos(props) {
   const [showModal, setShowModal] = useState(false);
   const [gruposAPI, setGrupos] = useState(null);
   const [listState, setListState] = useState(1);
+  const [loading, setLoading] = useState(true);
   const [page, setPage] = useState(1);
 
   document.title = "Grupos";
 
   useEffect(() => {
-    listGroupsAPI(page).then((response) => {
-      setGrupos(response);
-    });
+    setLoading(true);
+    async function actualizarDatos() {
+      await listGroupsAPI(page).then((response) => {
+        setGrupos(response);
+        setLoading(false);
+      });
+    }
+    actualizarDatos();
   }, [listState]);
 
   const openModal = () => {
@@ -42,12 +48,18 @@ export default function Grupos(props) {
               {user.profile === "Administrador" && (
                 <Button onClick={() => openModal()}>Añadir</Button>
               )}
+              {loading ? (
+                <Row>
+                  <Spinner animation="border" style={{ marginLeft: "20px" }} />
+                </Row>
+              ) : (
+                <ListGroups
+                  groupList={gruposAPI}
+                  setListState={setListState}
+                  listState={listState}
+                />
+              )}
 
-              <ListGroups
-                groupList={gruposAPI}
-                setListState={setListState}
-                listState={listState}
-              />
               <BasicModal show={showModal} setShow={setShowModal}>
                 <CreateGroup
                   groupData={initialValues()}

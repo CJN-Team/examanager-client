@@ -2,13 +2,14 @@ import React, { useState, useEffect } from "react";
 import BasicLayout from "../../layouts/basicLayouts/BasicLayout";
 import { withRouter } from "react-router-dom";
 import { listUsersAPI } from "../../api/usuarios";
-import { Row, Col, Button, Form, Container } from "react-bootstrap";
+import { Row, Col, Button, Form, Container, Spinner } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import StudentTable from "../../components/StudentTable/StudentTable";
 import { toast } from "react-toastify";
 import BasicModal from "../../components/BasicModal/BasicModal";
 import { faCheck, faPen, faTimes } from "@fortawesome/free-solid-svg-icons";
 import useAuth from "../../hooks/useAuth";
+import { capitalize } from "../../utils/strings";
 import {
   getGroupAPI,
   updateGroupAPI,
@@ -44,14 +45,18 @@ function Grupo(props) {
   }, []);
 
   useEffect(() => {
-    document.title = groupData.name;
-    listUsersAPI("Profesor").then((response) => {
-      setListaProfesores(response);
-    });
-    listUsersAPI("Estudiante").then((response) => {
-      setListaAlumnos(response);
-    });
-    setProfesor(groupData.teacher);
+    async function actualizarDatos() {
+      document.title = capitalize(groupData.name);
+      await listUsersAPI("Profesor").then((response) => {
+        setListaProfesores(response);
+      });
+      await listUsersAPI("Estudiante").then((response) => {
+        setListaAlumnos(response);
+      });
+      await setProfesor(groupData.teacher);
+      await setLoading(false);
+    }
+    actualizarDatos();
   }, [groupData]);
 
   const updateTeacher = () => {
@@ -82,15 +87,23 @@ function Grupo(props) {
       .finally(() => {});
   };
 
+  if (loading) {
+    return (
+      <BasicLayout setRefreshLogin={setRefreshLogin} ruta="grupos">
+        <Spinner animation="border" />
+      </BasicLayout>
+    );
+  }
+
   return (
-    <BasicLayout setRefreshLogin={setRefreshLogin}>
+    <BasicLayout setRefreshLogin={setRefreshLogin} ruta="grupos">
       <Form>
         <Row>
-          <h4>{groupData.name}</h4>
+          <h4>{capitalize(groupData.name)}</h4>
         </Row>
         <Row>
           <Col>
-            <h5>Asignatura: {groupData.subject}</h5>
+            <h5>Asignatura: {capitalize(groupData.subject)}</h5>
           </Col>
         </Row>
         <Row className="teacher-row">
@@ -110,7 +123,9 @@ function Grupo(props) {
             >
               {listaProfesores.map((x, i) => {
                 return (
-                  <option value={x.id}>{`${x.name}  ${x.lastName}`}</option>
+                  <option value={x.id}>{`${capitalize(x.name)}  ${capitalize(
+                    x.lastName
+                  )}`}</option>
                 );
               })}
             </Form.Control>
@@ -162,7 +177,7 @@ function ProgressDetail(props) {
         {Object.keys(progreso).map((x, index) => {
           return (
             <tr className="progress-row">
-              <td>{x}</td>
+              <td>{capitalize(x)}</td>
               <td className="progress-icon">
                 {progreso[x] ? (
                   <FontAwesomeIcon icon={faCheck} style={{ color: "green" }} />
@@ -194,7 +209,7 @@ function progressToString(progreso) {
 function exampleInit() {
   return {
     id: "init",
-    name: "init",
+    name: "Cargando...",
     studentsList: { init: ["init"] },
     teacher: "init",
     subject: "init",

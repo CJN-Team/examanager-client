@@ -3,7 +3,7 @@ import BasicLayout from "../../layouts/basicLayouts/BasicLayout";
 import BasicModal from "../../components/BasicModal/BasicModal";
 import CreateDept from "../../components/CreateDept/CreateDept";
 import ListDepts from "../../components/ListDepts/ListDepts";
-import { Container, Col, Spinner, Button } from "react-bootstrap";
+import { Container, Col, Spinner, Button, Row } from "react-bootstrap";
 import { listDeptsAPI } from "../../api/departamentos";
 
 import "./Departamentos.scss";
@@ -41,7 +41,9 @@ export default function Departamentos(props) {
             <h4>Departamentos</h4>
             <Button onClick={() => setShowModal(true)}>Añadir</Button>
             {loading ? (
-              <Spinner animation="border" />
+              <Row>
+                <Spinner animation="border" style={{ marginLeft: "20px" }} />
+              </Row>
             ) : (
               <ListDepts
                 listaDepts={departamentos}
