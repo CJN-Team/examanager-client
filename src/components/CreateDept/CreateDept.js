@@ -112,7 +112,7 @@ export default function CreateDept(props) {
           ) : (
             teacherList.map((x, i) => {
               return (
-                <Row className="list">
+                <Row className="list" key={x.id}>
                   <Col>
                     <Form.Label>{`${x.name} ${x.lastName}`}</Form.Label>
                   </Col>

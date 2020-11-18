@@ -49,7 +49,7 @@ export default function ListDepts(props) {
         <ul className="table">
           {listaDepts.map((x, i) => {
             return (
-              <li class="list-group-item">
+              <li class="list-group-item" key={x.id}>
                 <Row>
                   <Col>
                     <h2>{capitalize(x.name)}</h2>

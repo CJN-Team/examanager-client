@@ -51,7 +51,7 @@ export default function ListUser(props) {
         <ul className="table">
           {userList.map((x, i) => {
             return (
-              <li class="list-group-item">
+              <li class="list-group-item" key={x.id}>
                 <Row>
                   <Col>
                     <ProfilePicture user={x} />

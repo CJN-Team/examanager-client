@@ -124,7 +124,6 @@ export default function CreateGroup(props) {
                 as="select"
                 value={formData.subject}
                 name="subject"
-                defaultValue={formData.subject}
                 onChange={(e) =>
                   setFormData({ ...formData, subject: e.target.value })
                 }
@@ -132,7 +131,7 @@ export default function CreateGroup(props) {
                 <option value="">Seleccionar</option>
                 {subjectList !== null &&
                   subjectList.map((x, i) => {
-                    return <option value={x[0]}>{`${x[0]}`}</option>;
+                    return <option key={i} value={x[0]}>{`${x[0]}`}</option>;
                   })}
               </Form.Control>
             </Col>
@@ -146,7 +145,6 @@ export default function CreateGroup(props) {
                 as="select"
                 value={formData.teacher}
                 name="teacher"
-                defaultValue={formData.teacher}
                 onChange={(e) =>
                   setFormData({ ...formData, teacher: e.target.value })
                 }
@@ -155,7 +153,10 @@ export default function CreateGroup(props) {
                 {teacherList !== null &&
                   teacherList.map((x, i) => {
                     return (
-                      <option value={x.id}>{`${x.name}  ${x.lastName}`}</option>
+                      <option
+                        value={x.id}
+                        key={x.id}
+                      >{`${x.name}  ${x.lastName}`}</option>
                     );
                   })}
               </Form.Control>
@@ -167,7 +168,7 @@ export default function CreateGroup(props) {
           {studentList !== null ? (
             studentList.map((x, i) => {
               return (
-                <Row>
+                <Row key={x.id}>
                   <Col>
                     <Form.Label>{`${x.name}  ${x.lastName}`}</Form.Label>
                   </Col>

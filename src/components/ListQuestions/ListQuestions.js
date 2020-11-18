@@ -45,7 +45,7 @@ export default function ListQuestions(props) {
         <ul>
           {questList.map((x, i) => {
             return (
-              <li class="list-group-item">
+              <li class="list-group-item" key={x.id}>
                 <Row>
                   <Col>
                     <h4>{`${x.id}`}</h4>

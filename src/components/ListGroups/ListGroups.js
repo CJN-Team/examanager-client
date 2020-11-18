@@ -52,7 +52,7 @@ export default function ListGroups(props) {
             <tbody>
               {groupList.map((x, i) => {
                 return (
-                  <tr>
+                  <tr key={x.id}>
                     <td>{x.id}</td>
                     <td>{capitalize(x.name)}</td>
                     <td>

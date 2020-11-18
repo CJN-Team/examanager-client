@@ -49,15 +49,16 @@ export default function LeftMenu(props) {
         value="Asignaturas"
         ruta={ruta}
       ></Item>
-      <Item
-        className="item"
-        name="departamentos"
-        icon={faBuilding}
-        value="Departamentos"
-        ruta={ruta}
-      ></Item>
+
       {user.profile === "Administrador" && (
         <>
+          <Item
+            className="item"
+            name="departamentos"
+            icon={faBuilding}
+            value="Departamentos"
+            ruta={ruta}
+          ></Item>
           <Item
             className="item"
             name="administradores"

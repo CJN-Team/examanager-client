@@ -115,7 +115,6 @@ function Grupo(props) {
               as="select"
               value={profesor}
               className="teacher-select"
-              defaultValue={profesor}
               disabled={!changingTeacher}
               onChange={(e) => {
                 setProfesor(e.target.value);
@@ -123,9 +122,9 @@ function Grupo(props) {
             >
               {listaProfesores.map((x, i) => {
                 return (
-                  <option value={x.id}>{`${capitalize(x.name)}  ${capitalize(
-                    x.lastName
-                  )}`}</option>
+                  <option value={x.id} key={x.id}>{`${capitalize(
+                    x.name
+                  )}  ${capitalize(x.lastName)}`}</option>
                 );
               })}
             </Form.Control>
