@@ -16,7 +16,7 @@ export default function Grupos(props) {
   const user = useAuth();
 
   const [showModal, setShowModal] = useState(false);
-  const [gruposAPI, setGrupos] = useState(["init"]);
+  const [gruposAPI, setGrupos] = useState(null);
   const [listState, setListState] = useState(1);
   const [page, setPage] = useState(1);
 
