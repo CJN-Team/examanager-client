@@ -169,13 +169,15 @@ function ProgressDetail(props) {
   return (
     <table class="table" className="progress-table">
       <thead className="progress-head">
-        <th>Tema</th>
-        <th>Visto</th>
+        <tr>
+          <th>Tema</th>
+          <th>Visto</th>
+        </tr>
       </thead>
       <tbody>
         {Object.keys(progreso).map((x, index) => {
           return (
-            <tr className="progress-row">
+            <tr className="progress-row" key={index}>
               <td>{capitalize(x)}</td>
               <td className="progress-icon">
                 {progreso[x] ? (

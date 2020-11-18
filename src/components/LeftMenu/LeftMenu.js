@@ -19,7 +19,7 @@ export default function LeftMenu(props) {
   const user = useAuth();
   const pictureURL = `${API_HOST}/photo?id=${user.id}`;
 
-  console.log(user);
+  //console.log(user);
 
   return (
     <div className="left-menu">

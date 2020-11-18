@@ -45,7 +45,7 @@ export default function ListAsig(props) {
       <ul className="table">
         {asignaturas.map((x, i) => {
           return (
-            <li class="list-group-item">
+            <li class="list-group-item" key={i}>
               <Row>
                 <Col>
                   <h2>{x[0]}</h2>

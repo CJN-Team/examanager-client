@@ -22,7 +22,7 @@ export default function UpdateAsigment(props) {
 
   const handleInputChange = (e, index) => {
     if (e.target.name === "topics") {
-      console.log(e.target.value)
+      console.log(e.target.value);
       formData["topics"][index] = e.target.value;
       setFormData({
         name: formData["name"],
@@ -58,7 +58,7 @@ export default function UpdateAsigment(props) {
             toast.warning(response.message);
           } else {
             toast.success("Se actualizó la asignatura exitosamente");
-            setListState(!listState)
+            setListState(!listState);
             setShowModal(false);
             setFormData(initialValues(formData));
           }
@@ -99,7 +99,7 @@ export default function UpdateAsigment(props) {
           <Col className="topics">
             {inputList.map((x, i) => {
               return (
-                <div className="box">
+                <div className="box" key={i}>
                   <Row className="row">
                     <Col className="item">
                       <Form.Control
@@ -142,10 +142,10 @@ export default function UpdateAsigment(props) {
   );
 }
 
-function initialValues(temas) {    
-    let claves = Object.keys(temas);
-    return {
-        name: claves[0],
-        topics: temas[claves[0]],
-    };
+function initialValues(temas) {
+  let claves = Object.keys(temas);
+  return {
+    name: claves[0],
+    topics: temas[claves[0]],
+  };
 }
