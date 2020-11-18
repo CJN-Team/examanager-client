@@ -8,6 +8,7 @@ import {
   faUser,
   faBuilding,
   faTasks,
+  faFileAlt,
 } from "@fortawesome/free-solid-svg-icons";
 import DefaultAvatar from "../../assets/images/DefaultAvatar.png";
 import useAuth from "../../hooks/useAuth";
@@ -18,8 +19,6 @@ export default function LeftMenu(props) {
   const ruta = props.ruta;
   const user = useAuth();
   const pictureURL = `${API_HOST}/photo?id=${user.id}`;
-
-  //console.log(user);
 
   return (
     <div className="left-menu">
@@ -90,6 +89,15 @@ export default function LeftMenu(props) {
         value="Grupos"
         ruta={ruta}
       ></Item>
+      {user.profile === "Estudiante" && (
+        <Item
+          className="item"
+          name="notas"
+          icon={faFileAlt}
+          value="Mis notas"
+          ruta={ruta}
+        ></Item>
+      )}
     </div>
   );
 }

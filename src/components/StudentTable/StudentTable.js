@@ -49,7 +49,11 @@ export default function StudentTable(props) {
                   <td>{x.id}</td>
                   <td>{x.name && capitalize(x.name)}</td>
                   <td>{x.name && capitalize(x.lastName)}</td>
-                  <td>{lista[x.id].length}</td>
+                  <td>
+                    {user.profile === "Administrador" || user.id === x.id
+                      ? lista[x.id].length
+                      : null}
+                  </td>
                   <td>
                     <Row>
                       <Col className="button">
@@ -279,9 +283,31 @@ function NotasAlumno(props) {
       <h6>Notas: </h6>
       <ol>
         {grades.map((grade, index) => {
-          return <li key={index}>{grade}</li>;
+          return (
+            <li key={index}>
+              <div style={getColor(grade)}>{grade}</div>
+            </li>
+          );
         })}
       </ol>
     </div>
   );
+}
+
+function getColor(grade) {
+  if (grade >= 3.0) {
+    if (grade >= 4.0) {
+      return {
+        color: "green",
+      };
+    } else {
+      return {
+        color: "#999900",
+      };
+    }
+  } else {
+    return {
+      color: "red",
+    };
+  }
 }

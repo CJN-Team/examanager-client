@@ -5,7 +5,6 @@ import { faTrash, faEye } from "@fortawesome/free-solid-svg-icons";
 import { toast } from "react-toastify";
 import { Link } from "react-router-dom";
 import { deleteGroupAPI } from "../../api/grupos";
-import { capitalize } from "../../utils/strings";
 import useAuth from "../../hooks/useAuth";
 
 import "./ListGroups.scss";
@@ -51,34 +50,38 @@ export default function ListGroups(props) {
             </thead>
             <tbody>
               {groupList.map((x, i) => {
-                return (
-                  <tr key={x.id}>
-                    <td>{x.id}</td>
-                    <td>{capitalize(x.name)}</td>
-                    <td>
-                      <Row>
-                        <Col className="button">
-                          <Link to={"/grupos/" + x.id}>
-                            <FontAwesomeIcon
-                              className="btn-ver"
-                              icon={faEye}
-                            ></FontAwesomeIcon>
-                          </Link>
-                        </Col>
-                        <Col className="button">
-                          {user.profile === "Administrador" && (
-                            <Button
-                              variant="danger"
-                              onClick={() => deleteGroup(x)}
-                            >
-                              <FontAwesomeIcon icon={faTrash} />
-                            </Button>
-                          )}
-                        </Col>
-                      </Row>
-                    </td>
-                  </tr>
-                );
+                if (
+                  user.id in x.studentsList ||
+                  user.profile === "Administrador"
+                )
+                  return (
+                    <tr>
+                      <td>{x.id}</td>
+                      <td>{x.name}</td>
+                      <td>
+                        <Row>
+                          <Col className="button">
+                            <Link to={"/grupos/" + x.id}>
+                              <FontAwesomeIcon
+                                className="btn-ver"
+                                icon={faEye}
+                              ></FontAwesomeIcon>
+                            </Link>
+                          </Col>
+                          <Col className="button">
+                            {user.profile === "Administrador" && (
+                              <Button
+                                variant="danger"
+                                onClick={() => deleteGroup(x)}
+                              >
+                                <FontAwesomeIcon icon={faTrash} />
+                              </Button>
+                            )}
+                          </Col>
+                        </Row>
+                      </td>
+                    </tr>
+                  );
               })}
             </tbody>
           </Table>

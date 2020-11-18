@@ -1,15 +1,16 @@
 import Administradores from "../pages/Administradores/Administradores.js";
-import Asignaturas from "../pages/Asignaturas/Asignaturas";
-import Departamentos from "../pages/Departamentos/Departamentos";
+import Asignaturas from "../pages/Asignaturas/Asignaturas.js";
+import Calificaciones from "../pages/Calificaciones/Calificaciones.js";
+import Departamentos from "../pages/Departamentos/Departamentos.js";
 import Error404 from "../pages/Error404/Error404.js";
 import Estudiantes from "../pages/Estudiantes/Estudiantes";
-import Examenes from "../pages/Examenes/Examenes.js"
-import Grupo from "../pages/Grupo/Grupo";
-import Grupos from "../pages/Grupos/Grupos";
+import Examenes from "../pages/Examenes/Examenes.js";
+import Grupo from "../pages/Grupo/Grupo.js";
+import Grupos from "../pages/Grupos/Grupos.js";
 import Home from "../pages/Home/Home.js";
 import Marketplace from "../pages/Marketplace/Marketplace.js";
-import Preguntas from "../pages/Preguntas/Preguntas";
-import Profesores from "../pages/Profesores/Profesores";
+import Preguntas from "../pages/Preguntas/Preguntas.js";
+import Profesores from "../pages/Profesores/Profesores.js";
 import Profile from "../pages/Profile/Profile.js";
 import Temas from "../pages/Temas/Temas.js";
 
@@ -63,6 +64,11 @@ export default [
     path: "/marketplace",
     exact: true,
     page: Marketplace,
+  },
+  {
+    path: "/notas",
+    exact: true,
+    page: Calificaciones,
   },
   {
     path: "/:id",
