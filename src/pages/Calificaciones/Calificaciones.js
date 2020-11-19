@@ -3,6 +3,8 @@ import useAuth from "../../hooks/useAuth";
 import BasicLayout from "../../layouts/basicLayouts/BasicLayout";
 import { Spinner } from "react-bootstrap";
 import { userAllGradesAPI } from "../../api/usuarios";
+import { capitalize } from "../../utils/strings";
+import { getGroupAPI } from "../../api/grupos";
 
 import "./Calificaciones.scss";
 
@@ -48,8 +50,10 @@ export default function Calificaciones(props) {
           <div className="calificaciones">
             {Object.keys(grades).map((x, i) => {
               return (
-                <div key={x}>
-                  <h6>{x}</h6>
+                <div key={i}>
+                  <h5>{`${x.split(",")[0]} - ${capitalize(
+                    x.split(",")[1]
+                  )}`}</h5>
                   <table class="table table-bordered table-sm">
                     <thead>
                       <tr>
@@ -58,11 +62,13 @@ export default function Calificaciones(props) {
                       </tr>
                     </thead>
                     <tbody>
-                      {grades[x].map((y, j) => {
+                      {Object.keys(grades[x]).map((y, j) => {
                         return (
                           <tr key={j}>
-                            <td>{j + 1}</td>
-                            <td style={getColor(y)}>{y}</td>
+                            <td>{capitalize(y)}</td>
+                            <td style={getColor(grades[x][y])}>
+                              {grades[x][y]}
+                            </td>
                           </tr>
                         );
                       })}

@@ -40,3 +40,18 @@
     }
   }
 }
+
+.group-delete {
+  text-align: center;
+  align-content: center;
+
+  .row-info {
+    font-weight: bold;
+  }
+  .row {
+    justify-content: center;
+  }
+  Button {
+    margin-top: 20px;
+  }
+}

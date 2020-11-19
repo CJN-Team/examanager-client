@@ -6,6 +6,9 @@ import { toast } from "react-toastify";
 import { capitalize } from "../../utils/strings";
 import BasicModal from "../BasicModal/BasicModal";
 import useAuth from "../../hooks/useAuth";
+
+import "./StudentTable.scss";
+
 import {
   Table,
   Row,
@@ -50,7 +53,7 @@ export default function StudentTable(props) {
                   <td>{x.name && capitalize(x.name)}</td>
                   <td>{x.name && capitalize(x.lastName)}</td>
                   <td>
-                    {user.profile === "Administrador" || user.id === x.id
+                    {user.profile !== "Estudiante" || user.id === x.id
                       ? lista[x.id].length
                       : null}
                   </td>
@@ -80,7 +83,7 @@ export default function StudentTable(props) {
                         )}
                       </Col>
                       <Col className="button">
-                        {user.profile !== "Estudiante" && (
+                        {user.profile === "Administrador" && (
                           <Button
                             variant="danger"
                             onClick={() =>
@@ -108,7 +111,7 @@ export default function StudentTable(props) {
           })}
         </tbody>
       </Table>
-      {user.profile !== "Estudiante" && (
+      {user.profile === "Administrador" && (
         <Button
           variant="primary"
           onClick={() =>
@@ -237,14 +240,14 @@ function BorrarAlumno(props) {
   };
 
   return (
-    <div>
+    <Container className="user-delete">
       <Row>
-        <h6>Está seguro? </h6>
+        <h6>¿Está seguro?</h6>
       </Row>
-      <Row>
+      <Row className="row-info">
         Eliminar al estudiante{" "}
         {`${capitalize(alumno.name)}  ${capitalize(alumno.lastName)}`} hará que
-        se pierdan los exámenes que este tiene asignados en el grupo
+        se pierdan los exámenes que este tiene asignados en el grupo.
       </Row>
       <Row>
         <Button onClick={submit} variant="danger">
@@ -254,7 +257,7 @@ function BorrarAlumno(props) {
           Cancelar
         </Button>
       </Row>
-    </div>
+    </Container>
   );
 }
 
@@ -266,7 +269,7 @@ function NotasAlumno(props) {
   useEffect(() => {
     async function getGrades() {
       await userGradesAPI(uid, gid).then((response) => {
-        setGrades(response[gid]);
+        setGrades(response);
         setLoading(false);
       });
     }
@@ -281,15 +284,24 @@ function NotasAlumno(props) {
   return (
     <div>
       <h6>Notas: </h6>
-      <ol>
-        {grades.map((grade, index) => {
-          return (
-            <li key={index}>
-              <div style={getColor(grade)}>{grade}</div>
-            </li>
-          );
-        })}
-      </ol>
+      <table class="table table-bordered table-sm">
+        <thead>
+          <tr>
+            <th>Evaluación</th>
+            <th>Nota</th>
+          </tr>
+        </thead>
+        <tbody>
+          {Object.keys(grades).map((grade, index) => {
+            return (
+              <tr>
+                <td>{capitalize(grade)}</td>
+                <td style={getColor(grades[grade])}>{grades[grade]}</td>
+              </tr>
+            );
+          })}
+        </tbody>
+      </table>
     </div>
   );
 }

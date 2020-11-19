@@ -1,0 +1,18 @@
+@import "../../index.scss";
+
+.user-delete {
+  text-align: center;
+  align-content: center;
+
+  .row-info {
+    color: #dc3545;
+  }
+  .row {
+    justify-content: center;
+    font-weight: bold;
+  }
+  Button {
+    margin-top: 20px;
+    margin-left: 10px;
+  }
+}

@@ -3,6 +3,7 @@ import { Container, Row, Col, Button } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash, faEye } from "@fortawesome/free-solid-svg-icons";
 import { deleteAsigmentApi } from "../../api/asigment.js";
+import { capitalize } from "../../utils/strings";
 import { toast } from "react-toastify";
 import { Link } from "react-router-dom";
 import useAuth from "../../hooks/useAuth";
@@ -48,7 +49,7 @@ export default function ListAsig(props) {
             <li class="list-group-item" key={i}>
               <Row>
                 <Col>
-                  <h2>{x[0]}</h2>
+                  <h2>{capitalize(x[0])}</h2>
                 </Col>
                 {user.profile === "Administrador" && (
                   <>

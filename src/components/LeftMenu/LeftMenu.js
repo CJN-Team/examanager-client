@@ -3,6 +3,7 @@ import { Row, Col } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { API_HOST } from "../../utils/constants.js";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { capitalize } from "../../utils/strings";
 import {
   faUsers,
   faUser,
@@ -35,9 +36,9 @@ export default function LeftMenu(props) {
         <Col className="col2">
           <div>
             <Link to={"/" + user?.id} class="non">
-              {user.name}
+              {capitalize(user.name)}
             </Link>
-            <h6>{user.lastName}</h6>
+            <h6>{capitalize(user.lastName)}</h6>
           </div>
         </Col>
       </Row>
