@@ -43,7 +43,7 @@ function Body (props) {
       {
         "teacher": "Edison Valencia",
         "open": false,
-        "finish": true, //hijo
+        "finish": false, //hijo
         "view": true, //padre
         "student": "Andrés López Bedoya",
         "topics": ["funciones", "gramatica"],
@@ -60,17 +60,17 @@ function Body (props) {
                 "subject": "Lenguajes de programacion",
                 "topic": "gramatica",
                 "id": "1",
-                "question": "¿Eres gay?",
+                "question": "¿Existe una funcion que me devuelva el tamaño (num de caracteres) de un string en Java?",
                 "category": "unica",
                 "difficulty": 1,
-                "options": ["si", "no", "tal vez"],
+                "options": ["si", "no", "no sé"],
                 "answer": ["si"],
             },
             "2": {
                 "subject": "Lenguajes de programacion",
                 "topic": "gramatica",
                 "id": "2",
-                "question": "¿Estas seguro?",
+                "question": "Escriba una sentencia de código que devuelva el tamaño de un String en Java",
                 "category": "abierta",
                 "difficulty": 1,
             },
@@ -78,19 +78,19 @@ function Body (props) {
                 "subject": "Lenguajes de programacion",
                 "topic": "gramatica",
                 "id": "3",
-                "question": "¿Alguien lo sabe?",
+                "question": "¿Los Strings son con s mayúscula en Python?",
                 "category": "vf",
                 "difficulty": 1,
-                "answer": [true],
+                "answer": [false],
             },
             "4": {
                 "subject": "Lenguajes de programacion",
                 "topic": "gramatica",
                 "id": "4",
-                "question": "¿Quienes?",
+                "question": "¿Cuales lenguajes son interpretados?",
                 "category": "multiple",
                 "difficulty": 1,
-                "options": ["mis papás", "unos amigos", "mi novi@", "DIJE QUE NADIEEE!"],
+                "options": ["Python", "Java", "C++", "Ruby"],
                 "answer": ["mis papás"],
             },
         }
