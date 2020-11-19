@@ -79,7 +79,6 @@ export default function CreateQuestion(props) {
                   onChange={(e) =>
                     setFormData({ ...formData, category: e.target.value })
                   }
-                  defaultValue={formData.category}
                 >
                   <option>Pregunta abierta</option>
                   <option>Selección múltiple</option>
@@ -103,7 +102,6 @@ export default function CreateQuestion(props) {
                       difficulty: e.target.value,
                     })
                   }
-                  defaultValue={formData.difficulty}
                 >
                   <option value={1}>Básico</option>
                   <option value={2}>Intermedio</option>

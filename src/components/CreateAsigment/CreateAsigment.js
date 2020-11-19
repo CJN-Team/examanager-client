@@ -57,7 +57,7 @@ export default function CreateAsigment(props) {
             toast.warning(response.message);
           } else {
             toast.success("Se creó la asignatura exitosamente");
-            setListState(!listState)
+            setListState(!listState);
             setShowModal(false);
             setFormData(initialValues());
           }
@@ -98,7 +98,7 @@ export default function CreateAsigment(props) {
           <Col className="topics">
             {inputList.map((x, i) => {
               return (
-                <div className="box">
+                <div className="box" key={i}>
                   <Row className="row">
                     <Col className="item">
                       <Form.Control

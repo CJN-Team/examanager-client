@@ -45,7 +45,7 @@ export default function ListTemas(props) {
       <ul className="table">
         {listaTemas.map((x, i) => {
           return (
-            <li class="list-group-item">
+            <li class="list-group-item" key={i}>
               <Row>
                 <Col>
                   <h2>{x}</h2>

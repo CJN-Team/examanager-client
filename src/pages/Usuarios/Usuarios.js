@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Button, Container, Col } from "react-bootstrap";
+import { Button, Container, Col, Spinner, Row } from "react-bootstrap";
 import CreateUser from "../../components/CreateUser/CreateUser.js";
 import BasicModal from "../../components/BasicModal/BasicModal";
 import ListUser from "../../components/ListUser/ListUser";
@@ -11,8 +11,9 @@ export default function Usuarios(props) {
   const { userType } = props;
   const [showModal, setShowModal] = useState(false);
   const [contentModal, setcontentModal] = useState(null);
-  const [usuariosAPI, setUsuarios] = useState(["init"]);
+  const [usuariosAPI, setUsuarios] = useState(null);
   const [listState, setListState] = useState(1);
+  const [loading, setLoading] = useState(true);
 
   const title = userType === "Estudiante" ? "Estudiantes" : userType + "es";
   document.title = title;
@@ -20,6 +21,7 @@ export default function Usuarios(props) {
   useEffect(() => {
     listUsersAPI(userType).then((response) => {
       setUsuarios(response);
+      setLoading(false);
     });
   }, [listState]);
 
@@ -40,11 +42,15 @@ export default function Usuarios(props) {
             setListState={setListState}
             title={title}
           />
-          <ListUser
-            userList={usuariosAPI}
-            listState={listState}
-            setListState={setListState}
-          />
+          {loading ? (
+            <Spinner animation="border" />
+          ) : (
+            <ListUser
+              userList={usuariosAPI}
+              listState={listState}
+              setListState={setListState}
+            />
+          )}
           <Container fluid>
             <BasicModal openModal={openModal} setShowModal={setShowModal} />
           </Container>
@@ -69,38 +75,42 @@ function EncabezadoLista(props) {
   } = props;
   return (
     <>
-      <h4>{title}</h4>
-      <Button
-        variant="primary"
-        onClick={() =>
-          openModal(
-            <CreateUser
-              setShowModal={setShowModal}
-              userData={() => initialValues(userType)}
-              mode="create"
-              listState={listState}
-              setListState={setListState}
-            />
-          )
-        }
-      >
-        Añadir
-      </Button>
-      <Button
-        variant="info"
-        onClick={() =>
-          openModal(
-            <FileLoad
-              setShowModal={setShowModal}
-              listState={listState}
-              setListState={setListState}
-              profile={userType}
-            />
-          )
-        }
-      >
-        Cargar
-      </Button>
+      <Row>
+        <h4>{title}</h4>
+      </Row>
+      <Row>
+        <Button
+          variant="primary"
+          onClick={() =>
+            openModal(
+              <CreateUser
+                setShowModal={setShowModal}
+                userData={() => initialValues(userType)}
+                mode="create"
+                listState={listState}
+                setListState={setListState}
+              />
+            )
+          }
+        >
+          Añadir
+        </Button>
+        <Button
+          variant="info"
+          onClick={() =>
+            openModal(
+              <FileLoad
+                setShowModal={setShowModal}
+                listState={listState}
+                setListState={setListState}
+                profile={userType}
+              />
+            )
+          }
+        >
+          Cargar
+        </Button>
+      </Row>
     </>
   );
 }

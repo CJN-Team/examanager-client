@@ -115,7 +115,11 @@ export default function Preguntas(props) {
             <option value="">Seleccionar materia</option>
             {asignaturas !== null &&
               asignaturas.map((x, i) => {
-                return <option value={i}>{x[0]}</option>;
+                return (
+                  <option value={i} key={i}>
+                    {x[0]}
+                  </option>
+                );
               })}
           </Form.Control>
           {selectedAsig !== "" && (
@@ -131,7 +135,11 @@ export default function Preguntas(props) {
                 <option value="">Seleccionar tema</option>
                 {temas !== null &&
                   temas.map((x, i) => {
-                    return <option value={x}>{x}</option>;
+                    return (
+                      <option value={x} key={i}>
+                        {x}
+                      </option>
+                    );
                   })}
               </Form.Control>
             </div>

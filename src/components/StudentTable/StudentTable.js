@@ -1,11 +1,23 @@
 import React, { useState, useEffect } from "react";
-import { Table, Row, Col, Button, Container, Form } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash, faEye } from "@fortawesome/free-solid-svg-icons";
-import { updateGroupAPI } from "../../api/grupos";
+import { updateGroupAPI, userGradesAPI } from "../../api/grupos";
 import { toast } from "react-toastify";
+import { capitalize } from "../../utils/strings";
 import BasicModal from "../BasicModal/BasicModal";
 import useAuth from "../../hooks/useAuth";
+
+import "./StudentTable.scss";
+
+import {
+  Table,
+  Row,
+  Col,
+  Button,
+  Container,
+  Form,
+  Spinner,
+} from "react-bootstrap";
 
 export default function StudentTable(props) {
   const { alumnos, lista, id } = props;
@@ -36,20 +48,42 @@ export default function StudentTable(props) {
           {alumnos.map((x, i) => {
             if (x.id in lista) {
               return (
-                <tr>
+                <tr key={x.id}>
                   <td>{x.id}</td>
-                  <td>{x.name}</td>
-                  <td>{x.lastName}</td>
-                  <td>{lista[x.id].length}</td>
+                  <td>{x.name && capitalize(x.name)}</td>
+                  <td>{x.name && capitalize(x.lastName)}</td>
+                  <td>
+                    {user.profile !== "Estudiante" || user.id === x.id
+                      ? lista[x.id].length
+                      : null}
+                  </td>
                   <td>
                     <Row>
                       <Col className="button">
-                        <Button variant="info">
-                          <FontAwesomeIcon icon={faEye} />
-                        </Button>
+                        {user.profile === "Estudiante" ? (
+                          user.id === x.id && (
+                            <Button
+                              variant="info"
+                              onClick={() =>
+                                openModal(<NotasAlumno uid={x.id} gid={id} />)
+                              }
+                            >
+                              <FontAwesomeIcon icon={faEye} />
+                            </Button>
+                          )
+                        ) : (
+                          <Button
+                            variant="info"
+                            onClick={() =>
+                              openModal(<NotasAlumno uid={x.id} gid={id} />)
+                            }
+                          >
+                            <FontAwesomeIcon icon={faEye} />
+                          </Button>
+                        )}
                       </Col>
                       <Col className="button">
-                        {user.profile !== "Estudiante" && (
+                        {user.profile === "Administrador" && (
                           <Button
                             variant="danger"
                             onClick={() =>
@@ -77,7 +111,7 @@ export default function StudentTable(props) {
           })}
         </tbody>
       </Table>
-      {user.profile !== "Estudiante" && (
+      {user.profile === "Administrador" && (
         <Button
           variant="primary"
           onClick={() =>
@@ -152,7 +186,7 @@ function AgregarEstudiantes(props) {
           {alumnos.map((x, i) => {
             if (!(x.id in lista)) {
               return (
-                <Row>
+                <Row key={x.id}>
                   <Col>
                     <Form.Label>{`${x.name}  ${x.lastName}`}</Form.Label>
                   </Col>
@@ -206,13 +240,14 @@ function BorrarAlumno(props) {
   };
 
   return (
-    <div>
+    <Container className="user-delete">
       <Row>
-        <h6>Está seguro? </h6>
+        <h6>¿Está seguro?</h6>
       </Row>
-      <Row>
-        Eliminar al estudiante {`${alumno.name}  ${alumno.lastName}`} hará que
-        se pierdan los exámenes que este tiene asignados en el grupo
+      <Row className="row-info">
+        Eliminar al estudiante{" "}
+        {`${capitalize(alumno.name)}  ${capitalize(alumno.lastName)}`} hará que
+        se pierdan los exámenes que este tiene asignados en el grupo.
       </Row>
       <Row>
         <Button onClick={submit} variant="danger">
@@ -222,6 +257,69 @@ function BorrarAlumno(props) {
           Cancelar
         </Button>
       </Row>
+    </Container>
+  );
+}
+
+function NotasAlumno(props) {
+  const { uid, gid } = props;
+  const [grades, setGrades] = useState({ init: "init" });
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    async function getGrades() {
+      await userGradesAPI(uid, gid).then((response) => {
+        setGrades(response);
+        setLoading(false);
+      });
+    }
+    getGrades();
+  }, []);
+  if (loading) {
+    return <Spinner animation="border" />;
+  }
+  if (typeof grades === "undefined") {
+    return <h6>No tiene notas aún.</h6>;
+  }
+  return (
+    <div>
+      <h6>Notas: </h6>
+      <table class="table table-bordered table-sm">
+        <thead>
+          <tr>
+            <th>Evaluación</th>
+            <th>Nota</th>
+          </tr>
+        </thead>
+        <tbody>
+          {Object.keys(grades).map((grade, index) => {
+            return (
+              <tr>
+                <td>{capitalize(grade)}</td>
+                <td style={getColor(grades[grade])}>{grades[grade]}</td>
+              </tr>
+            );
+          })}
+        </tbody>
+      </table>
     </div>
   );
+}
+
+function getColor(grade) {
+  if (grade >= 3.0) {
+    if (grade >= 4.0) {
+      return {
+        color: "green",
+      };
+    } else {
+      return {
+        color: "#999900",
+      };
+    }
+  } else {
+    return {
+      color: "red",
+    };
+  }
 }

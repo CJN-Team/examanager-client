@@ -159,7 +159,6 @@ export default function CreateUser(props) {
                 onChange={(e) =>
                   setFormData({ ...formData, idType: e.target.value })
                 }
-                defaultValue={formData.idType}
               >
                 <option>CC</option>
                 <option>TI</option>

@@ -1,6 +1,6 @@
 @import "../../index.scss";
 
-.list-groups {
+.list-depts {
   padding: 0px;
   margin-right: 100px;
   margin-left: 0px;
@@ -10,26 +10,22 @@
   .table {
     padding: 0px;
 
-    tbody {
+    li {
       height: 60px;
       padding: 0px 10px 0px 10px;
 
-      tr {
+      div {
         height: 60px;
-        top: 50%;
 
-        td {
+        h2 {
           font-size: 24px;
           color: $font-grey;
           line-height: 50px;
         }
 
         .button {
+          margin-top: 10px;
           max-width: 80px;
-
-          .btn-ver {
-            color: #17a2b8;
-          }
 
           Button {
             width: 50px;
@@ -38,20 +34,5 @@
         }
       }
     }
-  }
-}
-
-.group-delete {
-  text-align: center;
-  align-content: center;
-
-  .row-info {
-    font-weight: bold;
-  }
-  .row {
-    justify-content: center;
-  }
-  Button {
-    margin-top: 20px;
   }
 }

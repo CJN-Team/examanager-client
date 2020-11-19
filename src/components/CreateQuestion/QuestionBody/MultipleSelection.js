@@ -77,7 +77,7 @@ export default function MultipleSelection(props) {
       <h3>Ingresar respuestas</h3>
       {inputList.map((x, i) => {
         return (
-          <div className="box">
+          <div className="box" key={i}>
             <Row>
               <Col>
                 <input

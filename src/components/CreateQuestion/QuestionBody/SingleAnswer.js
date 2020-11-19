@@ -71,7 +71,7 @@ export default function SingleAnswer(props) {
 
       {inputList.map((x, i) => {
         return (
-          <div className="box">
+          <div className="box" key={i}>
             <Row>
               <Col>
                 <input
@@ -115,7 +115,7 @@ export default function SingleAnswer(props) {
               onChange={(e) => getSeleccionada(e)}
             >
               {inputList.map((x, i) => {
-                return <option>{x}</option>;
+                return <option key={i}>{x}</option>;
               })}
             </Form.Control>
           </Col>
