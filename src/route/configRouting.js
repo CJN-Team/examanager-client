@@ -13,7 +13,7 @@ import Preguntas from "../pages/Preguntas/Preguntas.js";
 import Profesores from "../pages/Profesores/Profesores.js";
 import Profile from "../pages/Profile/Profile.js";
 import Temas from "../pages/Temas/Temas.js";
-import Exam from "../pages/Exam/Exam.js"
+import Exam from "../pages/Exam/Exam.js";
 
 export default [
   {
@@ -57,11 +57,6 @@ export default [
     page: Examenes,
   },
   {
-    path: "/examen",
-    exact: true,
-    page: Exam,
-  },
-  {
     path: "/preguntas",
     exact: true,
     page: Preguntas,
@@ -90,6 +85,11 @@ export default [
     path: "/grupos/:id",
     exact: true,
     page: Grupo,
+  },
+  {
+    path: "/examen/:view",
+    exact: true,
+    page: Exam,
   },
   {
     path: "*",
