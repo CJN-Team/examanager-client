@@ -12,6 +12,7 @@ import Preguntas from "../pages/Preguntas/Preguntas";
 import Profesores from "../pages/Profesores/Profesores";
 import Profile from "../pages/Profile/Profile.js";
 import Temas from "../pages/Temas/Temas.js";
+import Exam from "../pages/Exam/Exam.js"
 
 export default [
   {
@@ -53,6 +54,11 @@ export default [
     path: "/examenes",
     exact: true,
     page: Examenes,
+  },
+  {
+    path: "/examen",
+    exact: true,
+    page: Exam,
   },
   {
     path: "/preguntas",

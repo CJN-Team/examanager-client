@@ -1,0 +1,132 @@
+@import "../../index.scss";
+
+.examenes-cont {
+
+    .finish {
+        width: 100%;
+        height: 60vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        .finish-text {
+            margin-top: 20px;
+        }
+
+        .finish-icon {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+
+            svg {
+                font-size: 50px;
+                color: $primary-light;
+            }
+        }
+    }
+
+    .body {
+        padding: 0px;
+        margin-top: 20px;       
+
+        .examen{
+            margin-left: 20px;
+            min-width: 75%;
+            border: 2px solid $background-grey;
+            border-radius: 8px;
+            padding-bottom: 30px;
+
+            .encabezado {
+
+                .foto {
+                    max-width: 150px;
+                    margin-top: 25px;
+                    margin-right: 50px;
+
+                    img {
+                        width: 150px;
+                        height: 160px;
+                        object-fit: cover;
+                    }
+                }
+
+                .informacion {
+                    margin-bottom: 40px;
+                    .inst{
+                        display: flex;
+                        justify-content: center;
+                        margin-bottom: 20px;
+                        margin-top: 5px;
+                    }
+                    .left{
+                        margin-right: 10px;
+                        min-width: 80%;
+                    }
+                }
+                
+            }
+
+            .examen-body {                
+                
+                .pregunta {
+                    margin: 20px 0px 20px 0px;
+                    padding-top: 20px;
+                    border-top: 2px solid $background-grey;
+
+                    .top{
+                        margin: 0px 0px 20px 0px;
+                        .enunciado {
+                            min-width: 85%;
+                        }
+
+                        .incorrecta {
+                            min-width: 85%;
+                            background-color: $incorrect;
+                        }
+
+                        .correcta {
+                            min-width: 85%;
+                            background-color: $correct;
+                        }
+    
+                        .puntaje{
+    
+                        }
+                    }                    
+                }
+
+                .btn-cont {
+                    width: 100%;
+                    display: flex;
+                    justify-content: center;
+
+                    button {
+                        width: 150px;
+                    }
+                }
+            }
+        }
+
+        .info {
+            margin: 0px 40px 0px 30px;
+            border: 2px solid $background-grey;
+            border-radius: 8px;
+        }
+    }
+}
+
+.seguro {
+    width: 100%;
+
+    div{
+        width: 100%;
+        margin-bottom: 20px;
+        justify-content: center;
+        display: flex;
+
+        button {
+            width: 200px;
+        }
+    }
+    
+}
