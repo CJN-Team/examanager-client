@@ -4,11 +4,14 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash, faEdit } from "@fortawesome/free-solid-svg-icons";
 import { updateAsigmentApi } from "../../api/asigment.js";
 import { toast } from "react-toastify";
+import { capitalize } from "../../utils/strings";
+import useAuth from "../../hooks/useAuth.js";
 
 import "./ListTemas.scss";
 
 export default function ListTemas(props) {
   const { name, temasList, setListState, listState } = props;
+  const user = useAuth();
 
   var temas = Object.entries(temasList);
   var listaTemas = temas[0][1];
@@ -32,7 +35,11 @@ export default function ListTemas(props) {
       });
   };
 
-  if (temasList == null || temasList.message === "Fallo") {
+  if (
+    temasList == null ||
+    temasList.length == 0 ||
+    temasList.message === "Fallo"
+  ) {
     return (
       <div>
         <h4>La consulta no recuperó resultados</h4>
@@ -48,15 +55,17 @@ export default function ListTemas(props) {
             <li class="list-group-item" key={i}>
               <Row>
                 <Col>
-                  <h2>{x}</h2>
+                  <h2>{capitalize(String(x))}</h2>
                 </Col>
                 <Col className="button">
-                  <Button variant="danger">
-                    <FontAwesomeIcon
-                      icon={faTrash}
-                      onClick={() => deleteTopic(i)}
-                    ></FontAwesomeIcon>
-                  </Button>
+                  {user.profile === "Administrador" && (
+                    <Button variant="danger">
+                      <FontAwesomeIcon
+                        icon={faTrash}
+                        onClick={() => deleteTopic(i)}
+                      ></FontAwesomeIcon>
+                    </Button>
+                  )}
                 </Col>
               </Row>
             </li>

@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { deleteUserAPI } from "../../api/usuarios";
+import { deleteUserAPI, updateUserPasswordAPI } from "../../api/usuarios";
 import CreateUser from "../CreateUser/CreateUser";
 import BasicModal from "../BasicModal/BasicModal";
 import { toast } from "react-toastify";
-import { Container, Row, Col, Button } from "react-bootstrap";
+import { Container, Row, Col, Button, Form } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTrash, faEye } from "@fortawesome/free-solid-svg-icons";
+import { faTrash, faEye, faKey } from "@fortawesome/free-solid-svg-icons";
 import { capitalize } from "../../utils/strings";
 import ProfilePicture from "../../components/ProfilePicture/ProfilePicture";
 import "./ListUser.scss";
@@ -13,28 +13,10 @@ import "./ListUser.scss";
 export default function ListUser(props) {
   const { userList, listState, setListState } = props;
   const [showModal, setShowModal] = useState(false);
-  const [uinfo, setUinfo] = useState(null);
+  const [contentModal, setContentModal] = useState(null);
 
-  const deleteUser = (u) => {
-    setUinfo(u);
-    deleteUserAPI(u)
-      .then((response) => {
-        if (response.code) {
-          toast.warning(response.message);
-        } else {
-          toast.success("El borrado fue existoso");
-          setListState(listState + 1);
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-        toast.error("Error del servidor, intente más tarde");
-      })
-      .finally(() => {});
-  };
-
-  const editUser = (u) => {
-    setUinfo(u);
+  const openModal = (content) => {
+    setContentModal(content);
     setShowModal(true);
   };
 
@@ -66,13 +48,61 @@ export default function ListUser(props) {
                     )}`}</h2>
                   </Col>
                   <Col className="button">
-                    <Button variant="info" onClick={() => editUser(x)}>
-                      <FontAwesomeIcon icon={faEye}></FontAwesomeIcon>
+                    <Button
+                      variant="info"
+                      onClick={() =>
+                        openModal(
+                          <CreateUser
+                            userData={x}
+                            mode="edit"
+                            setShowModal={setShowModal}
+                            listState={listState}
+                            setListState={setListState}
+                          />
+                        )
+                      }
+                    >
+                      <FontAwesomeIcon icon={faEye} />
                     </Button>
                   </Col>
                   <Col className="button">
-                    <Button variant="danger" onClick={() => deleteUser(x)}>
-                      <FontAwesomeIcon icon={faTrash}></FontAwesomeIcon>
+                    <Button
+                      variant="primary"
+                      onClick={() =>
+                        openModal(
+                          <UpdatePasswordUser
+                            uid={x.id}
+                            username={`${capitalize(x.name)} ${capitalize(
+                              x.lastName
+                            )}`}
+                            setShowModal={setShowModal}
+                            listState={listState}
+                            setListState={setListState}
+                          />
+                        )
+                      }
+                    >
+                      <FontAwesomeIcon icon={faKey} />
+                    </Button>
+                  </Col>
+                  <Col className="button">
+                    <Button
+                      variant="danger"
+                      onClick={() =>
+                        openModal(
+                          <DeleteUser
+                            uid={x.id}
+                            username={`${capitalize(x.name)} ${capitalize(
+                              x.lastName
+                            )}`}
+                            setShowModal={setShowModal}
+                            listState={listState}
+                            setListState={setListState}
+                          />
+                        )
+                      }
+                    >
+                      <FontAwesomeIcon icon={faTrash} />
                     </Button>
                   </Col>
                 </Row>
@@ -83,15 +113,95 @@ export default function ListUser(props) {
       </Container>
       <Container fluid>
         <BasicModal show={showModal} setShow={setShowModal}>
-          <CreateUser
-            userData={uinfo}
-            mode="edit"
-            setShowModal={setShowModal}
-            listState={listState}
-            setListState={setListState}
-          />
+          {contentModal}
         </BasicModal>
       </Container>
+    </div>
+  );
+}
+
+function DeleteUser(props) {
+  const { uid, username, setShowModal, listState, setListState } = props;
+
+  const deleteUser = () => {
+    deleteUserAPI(uid)
+      .then((response) => {
+        if (response.code) {
+          toast.warning(response.message);
+        } else {
+          toast.success("El borrado fue existoso");
+          setListState(listState + 1);
+          setShowModal(false);
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+        toast.error("Error del servidor, intente más tarde");
+      });
+  };
+
+  return (
+    <div>
+      <Container className="delete-user">
+        <Row>
+          <h5>¿Está seguro?</h5>
+        </Row>
+        <Row>
+          Eliminar al usuario <div className="name">{username}</div> no se puede
+          deshacer.
+        </Row>
+        <Row>
+          <Col>
+            <Button variant="danger" onClick={() => deleteUser()}>
+              Aceptar
+            </Button>
+          </Col>
+          <Col>
+            <Button onClick={() => setShowModal(false)}>Cancelar</Button>
+          </Col>
+        </Row>
+      </Container>
+    </div>
+  );
+}
+
+function UpdatePasswordUser(props) {
+  const { uid, username, setShowModal, listState, setListState } = props;
+  const [pass, setPass] = useState("");
+
+  const submitNewPass = () => {
+    if (pass !== "") {
+      updateUserPasswordAPI(uid, pass)
+        .then((response) => {
+          if (response.code) {
+            toast.warning(response.message);
+          } else {
+            toast.success("Actualización exitosa");
+            setListState(listState + 1);
+            setShowModal(false);
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+          toast.error("Error del servidor, intente más tarde");
+        });
+    } else {
+      toast.warning("Ingrese una contraseña");
+    }
+  };
+
+  return (
+    <div className="update-user">
+      <Form.Label>Ingrese una nueva contraseña para {username}:</Form.Label>
+
+      <Form.Control
+        type="password"
+        value={pass}
+        onChange={(e) => setPass(e.target.value)}
+      />
+      <Row className="centered-button">
+        <Button onClick={() => submitNewPass()}>Guardar</Button>
+      </Row>
     </div>
   );
 }

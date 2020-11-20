@@ -127,8 +127,39 @@ export function updateUserAPI(data) {
     });
 }
 
-export function deleteUserAPI(data) {
-  const url = API_HOST + "/user?id=" + data.id;
+export function updateUserPasswordAPI(id, newPass) {
+  var urlU = API_HOST + "/user?id=" + id;
+
+  const user = {
+    password: newPass,
+  };
+
+  const params = {
+    method: "PUT",
+    headers: {
+      "Content-type": "application/json",
+      Authorization: "Bearer" + localStorage.getItem(TOKEN),
+    },
+    body: JSON.stringify(user),
+  };
+
+  return fetch(urlU, params)
+    .then((response) => {
+      if (response.status >= 200 && response.status < 300) {
+        return response.json();
+      }
+      return { code: 404, message: "Error al registrar usuario" };
+    })
+    .then((result) => {
+      return result;
+    })
+    .catch((err) => {
+      return err;
+    });
+}
+
+export function deleteUserAPI(id) {
+  const url = API_HOST + "/user?id=" + id;
   const params = {
     method: "DELETE",
     headers: {

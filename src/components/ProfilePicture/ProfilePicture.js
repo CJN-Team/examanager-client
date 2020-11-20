@@ -13,7 +13,9 @@ export default function ProfilePicture(props) {
   return (
     <div
       className="avatar"
-      style={{ backgroundImage: `url('${pictureURL}')` }}
+      style={{
+        backgroundImage: `url('${pictureURL}')`,
+      }}
     ></div>
   );
 }

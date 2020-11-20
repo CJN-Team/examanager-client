@@ -51,16 +51,16 @@ export default function ListAsig(props) {
                 <Col>
                   <h2>{capitalize(x[0])}</h2>
                 </Col>
+                <Col className="button">
+                  <Link
+                    to={"/asignaturas/" + x[0]}
+                    className="btn btn-info button-link"
+                  >
+                    <FontAwesomeIcon icon={faEye}></FontAwesomeIcon>
+                  </Link>
+                </Col>
                 {user.profile === "Administrador" && (
                   <>
-                    <Col className="button">
-                      <Link to={"/asignaturas/" + x[0]}>
-                        <FontAwesomeIcon
-                          className="btn-ver"
-                          icon={faEye}
-                        ></FontAwesomeIcon>
-                      </Link>
-                    </Col>
                     <Col className="button">
                       <Button variant="danger" onClick={() => deleteAsig(x[0])}>
                         <FontAwesomeIcon icon={faTrash}></FontAwesomeIcon>

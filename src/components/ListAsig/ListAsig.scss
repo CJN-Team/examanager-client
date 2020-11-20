@@ -1,43 +1,42 @@
 @import "../../index.scss";
 
 .list-asig {
+  padding: 0px;
+  margin-right: 100px;
+  margin-left: 0px;
+  max-width: 80%;
+  align-self: start;
+
+  .table {
     padding: 0px;
-    margin-right: 100px;
-    margin-left: 0px;
-    max-width: 80%;
-    align-self: start;
 
-    .table {
-        padding: 0px;
-        
+    li {
+      height: 60px;
+      padding: 0px 10px 0px 10px;
 
-        li {
-            height: 60px;
-            padding: 0px 10px 0px 10px;
+      div {
+        height: 60px;
 
-            div {
-                height: 60px;
-
-                h2 {
-                    font-size: 24px;
-                    color: $font-grey;
-                    line-height: 50px;
-                }
-
-                .button {
-                    margin-top: 10px;
-                    max-width: 80px;   
-                    
-                    .btn-ver {
-                        color: #17a2b8
-                    }
-
-                    Button {
-                        width: 50px;
-                        height: 40px;
-                    }
-                }
-            }
+        h2 {
+          font-size: 24px;
+          color: $font-grey;
+          line-height: 50px;
         }
+
+        .button {
+          max-width: 80px;
+          margin-top: 10px;
+          .button-link {
+            width: 50px;
+            height: 40px;
+          }
+
+          Button {
+            width: 50px;
+            height: 40px;
+          }
+        }
+      }
     }
+  }
 }
