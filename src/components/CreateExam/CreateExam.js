@@ -105,21 +105,6 @@ export default function CreateExam(props) {
             </Col>
           </Row>
         </Form.Group>
-        <Form.Group>
-          <Row>
-            <Col>
-              <Form.Label>Cantidad Preguntas</Form.Label>
-            </Col>
-            <Col>
-              <Form.Control
-                type="text"
-                placeholder="Ingrese la cantidad de preguntas"
-                name="questions"
-                onChange={(e) => handleInputChange(e, 0)}
-              ></Form.Control>
-            </Col>
-          </Row>
-        </Form.Group>
         <Row>
           <Col>
             <Form.Label>Dificultad</Form.Label>
@@ -204,7 +189,7 @@ export default function CreateExam(props) {
         <div className="btn-cont">
           <Button type="submit" className="btn-create">
             {!createExamLoading ? (
-              "Crear"
+              "Generar"
             ) : (
               <Spinner animation="border"></Spinner>
             )}

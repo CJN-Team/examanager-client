@@ -49,30 +49,38 @@ function FormLog(props) {
 
   return (
     <Col className="formLog">
-      <div className="imagen">
-        <img src={Logo} alt="logo"></img>
-        <Button
-          variant="primary"
-          onClick={() =>
-            openModal(
-              <SignIn
-                setShowModal={setShowModal}
-                setRefreshLogin={setRefreshLogin}
-              ></SignIn>
-            )
-          }
-        >
-          Iniciar Sesión
-        </Button>
-        <h5>¿No tienes una cuenta?</h5>
-        <Button
-          variant="outline-primary"
-          onClick={() =>
-            openModal(<SignUp setShowModal={setShowModal}></SignUp>)
-          }
-        >
-          Regístrate
-        </Button>
+      <div className="form">
+        <Row className="center">
+          <img src={Logo} alt="logo"></img>
+        </Row>
+        <Row>
+          <Button
+            variant="primary"
+            onClick={() =>
+              openModal(
+                <SignIn
+                  setShowModal={setShowModal}
+                  setRefreshLogin={setRefreshLogin}
+                ></SignIn>
+              )
+            }
+          >
+            Iniciar Sesión
+          </Button>
+        </Row>    
+        <Row className="center">
+          <h5>¿No tienes una cuenta?</h5>
+        </Row>    
+        <Row>
+          <Button
+            variant="outline-primary"
+            onClick={() =>
+              openModal(<SignUp setShowModal={setShowModal}></SignUp>)
+            }
+          >
+            Regístrate
+          </Button>
+        </Row>        
       </div>
     </Col>
   );

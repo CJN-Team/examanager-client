@@ -36,14 +36,14 @@ export default function Examenes(props) {
 
 function Exam (props) {
   const { openModal, setShowModal} = props;
-  const [ examenes, setExamenes] = useState([]);
+  const [ examenes, setExamenes] = useState([{"hola": "hola"}]);
   const [ listState, setListState ] = useState(1);
   const [ prueba, setPrueba ] = useState(false);
 
   useEffect(() => {
-    listExamApi().then((response) => {
-      setExamenes(response);
-    });
+    //listExamApi().then((response) => {
+      //setExamenes(response);
+    //});
   }, [listState]);
 
   return (
@@ -62,7 +62,7 @@ function Exam (props) {
             )
           }
         >
-          Añadir
+          Generar exámenes
         </Button>
         <ListExam 
           examList={examenes} 

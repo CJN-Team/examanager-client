@@ -1,7 +1,7 @@
 import React from "react";
 import { Container, Row, Col, Button } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTrash, faEye} from "@fortawesome/free-solid-svg-icons"
+import { faTrash, faPen} from "@fortawesome/free-solid-svg-icons"
 import { deleteExamApi } from "../../api/examenes.js"
 import { toast } from "react-toastify";
 import { Link } from "react-router-dom"
@@ -29,7 +29,7 @@ export default function ListExam(props) {
       if (response.code) {
         toast.warning(response.message);
       } else {
-        toast.success("Se eliminó la asignatura existosamente");
+        toast.success("Se eliminó el examen existosamente");
         setListState(!listState)
       }
     })
@@ -51,7 +51,7 @@ export default function ListExam(props) {
                 </Col>
                 <Col className="button">
                   <Link to={"/examenes/"+x[0]}>
-                      <FontAwesomeIcon className="btn-ver" icon={faEye}></FontAwesomeIcon> 
+                      <FontAwesomeIcon className="btn-ver" icon={faPen}></FontAwesomeIcon> 
                   </Link>
                 </Col>
                 <Col className="button">

@@ -87,12 +87,22 @@
                         .correcta {
                             min-width: 85%;
                             background-color: $correct;
-                        }
+                        }                        
     
                         .puntaje{
-    
+                            h5 {
+                                margin-left: 10px;
+                            }
+
+                            input {
+                                margin-left: 10px;
+                                width: 50px;
+                            }
                         }
-                    }                    
+                    } 
+                    .corr {
+                        color: rgb(28, 156, 28)
+                    }                   
                 }
 
                 .btn-cont {
@@ -100,8 +110,13 @@
                     display: flex;
                     justify-content: center;
 
-                    button {
+                    .btn-create {
                         width: 150px;
+                    }
+
+                    .btn-update {
+                        margin-top: 20px;
+                        width: 200px;
                     }
                 }
             }

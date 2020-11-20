@@ -9,6 +9,7 @@
 
         img {
             width: 700px;
+            object-fit: cover;
         }
     }
 
@@ -18,15 +19,22 @@
         justify-content: center;
         background-color: $background-light;
 
-        .imagen{
-            margin: 10px;
-            align-items: center;
+        .form{
             justify-content: center;
+            align-items: center;
+            width: 400px;
+            margin: 10px;
 
-            img {
-                width: 100px;
-                margin-bottom: 20px;
-            }
+            .center {
+                width: 100%;
+                display: flex;
+                justify-content: center;
+
+                img {
+                    width: 100px;
+                    margin-bottom: 20px;
+                }
+            }            
 
             button {
                 display: block;

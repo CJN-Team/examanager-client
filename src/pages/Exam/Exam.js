@@ -43,62 +43,21 @@ function Exam(props) {
 function Body(props) {
   const { openModal, setShowModal, view } = props;
   const [finish, setFinish] = useState(true);
-  const [viewable, setViewable] = useState(view);
   const [exam, setExam] = useState({
     teacher: "Edison Valencia",
     open: false,
-    finish: false, //hijo
-    view: viewable, //padre
+    finish: true, //hijo
+    view: view, //padre
     student: "Andrés López Bedoya",
     topics: ["funciones", "gramatica"],
     institution: "Universidad EAFIT",
     name: "Parcial 1",
-    gud: {
-      1: 1,
-      2: 0,
-      3: 0,
-      4: 1,
-    },
+    comment: "",
     questions: {
-      1: {
-        subject: "Lenguajes de programacion",
-        topic: "gramatica",
-        id: "1",
-        question:
-          "¿Existe una funcion que me devuelva el tamaño (num de caracteres) de un string en Java?",
-        category: "unica",
-        difficulty: 1,
-        options: ["si", "no", "no sé"],
-        answer: ["si"],
-      },
-      2: {
-        subject: "Lenguajes de programacion",
-        topic: "gramatica",
-        id: "2",
-        question:
-          "Escriba una sentencia de código que devuelva el tamaño de un String en Java",
-        category: "abierta",
-        difficulty: 1,
-      },
-      3: {
-        subject: "Lenguajes de programacion",
-        topic: "gramatica",
-        id: "3",
-        question: "¿Los Strings son con s mayúscula en Python?",
-        category: "vf",
-        difficulty: 1,
-        answer: [false],
-      },
-      4: {
-        subject: "Lenguajes de programacion",
-        topic: "gramatica",
-        id: "4",
-        question: "¿Cuales lenguajes son interpretados?",
-        category: "multiple",
-        difficulty: 1,
-        options: ["Python", "Java", "C++", "Ruby"],
-        answer: ["mis papás"],
-      },
+      1: [5,"si", "si"],
+      2: [0, "lenght(str)"],
+      5: [0, true, false],
+      4: [5, ["Python", "Ruby"], ["Python", "Ruby"]]
     },
   });
 
@@ -144,11 +103,72 @@ function Body(props) {
 
 function Examen(props) {
   const { openModal, setShowModal, exam, setFinish } = props;
-  const preguntas = Object.entries(exam["questions"]);
-  const puntos = Object.entries(exam["gud"]);
+  const puntos = Object.entries(exam["questions"]);
+  const [ puntosDic, setPuntosDic ] = useState(exam["questions"])
+  const [ comment, setComment ] = useState("")
   const [formData, setFormData] = useState({});
   const user = useAuth();
   const pictureURL = `${API_HOST}/photo?id=${user.id}`;
+  const profile = "Profesor"
+
+  const q = {
+    1: {
+      subject: "Lenguajes de programacion",
+      topic: "gramatica",
+      id: "1",
+      question:
+        "¿Existe una funcion que me devuelva el tamaño (num de caracteres) de un string en Java?",
+      category: "unica",
+      difficulty: 1,
+      options: ["si", "no", "no sé"],
+      answer: ["si"],
+    },
+    2: {
+      subject: "Lenguajes de programacion",
+      topic: "gramatica",
+      id: "2",
+      question:
+        "Escriba una sentencia de código que devuelva el tamaño de un String en Java",
+      category: "abierta",
+      difficulty: 1,
+    },
+    5: {
+      subject: "Lenguajes de programacion",
+      topic: "gramatica",
+      id: "5",
+      question: "¿Los Strings son con s mayúscula en Python?",
+      category: "vf",
+      difficulty: 1,
+      answer: [false],
+    },
+    4: {
+      subject: "Lenguajes de programacion",
+      topic: "gramatica",
+      id: "4",
+      question: "¿Cuales lenguajes son interpretados?",
+      category: "multiple",
+      difficulty: 1,
+      options: ["Python", "Java", "C++", "Ruby"],
+      answer: ["Python, Ruby"],
+    },
+  }
+
+  var editDisabled = true
+
+  if (profile === "Profesor" && exam["finish"]) {
+      editDisabled = false
+  }
+
+  const dicPreguntas = () => {
+    var questions = {}
+
+    for( var i in exam["questions"]) {
+        questions[i] = q[i]
+    }
+    return questions
+  }
+
+  const preguntas = Object.entries(dicPreguntas());
 
   const tipoPregunta = (pregunta, info, number) => {
     if (pregunta === "abierta") {
@@ -180,7 +200,8 @@ function Examen(props) {
         rows="5"
         cols="100"
         name={number}
-        value={formData.number}
+        value={ exam["finish"] ? puntosDic[number][1] : formData.number}
+        disabled={exam["finish"]}
         onChange={(e) => {
           var form = formData;
           form[number] = e.target.value;
@@ -205,6 +226,8 @@ function Examen(props) {
                   id={x}
                   name={number}
                   value={x}
+                  disabled={exam["finish"]}
+                  checked={(exam["finish"] && puntosDic[number][1].includes(x))}
                   onClick={(e) => {
                     var form = formData;
                     if (form[number] == null) {
@@ -220,7 +243,7 @@ function Examen(props) {
                     setFormData(form);
                   }}
                 ></input>
-                <label class="form-check-label" for={x}>
+                <label className={correct(number, x, "mult")} for={x}>
                   {x}
                 </label>
               </div>
@@ -243,13 +266,15 @@ function Examen(props) {
             name={number}
             id="verdadero"
             value="true"
+            disabled={exam["finish"]}
+            checked={(exam["finish"] && puntosDic[number][1] )}
             onClick={(e) => {
               var form = formData;
               form[number] = e.target.value;
               setFormData(form);
             }}
           ></input>
-          <label class="form-check-label" for="verdadero">
+          <label className={correct(number, true, "vf")} for="verdadero">
             Verdadero
           </label>
         </div>
@@ -260,13 +285,15 @@ function Examen(props) {
             name={number}
             id="falso"
             value="false"
+            disabled={exam["finish"]}
+            checked={(exam["finish"] && puntosDic[number][1]===false)}
             onClick={(e) => {
               var form = formData;
               form[number] = e.target.value;
               setFormData(form);
             }}
           ></input>
-          <label class="form-check-label" for="falso">
+          <label className={correct(number, false, "vf")} for="falso">
             Falso
           </label>
         </div>
@@ -289,13 +316,15 @@ function Examen(props) {
                   name={number}
                   id={x}
                   value={x}
+                  disabled={exam["finish"]}
+                  checked={(exam["finish"] && puntosDic[number][1].includes(x))}
                   onClick={(e) => {
                     var form = formData;
                     form[number] = e.target.value;
                     setFormData(form);
                   }}
                 ></input>
-                <label class="form-check-label" for={x}>
+                <label className={correct(number, x, "unica")} for={x}>
                   {x}
                 </label>
               </div>
@@ -320,17 +349,34 @@ function Examen(props) {
   };
 
   const showResponse = (i) => {
-    console.log(puntos);
     if (exam["view"] === false || preguntas[i][1]["category"] === "abierta") {
       return "enunciado";
     } else {
-      if (puntos[i][1] === 0) {
+      if (puntos[i][1][0] === 0) {
         return "incorrecta";
       } else {
         return "correcta";
       }
     }
   };
+
+  const correct = (pos, res, cat) => {
+      if (exam["view" === false]) {
+          return "non"
+      } else {
+          if ( cat === "mult") {
+              console.log(puntosDic[pos][2])
+            if (puntosDic[pos][2].includes(res)) {
+                return "corr"
+            }
+          } else{
+            if (puntosDic[pos][2] === res) {
+                return "corr"
+            }
+          }
+        }
+        return "non"
+  }
 
   return (
     <div>
@@ -375,22 +421,73 @@ function Examen(props) {
                   <Col className={showResponse(i)}>
                     <h5>{[i + 1] + " " + x[1]["question"] + " (25%)"}</h5>
                   </Col>
-                  <Col className="puntaje">
-                    <h6>Puntaje: </h6>
-                  </Col>
+                  { 
+                    exam["finish"] === true ? 
+                    <Col className="puntaje">
+                        <Row>
+                            <h5>Puntaje:</h5>
+                            {
+                                editDisabled ? <h5>{puntos[i][1][0]}</h5> : 
+                                <Form.Control
+                                    type="number"
+                                    value={puntosDic[puntos[i][0]][0]}
+                                    name={"puntoP "+puntos[i][0]}
+                                    onChange={(e) => {
+                                        var form = puntosDic
+                                        console.log(puntos[i][0])
+                                        form[puntos[i][0]][0] = e.target.value !== "" ? parseInt(e.target.value) : 0
+                                        setPuntosDic(form)
+                                        console.log(puntosDic)
+                                    }}
+                                />
+                            }                            
+                        </Row>                    
+                    </Col>
+                     : 
+                    <div></div>
+                  }                  
                 </Row>
-                {tipoPregunta(x[1]["category"], x[1]["options"], i)}
+                {tipoPregunta(x[1]["category"], x[1]["options"], x[0])}
               </div>
             );
           })}
-          <div className="btn-cont">
-            <Button
-              className="btn-create"
-              onClick={() => openModal(<Seguro></Seguro>)}
-            >
-              Enviar Examen
-            </Button>
-          </div>
+            {
+                exam["finish"] ? 
+                    profile === "Profesor" ?
+                    <>
+                    <div className="comentario">
+                        <div>Comentarios</div>
+                        <textarea
+                            rows="5"
+                            cols="100"
+                            name="comment"
+                            value={comment}
+                            onChange={(e) => {
+                                setComment(e.target.value);
+                            }}
+                        ></textarea>
+                    </div>
+                    <div className="btn-cont">
+                        <Button
+                        className="btn-update"
+                        onClick={() => openModal(<Seguro></Seguro>)}
+                        >
+                        Actualizar Examen
+                        </Button>
+                    </div>
+                    </>
+                    :
+                    <div></div>
+                :
+                <div className="btn-cont">
+                    <Button
+                    className="btn-create"
+                    onClick={() => openModal(<Seguro></Seguro>)}
+                    >
+                    Enviar Examen
+                    </Button>
+                </div>
+            }            
         </Form>
       </div>
     </div>
