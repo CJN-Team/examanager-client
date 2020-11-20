@@ -1,6 +1,5 @@
 import React from "react";
 import { Button, Col, Row } from "react-bootstrap";
-import { toast } from "react-toastify";
 import { questionSubmit } from "./QuestionSubmitter";
 import "./QuestionBody.scss";
 
@@ -22,10 +21,10 @@ export default function OpenQuestion(props) {
     questionSubmit(formData, mode, listState, setListState, setShowModal);
   };
   return (
-    <div className="login">
+    <div className="submit-button">
       <Row>
         <Col>
-          <Button onClick={handleGoBack}>Cancelar</Button>
+          <Button onClick={handleGoBack}>Volver</Button>
         </Col>
         <Col>
           <Button onClick={handleSubmit}>

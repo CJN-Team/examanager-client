@@ -5,3 +5,58 @@
   border: 0;
   width: 100%;
 }
+
+.answer-submit-header {
+  justify-content: start;
+  text-align: start;
+  margin-bottom: 10px;
+  .col {
+    display: flex;
+    width: fit-content;
+  }
+
+  .go-back {
+    color: $primary-light;
+    margin-right: 10px;
+    &:hover {
+      color: grey;
+    }
+  }
+}
+
+.answer-list {
+  display: flex;
+  .row {
+    margin-top: 10px;
+    .btn-box {
+      .icons {
+        .icon-minus {
+          color: #dc3545;
+          &:hover {
+            color: red;
+          }
+        }
+        .icon-add {
+          color: $primary-light;
+          margin-left: 10px;
+          &:hover {
+            color: $primary-dark;
+          }
+        }
+      }
+    }
+  }
+}
+
+.answer-selector {
+  margin-top: 10px;
+}
+
+.submit-button {
+  justify-content: center;
+  text-align: center;
+  margin-top: 10px;
+  Button {
+    width: 100px;
+  }
+}

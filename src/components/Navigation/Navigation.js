@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import Logo from "../../assets/images/exam_rec.png";
+import Logo from "../../assets/images/examanager_nav.png";
 import { logoutApi } from "../../api/auth";
 import useAuth from "../../hooks/useAuth";
 import {
@@ -23,23 +23,23 @@ export default function Navigation(props) {
   };
 
   const active = (pageName) => {
-    if(pageName == ruta) {
-      return "actualPage"
+    if (pageName == ruta) {
+      return "actualPage";
     } else {
-      return "non"
+      return "non";
     }
-  }
+  };
 
   return (
     <div className="navigation">
       <img src={Logo} alt="logo"></img>
       <div className="icons">
         <Link to="/" class={active("home")}>
-          <FontAwesomeIcon icon={faHome} ></FontAwesomeIcon>
+          <FontAwesomeIcon icon={faHome}></FontAwesomeIcon>
         </Link>
         {user.profile !== "Estudiante" && (
           <Link to="/preguntas" class={active("bank")}>
-            <FontAwesomeIcon icon={faUniversity} ></FontAwesomeIcon>
+            <FontAwesomeIcon icon={faUniversity}></FontAwesomeIcon>
           </Link>
         )}
         {user.profile === "Administrador" && (
@@ -49,7 +49,7 @@ export default function Navigation(props) {
         )}
 
         <Link to="" onClick={logout} class="non">
-          <FontAwesomeIcon icon={faSignOutAlt} ></FontAwesomeIcon>
+          <FontAwesomeIcon icon={faSignOutAlt}></FontAwesomeIcon>
         </Link>
       </div>
     </div>

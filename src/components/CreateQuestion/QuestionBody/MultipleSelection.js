@@ -3,6 +3,12 @@ import { toast } from "react-toastify";
 import { Button, Row, Col } from "react-bootstrap";
 import { questionSubmit } from "./QuestionSubmitter";
 import "./QuestionBody.scss";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faAngleLeft,
+  faPlusSquare,
+  faMinusSquare,
+} from "@fortawesome/free-solid-svg-icons";
 
 export default function MultipleSelection(props) {
   const {
@@ -70,14 +76,24 @@ export default function MultipleSelection(props) {
   };
 
   return (
-    <div className="login">
+    <div>
       <div>
-        <Button onClick={handleGoBack}>Volver</Button>
+        <Row className="answer-submit-header">
+          <Col>
+            <FontAwesomeIcon
+              onClick={handleGoBack}
+              icon={faAngleLeft}
+              size="2x"
+              className="go-back"
+            />
+            <h5>Ingresar respuestas</h5>
+          </Col>
+        </Row>
       </div>
-      <h3>Ingresar respuestas</h3>
+
       {inputList.map((x, i) => {
         return (
-          <div className="box" key={i}>
+          <div className="box" key={i} className="answer-list">
             <Row>
               <Col>
                 <input
@@ -102,16 +118,22 @@ export default function MultipleSelection(props) {
               </Col>
               <Col>
                 <div className="btn-box">
-                  <Col>
+                  <Col className="icons">
                     {inputList.length !== 1 && (
-                      <Button onClick={() => handleRemoveClick(i)}>
-                        Quitar
-                      </Button>
+                      <FontAwesomeIcon
+                        onClick={() => handleRemoveClick(i)}
+                        icon={faMinusSquare}
+                        size="2x"
+                        className="icon-minus"
+                      />
                     )}
-                  </Col>
-                  <Col>
                     {inputList.length - 1 === i && (
-                      <Button onClick={handleAddClick}>Agregar</Button>
+                      <FontAwesomeIcon
+                        onClick={handleAddClick}
+                        icon={faPlusSquare}
+                        size="2x"
+                        className="icon-add"
+                      />
                     )}
                   </Col>
                 </div>
@@ -120,7 +142,7 @@ export default function MultipleSelection(props) {
           </div>
         );
       })}
-      <div>
+      <div className="submit-button">
         <Button onClick={handleSubmit}>
           {mode === "create" ? <>Crear</> : <>Guardar</>}
         </Button>

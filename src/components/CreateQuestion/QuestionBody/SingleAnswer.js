@@ -2,6 +2,12 @@ import React, { useState } from "react";
 import { toast } from "react-toastify";
 import { Button, Row, Col, Form } from "react-bootstrap";
 import { questionSubmit } from "./QuestionSubmitter";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faAngleLeft,
+  faPlusSquare,
+  faMinusSquare,
+} from "@fortawesome/free-solid-svg-icons";
 import "./QuestionBody.scss";
 
 export default function SingleAnswer(props) {
@@ -65,13 +71,22 @@ export default function SingleAnswer(props) {
   return (
     <div className="login">
       <div>
-        <Button onClick={handleGoBack}>Volver</Button>
+        <Row className="answer-submit-header">
+          <Col>
+            <FontAwesomeIcon
+              onClick={handleGoBack}
+              icon={faAngleLeft}
+              size="2x"
+              className="go-back"
+            />
+            <h5>Ingresar respuestas</h5>
+          </Col>
+        </Row>
       </div>
-      <Form.Label>Ingresar respuestas</Form.Label>
 
       {inputList.map((x, i) => {
         return (
-          <div className="box" key={i}>
+          <div className="box" key={i} className="answer-list">
             <Row>
               <Col>
                 <input
@@ -83,16 +98,22 @@ export default function SingleAnswer(props) {
               </Col>
               <Col>
                 <div className="btn-box">
-                  <Col>
+                  <Col className="icons">
                     {inputList.length !== 1 && (
-                      <Button onClick={() => handleRemoveClick(i)}>
-                        Quitar
-                      </Button>
+                      <FontAwesomeIcon
+                        onClick={() => handleRemoveClick(i)}
+                        icon={faMinusSquare}
+                        size="2x"
+                        className="icon-minus"
+                      />
                     )}
-                  </Col>
-                  <Col>
                     {inputList.length - 1 === i && (
-                      <Button onClick={handleAddClick}>Agregar</Button>
+                      <FontAwesomeIcon
+                        onClick={handleAddClick}
+                        icon={faPlusSquare}
+                        size="2x"
+                        className="icon-add"
+                      />
                     )}
                   </Col>
                 </div>
@@ -102,7 +123,7 @@ export default function SingleAnswer(props) {
         );
       })}
 
-      <div>
+      <div className="answer-selector">
         <Row>
           <Col>
             <Form.Label>Respuesta correcta:</Form.Label>
@@ -121,7 +142,7 @@ export default function SingleAnswer(props) {
           </Col>
         </Row>
       </div>
-      <div>
+      <div className="submit-button">
         <Button onClick={handleSubmit}>
           {mode === "create" ? <>Crear</> : <>Guardar</>}
         </Button>

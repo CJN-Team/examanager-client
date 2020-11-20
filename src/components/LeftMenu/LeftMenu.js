@@ -39,6 +39,7 @@ export default function LeftMenu(props) {
               {capitalize(user.name)}
             </Link>
             <h6>{capitalize(user.lastName)}</h6>
+            {user.profile}
           </div>
         </Col>
       </Row>

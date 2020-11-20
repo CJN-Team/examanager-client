@@ -56,6 +56,9 @@ export default function ListQuestions(props) {
                   <Col>
                     <textarea disabled>{capitalize(x.question)}</textarea>
                   </Col>
+                  <Col>
+                    <h5>{x.category}</h5>
+                  </Col>
                   <Col className="button-row">
                     <Button variant="info" onClick={() => editQuestion(x)}>
                       <FontAwesomeIcon icon={faEye}></FontAwesomeIcon>

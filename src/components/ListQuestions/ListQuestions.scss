@@ -11,18 +11,22 @@
     text-align: start;
 
     li {
-      height: 60px;
-      padding: 0px 10px 0px 10px;
+      height: 65px;
+      padding: 5px 10px 5px 10px;
 
       textarea {
         align-self: center;
         margin: 0 auto;
       }
 
-      h2 {
+      h4 {
         font-size: 24px;
         color: $font-grey;
         line-height: 50px;
+      }
+      h5 {
+        color: $font-grey;
+        line-height: 40px;
       }
 
       .button-row {
@@ -30,7 +34,7 @@
 
         Button {
           max-width: 80px;
-          margin-left: 5px;
+          margin-left: 10px;
         }
       }
     }
