@@ -4,7 +4,10 @@ import { toast } from "react-toastify";
 import { deleteQuestionsAPI } from "../../api/preguntas";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash, faEye } from "@fortawesome/free-solid-svg-icons";
+import { capitalize } from "../../utils/strings";
 import CreateQuestion from "../../components/CreateQuestion/CreateQuestion";
+
+import "./ListQuestions.scss";
 
 export default function ListQuestions(props) {
   const { questList, listState, setListState } = props;
@@ -41,22 +44,22 @@ export default function ListQuestions(props) {
   }
   return (
     <div>
-      <Container fluid>
-        <ul>
+      <Container fluid className="list-questions">
+        <ul className="table">
           {questList.map((x, i) => {
             return (
               <li class="list-group-item" key={x.id}>
                 <Row>
                   <Col>
-                    <h4>{`${x.id}`}</h4>
+                    <h4>{`${capitalize(x.id)}`}</h4>
                   </Col>
-                  <Col>{x.question}</Col>
                   <Col>
+                    <textarea disabled>{capitalize(x.question)}</textarea>
+                  </Col>
+                  <Col className="button-row">
                     <Button variant="info" onClick={() => editQuestion(x)}>
                       <FontAwesomeIcon icon={faEye}></FontAwesomeIcon>
                     </Button>
-                  </Col>
-                  <Col>
                     <Button variant="danger" onClick={() => deleteQuestion(x)}>
                       <FontAwesomeIcon icon={faTrash}></FontAwesomeIcon>
                     </Button>

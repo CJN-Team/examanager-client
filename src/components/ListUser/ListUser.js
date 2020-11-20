@@ -38,7 +38,11 @@ export default function ListUser(props) {
     setShowModal(true);
   };
 
-  if (userList == null || userList.message === "Fallo") {
+  if (
+    userList == null ||
+    userList.message === "Fallo" ||
+    Object.keys(userList).length == 0
+  ) {
     return (
       <div>
         <h4>La consulta no recuperó resultados</h4>

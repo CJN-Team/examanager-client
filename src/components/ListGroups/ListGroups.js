@@ -22,7 +22,11 @@ export default function ListGroups(props) {
     setShowModal(true);
   };
 
-  if (groupList == null || groupList.message === "Fallo") {
+  if (
+    groupList == null ||
+    groupList.message === "Fallo" ||
+    Object.keys(groupList).length == 0
+  ) {
     return (
       <div>
         <h4>La consulta no recuperó resultados</h4>
@@ -32,7 +36,7 @@ export default function ListGroups(props) {
     return (
       <div>
         <Container fluid className="list-groups">
-          <Table hover className="table" bordered={false}>
+          <Table hover className="table" bordered={true}>
             <thead>
               <tr>
                 <th>ID</th>
@@ -50,14 +54,12 @@ export default function ListGroups(props) {
                       <td>
                         <Row>
                           <Col className="button">
-                            <Link to={"/grupos/" + x.id}>
-                              <FontAwesomeIcon
-                                className="btn-ver"
-                                icon={faEye}
-                              ></FontAwesomeIcon>
+                            <Link
+                              to={"/grupos/" + x.id}
+                              className="btn btn-info link"
+                            >
+                              <FontAwesomeIcon icon={faEye} />
                             </Link>
-                          </Col>
-                          <Col className="button">
                             {user.profile === "Administrador" && (
                               <Button
                                 variant="danger"
@@ -67,6 +69,7 @@ export default function ListGroups(props) {
                               </Button>
                             )}
                           </Col>
+                          <Col className="button"></Col>
                         </Row>
                       </td>
                     </tr>

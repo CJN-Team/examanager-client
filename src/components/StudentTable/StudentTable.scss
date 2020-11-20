@@ -16,3 +16,18 @@
     margin-left: 10px;
   }
 }
+
+Table {
+  max-width: 90%;
+  tbody {
+    tr {
+      td {
+        .button-col {
+          Button {
+            margin-left: 10px;
+          }
+        }
+      }
+    }
+  }
+}

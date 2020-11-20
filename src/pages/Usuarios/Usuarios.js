@@ -5,6 +5,7 @@ import BasicModal from "../../components/BasicModal/BasicModal";
 import ListUser from "../../components/ListUser/ListUser";
 import FileLoad from "../../components/FileLoad/FileLoad";
 import { listUsersAPI } from "../../api/usuarios";
+import useAuth from "../../hooks/useAuth";
 import "./Usuarios.scss";
 
 export default function Usuarios(props) {
@@ -14,6 +15,7 @@ export default function Usuarios(props) {
   const [usuariosAPI, setUsuarios] = useState(null);
   const [listState, setListState] = useState(1);
   const [loading, setLoading] = useState(true);
+  const user = useAuth();
 
   const title = userType === "Estudiante" ? "Estudiantes" : userType + "es";
   document.title = title;
@@ -29,6 +31,10 @@ export default function Usuarios(props) {
     setShowModal(true);
     setcontentModal(content);
   };
+
+  if (user.profile !== "Administrador") {
+    return <div>Acceso denegado.</div>;
+  }
 
   return (
     <Container className="usuarios-cont" fluid>

@@ -34,7 +34,7 @@ export default function StudentTable(props) {
 
   return (
     <>
-      <Table hover className="table" bordered={false}>
+      <Table hover className="table" bordered={true}>
         <thead>
           <tr>
             <th>ID</th>
@@ -59,7 +59,7 @@ export default function StudentTable(props) {
                   </td>
                   <td>
                     <Row>
-                      <Col className="button">
+                      <Col className="button-col">
                         {user.profile === "Estudiante" ? (
                           user.id === x.id && (
                             <Button
@@ -81,8 +81,6 @@ export default function StudentTable(props) {
                             <FontAwesomeIcon icon={faEye} />
                           </Button>
                         )}
-                      </Col>
-                      <Col className="button">
                         {user.profile === "Administrador" && (
                           <Button
                             variant="danger"
@@ -289,6 +287,7 @@ function NotasAlumno(props) {
           <tr>
             <th>Evaluación</th>
             <th>Nota</th>
+            <th>Ver</th>
           </tr>
         </thead>
         <tbody>
@@ -297,6 +296,11 @@ function NotasAlumno(props) {
               <tr>
                 <td>{capitalize(grade)}</td>
                 <td style={getColor(grades[grade])}>{grades[grade]}</td>
+                <td>
+                  <Button variant="info">
+                    <FontAwesomeIcon icon={faEye} />
+                  </Button>
+                </td>
               </tr>
             );
           })}

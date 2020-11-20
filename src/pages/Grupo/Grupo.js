@@ -7,7 +7,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import StudentTable from "../../components/StudentTable/StudentTable";
 import { toast } from "react-toastify";
 import BasicModal from "../../components/BasicModal/BasicModal";
-import { faCheck, faPen, faTimes } from "@fortawesome/free-solid-svg-icons";
 import useAuth from "../../hooks/useAuth";
 import { capitalize } from "../../utils/strings";
 import {
@@ -15,6 +14,12 @@ import {
   updateGroupAPI,
   getGroupProgressAPI,
 } from "../../api/grupos";
+import {
+  faCheck,
+  faPen,
+  faTimes,
+  faQuestionCircle,
+} from "@fortawesome/free-solid-svg-icons";
 
 import "./Grupo.scss";
 
@@ -24,9 +29,9 @@ function Grupo(props) {
   const { setRefreshLogin, match } = props;
   const [groupData, setGroupData] = useState(exampleInit);
   const [showModal, setShowModal] = useState(false);
-  const [profesor, setProfesor] = useState("init");
+  const [profesor, setProfesor] = useState("cargando...");
   const [listaProfesores, setListaProfesores] = useState([]);
-  const [listaAlumnos, setListaAlumnos] = useState([{ id: "init" }]);
+  const [listaAlumnos, setListaAlumnos] = useState([{ id: "cargando..." }]);
   const [changingTeacher, setChangingTeacher] = useState(false);
   const [progreso, setProgreso] = useState(null);
 
@@ -97,7 +102,7 @@ function Grupo(props) {
 
   return (
     <BasicLayout setRefreshLogin={setRefreshLogin} ruta="grupos">
-      <Form>
+      <Form className="grupo-cont">
         <Row>
           <h4>{capitalize(groupData.name)}</h4>
         </Row>
@@ -146,7 +151,8 @@ function Grupo(props) {
       <div className="progress">
         <h5>Progreso: </h5>
         <h5 onClick={() => setShowModal(true)} className="progress-num">
-          {progressToString(progreso)}
+          {progressToString(progreso)}{" "}
+          <FontAwesomeIcon icon={faQuestionCircle} className="icon" />
         </h5>
       </div>
       <h5>Estudiantes: </h5>

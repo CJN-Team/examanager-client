@@ -1,10 +1,29 @@
 @import "../../index.scss";
 
+.grupo-cont {
+  align-items: center;
+  h4 {
+    color: $primary-light;
+    text-align: start;
+    margin-left: 15px;
+  }
+}
+
+h5 {
+  color: $font-grey;
+  margin-top: 3px;
+}
+
 .progress {
   height: auto;
   background-color: $background-light;
   .progress-num {
     margin-left: 10px;
+    align-items: center;
+    .icon {
+      width: 12px;
+      height: 12px;
+    }
     &:hover {
       color: $primary-light;
     }

@@ -15,8 +15,10 @@
       padding: 0px 10px 0px 10px;
 
       tr {
-        height: 60px;
-        top: 50%;
+        height: fit-content;
+        vertical-align: center;
+        justify-content: center;
+        align-content: center;
 
         td {
           font-size: 24px;
@@ -26,12 +28,15 @@
 
         .button {
           max-width: 80px;
+          display: inline-flex;
 
-          .btn-ver {
-            color: #17a2b8;
+          .link {
+            width: 50px;
+            height: 40px;
           }
 
           Button {
+            margin-left: 10px;
             width: 50px;
             height: 40px;
           }

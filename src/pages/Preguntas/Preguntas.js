@@ -1,10 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { listQuestionsAPI } from "../../api/preguntas";
 import { listAsigmentApi } from "../../api/asigment";
+import useAuth from "../../hooks/useAuth";
 import CreateQuestion from "../../components/CreateQuestion/CreateQuestion";
 import ListQuestions from "../../components/ListQuestions/ListQuestions";
 import BasicLayout from "../../layouts/basicLayouts/BasicLayout";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { capitalize } from "../../utils/strings";
+import { faAngleLeft, faAngleRight } from "@fortawesome/free-solid-svg-icons";
 import {
   Button,
   Modal,
@@ -15,22 +18,21 @@ import {
   Spinner,
 } from "react-bootstrap";
 
-import { faAngleLeft, faAngleRight } from "@fortawesome/free-solid-svg-icons";
-
 import "./Preguntas.scss";
 
 export default function Preguntas(props) {
   const { setRefreshLogin } = props;
   const [showModal, setShowModal] = useState(false);
   const [contentModal, setcontentModal] = useState(null);
-  const [preguntasAPI, setPreguntas] = useState(["init"]);
-  const [asignaturas, setAsignaturas] = useState(["init"]);
-  const [temas, setTemas] = useState(["init"]);
+  const [preguntasAPI, setPreguntas] = useState([]);
+  const [asignaturas, setAsignaturas] = useState([]);
+  const [temas, setTemas] = useState([]);
   const [selectedTema, setSelectedTema] = useState("");
   const [selectedAsig, setSelectedAsig] = useState("");
   const [listState, setListState] = useState(1);
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(true);
+  const user = useAuth();
 
   useEffect(() => {
     async function cargarAsignaturas(asigs) {
@@ -97,6 +99,14 @@ export default function Preguntas(props) {
     setcontentModal(content);
   };
 
+  if (user.profile === "Estudiante") {
+    return (
+      <BasicLayout setRefreshLogin={setRefreshLogin} ruta="bank">
+        Acceso denegado.
+      </BasicLayout>
+    );
+  }
+
   return (
     <div>
       <BasicLayout setRefreshLogin={setRefreshLogin} ruta="bank">
@@ -117,7 +127,7 @@ export default function Preguntas(props) {
               asignaturas.map((x, i) => {
                 return (
                   <option value={i} key={i}>
-                    {x[0]}
+                    {capitalize(x[0])}
                   </option>
                 );
               })}
@@ -137,7 +147,7 @@ export default function Preguntas(props) {
                   temas.map((x, i) => {
                     return (
                       <option value={x} key={i}>
-                        {x}
+                        {capitalize(x)}
                       </option>
                     );
                   })}
