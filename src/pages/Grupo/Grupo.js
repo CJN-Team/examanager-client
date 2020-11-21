@@ -8,6 +8,7 @@ import StudentTable from "../../components/StudentTable/StudentTable";
 import { toast } from "react-toastify";
 import BasicModal from "../../components/BasicModal/BasicModal";
 import useAuth from "../../hooks/useAuth";
+import { Link } from "react-router-dom";
 import { capitalize } from "../../utils/strings";
 import {
   getGroupAPI,
@@ -19,6 +20,8 @@ import {
   faPen,
   faTimes,
   faQuestionCircle,
+  faArrowAltCircleRight,
+  faEye,
 } from "@fortawesome/free-solid-svg-icons";
 
 import "./Grupo.scss";
@@ -155,6 +158,18 @@ function Grupo(props) {
           <FontAwesomeIcon icon={faQuestionCircle} className="icon" />
         </h5>
       </div>
+      {user.profile !== "Estudiante" && (
+        <div className="exams-cont">
+          <h5>Evaluaciones: </h5>
+          <Link
+            to={`/grupos/${groupData.id}/examenes/`}
+            className="btn btn-info button-link exams-view"
+          >
+            <FontAwesomeIcon icon={faEye} />
+          </Link>
+        </div>
+      )}
+
       <h5>Estudiantes: </h5>
       <StudentTable
         alumnos={listaAlumnos}

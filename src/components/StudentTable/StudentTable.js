@@ -4,6 +4,7 @@ import { faTrash, faEye } from "@fortawesome/free-solid-svg-icons";
 import { updateGroupAPI, userGradesAPI } from "../../api/grupos";
 import { toast } from "react-toastify";
 import { capitalize } from "../../utils/strings";
+import { Link } from "react-router-dom";
 import BasicModal from "../BasicModal/BasicModal";
 import useAuth from "../../hooks/useAuth";
 
@@ -287,6 +288,7 @@ function NotasAlumno(props) {
           <tr>
             <th>Evaluación</th>
             <th>Nota</th>
+            <th>Estado</th>
             <th>Ver</th>
           </tr>
         </thead>
@@ -295,11 +297,21 @@ function NotasAlumno(props) {
             return (
               <tr>
                 <td>{capitalize(grade)}</td>
-                <td style={getColor(grades[grade])}>{grades[grade]}</td>
+                <td style={getColor(grades[grade])}>{grades[grade].Grade}</td>
                 <td>
-                  <Button variant="info">
-                    <FontAwesomeIcon icon={faEye} />
-                  </Button>
+                  {grades[grade].Status ? (
+                    <div className="open">Abierto</div>
+                  ) : (
+                    <> Cerrado </>
+                  )}
+                </td>
+                <td>
+                  <Link
+                    to={`/grupos/${gid}/examen/${grades[grade].ID}`}
+                    className="btn btn-info button-link"
+                  >
+                    <FontAwesomeIcon icon={faEye}></FontAwesomeIcon>
+                  </Link>
                 </td>
               </tr>
             );

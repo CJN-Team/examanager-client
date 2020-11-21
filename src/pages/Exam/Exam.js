@@ -8,8 +8,8 @@ import DefaultAvatar from "../../assets/images/DefaultAvatar.png";
 import useAuth from "../../hooks/useAuth";
 import { API_HOST } from "../../utils/constants.js";
 import { withRouter } from "react-router-dom";
-import { getExamApi } from "../../api/examenes"
-import { getQuestionApi } from "../../api/preguntas"
+import { getExamApi } from "../../api/examenes";
+import { getQuestionApi } from "../../api/preguntas";
 
 import "./Exam.scss";
 
@@ -44,27 +44,27 @@ function Exam(props) {
 
 function Body(props) {
   const { openModal, setShowModal, examID } = props;
-  const [exam, setExam] = useState({"question": []});
-  const [ questions, setQuestions ] = useState({})
-  const [ examState, setExamState ] = useState(1);
+  const [exam, setExam] = useState({ question: [] });
+  const [questions, setQuestions] = useState({});
+  const [examState, setExamState] = useState(1);
 
   useEffect(() => {
     getExamApi(examID).then((response) => {
-      var e = response
-      e["view"] = false
-      e["state"] = false
-      e["finish"] = false
-      console.log(e)
+      var e = response;
+      e["view"] = false;
+      e["state"] = false;
+      e["finish"] = false;
+      console.log(e);
       setExam(e);
-      var q = {}
-      for(var i in response["question"]){
+      var q = {};
+      for (var i in response["question"]) {
         getQuestionApi(response["question"][i]).then((response) => {
           q[i] = response;
         });
       }
-      setQuestions(q)
+      setQuestions(q);
 
-      return body(exam.finish)
+      return body(exam.finish);
     });
   }, []);
 
@@ -83,7 +83,7 @@ function Body(props) {
           <Col className="info">
             <InfoExam exam={exam}></InfoExam>
           </Col>
-        </Row>        
+        </Row>
       );
     } else {
       return (
@@ -107,27 +107,27 @@ function Body(props) {
 function Examen(props) {
   const { openModal, setShowModal, exam, setFinish, q } = props;
   const puntos = Object.entries(exam["question"]);
-  const [ puntosDic, setPuntosDic ] = useState(exam["question"])
-  const [ comment, setComment ] = useState("")
+  const [puntosDic, setPuntosDic] = useState(exam["question"]);
+  const [comment, setComment] = useState("");
   const [formData, setFormData] = useState({});
   const user = useAuth();
   const pictureURL = `${API_HOST}/photo?id=${user.id}`;
-  const profile = "Profesor"
+  const profile = "Profesor";
 
-  var editDisabled = true
+  var editDisabled = true;
 
   if (profile === "Profesor" && exam["finish"]) {
-      editDisabled = false
+    editDisabled = false;
   }
 
   const dicPreguntas = () => {
-    var questions = {}
+    var questions = {};
 
-    for( var i in exam["questions"]) {
-        questions[i] = q[i]
+    for (var i in exam["questions"]) {
+      questions[i] = q[i];
     }
-    return questions
-  }
+    return questions;
+  };
 
   const preguntas = Object.entries(dicPreguntas());
 
@@ -161,7 +161,7 @@ function Examen(props) {
         rows="5"
         cols="100"
         name={number}
-        value={ exam["finish"] ? puntosDic[number][1] : formData.number}
+        value={exam["finish"] ? puntosDic[number][1] : formData.number}
         disabled={exam["finish"]}
         onChange={(e) => {
           var form = formData;
@@ -188,7 +188,7 @@ function Examen(props) {
                   name={number}
                   value={x}
                   disabled={exam["finish"]}
-                  checked={(exam["finish"] && puntosDic[number][1].includes(x))}
+                  checked={exam["finish"] && puntosDic[number][1].includes(x)}
                   onClick={(e) => {
                     var form = formData;
                     if (form[number] == null) {
@@ -228,7 +228,7 @@ function Examen(props) {
             id="verdadero"
             value="true"
             disabled={exam["finish"]}
-            checked={(exam["finish"] && puntosDic[number][1] )}
+            checked={exam["finish"] && puntosDic[number][1]}
             onClick={(e) => {
               var form = formData;
               form[number] = e.target.value;
@@ -247,7 +247,7 @@ function Examen(props) {
             id="falso"
             value="false"
             disabled={exam["finish"]}
-            checked={(exam["finish"] && puntosDic[number][1]===false)}
+            checked={exam["finish"] && puntosDic[number][1] === false}
             onClick={(e) => {
               var form = formData;
               form[number] = e.target.value;
@@ -278,7 +278,7 @@ function Examen(props) {
                   id={x}
                   value={x}
                   disabled={exam["finish"]}
-                  checked={(exam["finish"] && puntosDic[number][1].includes(x))}
+                  checked={exam["finish"] && puntosDic[number][1].includes(x)}
                   onClick={(e) => {
                     var form = formData;
                     form[number] = e.target.value;
@@ -322,22 +322,22 @@ function Examen(props) {
   };
 
   const correct = (pos, res, cat) => {
-      if (exam["view" === false]) {
-          return "non"
-      } else {
-          if ( cat === "mult") {
-              console.log(puntosDic[pos][2])
-            if (puntosDic[pos][2].includes(res)) {
-                return "corr"
-            }
-          } else{
-            if (puntosDic[pos][2] === res) {
-                return "corr"
-            }
-          }
+    if (exam["view" === false]) {
+      return "non";
+    } else {
+      if (cat === "mult") {
+        console.log(puntosDic[pos][2]);
+        if (puntosDic[pos][2].includes(res)) {
+          return "corr";
         }
-        return "non"
-  }
+      } else {
+        if (puntosDic[pos][2] === res) {
+          return "corr";
+        }
+      }
+    }
+    return "non";
+  };
 
   return (
     <div>
@@ -382,73 +382,76 @@ function Examen(props) {
                   <Col className={showResponse(i)}>
                     <h5>{[i + 1] + " " + x[1]["question"] + " (25%)"}</h5>
                   </Col>
-                  { 
-                    exam["finish"] === true ? 
+                  {exam["finish"] === true ? (
                     <Col className="puntaje">
-                        <Row>
-                            <h5>Puntaje:</h5>
-                            {
-                                editDisabled ? <h5>{puntos[i][1][0]}</h5> : 
-                                <Form.Control
-                                    type="number"
-                                    value={puntosDic[puntos[i][0]][0]}
-                                    name={"puntoP "+puntos[i][0]}
-                                    onChange={(e) => {
-                                        var form = puntosDic
-                                        console.log(puntos[i][0])
-                                        form[puntos[i][0]][0] = e.target.value !== "" ? parseInt(e.target.value) : 0
-                                        setPuntosDic(form)
-                                        console.log(puntosDic)
-                                    }}
-                                />
-                            }                            
-                        </Row>                    
+                      <Row>
+                        <h5>Puntaje:</h5>
+                        {editDisabled ? (
+                          <h5>{puntos[i][1][0]}</h5>
+                        ) : (
+                          <Form.Control
+                            type="number"
+                            value={puntosDic[puntos[i][0]][0]}
+                            name={"puntoP " + puntos[i][0]}
+                            onChange={(e) => {
+                              var form = puntosDic;
+                              console.log(puntos[i][0]);
+                              form[puntos[i][0]][0] =
+                                e.target.value !== ""
+                                  ? parseInt(e.target.value)
+                                  : 0;
+                              setPuntosDic(form);
+                              console.log(puntosDic);
+                            }}
+                          />
+                        )}
+                      </Row>
                     </Col>
-                     : 
+                  ) : (
                     <div></div>
-                  }                  
+                  )}
                 </Row>
                 {tipoPregunta(x[1]["category"], x[1]["options"], x[0])}
               </div>
             );
           })}
-            {
-                exam["finish"] ? 
-                    profile === "Profesor" ?
-                    <>
-                    <div className="comentario">
-                        <div>Comentarios</div>
-                        <textarea
-                            rows="5"
-                            cols="100"
-                            name="comment"
-                            value={comment}
-                            onChange={(e) => {
-                                setComment(e.target.value);
-                            }}
-                        ></textarea>
-                    </div>
-                    <div className="btn-cont">
-                        <Button
-                        className="btn-update"
-                        onClick={() => openModal(<Seguro></Seguro>)}
-                        >
-                        Actualizar Examen
-                        </Button>
-                    </div>
-                    </>
-                    :
-                    <div></div>
-                :
-                <div className="btn-cont">
-                    <Button
-                    className="btn-create"
-                    onClick={() => openModal(<Seguro></Seguro>)}
-                    >
-                    Enviar Examen
-                    </Button>
+          {exam["finish"] ? (
+            profile === "Profesor" ? (
+              <>
+                <div className="comentario">
+                  <div>Comentarios</div>
+                  <textarea
+                    rows="5"
+                    cols="100"
+                    name="comment"
+                    value={comment}
+                    onChange={(e) => {
+                      setComment(e.target.value);
+                    }}
+                  ></textarea>
                 </div>
-            }            
+                <div className="btn-cont">
+                  <Button
+                    className="btn-update"
+                    onClick={() => openModal(<Seguro></Seguro>)}
+                  >
+                    Actualizar Examen
+                  </Button>
+                </div>
+              </>
+            ) : (
+              <div></div>
+            )
+          ) : (
+            <div className="btn-cont">
+              <Button
+                className="btn-create"
+                onClick={() => openModal(<Seguro></Seguro>)}
+              >
+                Enviar Examen
+              </Button>
+            </div>
+          )}
         </Form>
       </div>
     </div>

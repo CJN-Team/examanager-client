@@ -14,6 +14,19 @@ h5 {
   margin-top: 3px;
 }
 
+.exams-cont {
+  height: auto;
+  display: inline-flex;
+  background-color: $background-light;
+  .exams-view {
+    height: 30px;
+    margin-left: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+}
+
 .progress {
   height: auto;
   background-color: $background-light;

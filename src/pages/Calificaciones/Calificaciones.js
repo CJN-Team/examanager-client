@@ -2,9 +2,11 @@ import React, { useState, useEffect } from "react";
 import useAuth from "../../hooks/useAuth";
 import BasicLayout from "../../layouts/basicLayouts/BasicLayout";
 import { Spinner } from "react-bootstrap";
+import { Link } from "react-router-dom";
 import { userAllGradesAPI } from "../../api/usuarios";
 import { capitalize } from "../../utils/strings";
-import { getGroupAPI } from "../../api/grupos";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEye } from "@fortawesome/free-solid-svg-icons";
 
 import "./Calificaciones.scss";
 
@@ -59,6 +61,8 @@ export default function Calificaciones(props) {
                       <tr>
                         <th>Evaluación</th>
                         <th>Nota</th>
+                        <th>Estado</th>
+                        <th>Ver</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -66,8 +70,25 @@ export default function Calificaciones(props) {
                         return (
                           <tr key={j}>
                             <td>{capitalize(y)}</td>
-                            <td style={getColor(grades[x][y])}>
-                              {grades[x][y]}
+                            <td style={getColor(grades[x][y].Grade)}>
+                              {grades[x][y].Grade}
+                            </td>
+                            <td>
+                              {grades[x][y].Status ? (
+                                <div className="open">Abierto</div>
+                              ) : (
+                                <> Cerrado </>
+                              )}
+                            </td>
+                            <td>
+                              <Link
+                                to={`/grupos/${x.split(",")[0]}/examen/${
+                                  grades[x][y].ID
+                                }`}
+                                className="btn btn-info button-link"
+                              >
+                                <FontAwesomeIcon icon={faEye}></FontAwesomeIcon>
+                              </Link>
                             </td>
                           </tr>
                         );
