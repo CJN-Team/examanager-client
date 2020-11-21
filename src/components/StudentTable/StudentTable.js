@@ -297,7 +297,9 @@ function NotasAlumno(props) {
             return (
               <tr>
                 <td>{capitalize(grade)}</td>
-                <td style={getColor(grades[grade])}>{grades[grade].Grade}</td>
+                <td style={getColor(grades[grade].Grade)}>
+                  {grades[grade].Grade}
+                </td>
                 <td>
                   {grades[grade].Status ? (
                     <div className="open">Abierto</div>
