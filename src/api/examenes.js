@@ -66,8 +66,8 @@ export function updateExamApi(data, id) {
     });
 }
 
-export function deleteExamApi(subject) {
-  const url = API_HOST;
+export function deleteExamApi(id) {
+  const url = API_HOST + "/exam?id=" + id;
 
   const params = {
     method: "DELETE",
@@ -166,3 +166,90 @@ export function generateExamPdfAPI(id) {
       return err;
     });
 }
+
+export function generateExamsApi(id) {
+  const url = API_HOST + `/examgenerator?id=${id}`;
+
+  const params = {
+    method: "PUT",
+    headers: {
+      "Content-type": "application/json",
+      Authorization: "Bearer" + localStorage.getItem(TOKEN),
+    },
+  };
+
+  return fetch(url, params)
+    .then((response) => {
+      if (response.status >= 200 && response.status < 300) {
+        return response.status;
+      }
+      return { message: "No se han podido generar los examenes" };
+    })
+    .catch((err) => {
+      return err;
+    });
+}
+
+export function gradingAutExamApi(data) {
+  const url = API_HOST + "/generatedexam";
+
+  const exam = {
+    ...data,
+  };
+
+  const params = {
+    method: "POST",
+    headers: {
+      "Content-type": "application/json",
+      Authorization: "Bearer" + localStorage.getItem(TOKEN),
+    },
+    body: JSON.stringify(exam),
+  };
+
+  return fetch(url, params)
+    .then((response) => {
+      console.log(response.status);
+      if (response.status >= 200 && response.status < 300) {
+        return response.json();
+      }
+      console.log(response);
+      return { code: 404, message: "Error al calificar examen" };
+    })
+    .then((result) => {
+      return result;
+    })
+    .catch((err) => {
+      return err;
+    });
+}
+
+export function updateCommentApi(data, id) {
+  const url = API_HOST + `/generatedexam?id=${id}`;
+
+  const exam = {
+    ...data,
+  };
+
+  const params = {
+    method: "PUT",
+    headers: {
+      "Content-type": "application/json",
+      Authorization: "Bearer" + localStorage.getItem(TOKEN),
+    },
+    body: JSON.stringify(exam)
+  };
+
+  return fetch(url, params)
+    .then((response) => {
+      if (response.status >= 200 && response.status < 300) {
+        return response.status;
+      }
+      return { message: "No se actualizó el comentario del examen" };
+    })
+    .catch((err) => {
+      return err;
+    });
+}
+
+
+

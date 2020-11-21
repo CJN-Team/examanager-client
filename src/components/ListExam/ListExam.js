@@ -15,23 +15,24 @@ export default function ListExam(props) {
   const [contentModal, setContentModal] = useState(null);
   const [showModal, setShowModal] = useState(false);
 
-  var examenes = Object.entries(examList);
-
   if (examList == null || examList.message === "Fallo") {
     return (
       <div>
-        <h4>La consulta no recuperó resultados</h4>
+        <h5>La consulta no recuperó resultados</h5>
       </div>
     );
   }
+
+  var examenes = Object.entries(examList);  
 
   const openModal = (content) => {
     setShowModal(true);
     setContentModal(content);
   };
 
-  const deleteExam = (subject) => {
-    deleteExamApi(subject)
+  const deleteExam = (id) => {
+    console.log(id)
+    deleteExamApi(id)
       .then((response) => {
         if (response.code) {
           toast.warning(response.message);
@@ -89,7 +90,7 @@ export default function ListExam(props) {
                     </Button>
                   </Col>
                   <Col className="button">
-                    <Button variant="danger" onClick={() => deleteExam(x[0])}>
+                    <Button variant="danger" onClick={() => deleteExam(x[1]["id"])}>
                       <FontAwesomeIcon icon={faTrash}></FontAwesomeIcon>
                     </Button>
                   </Col>

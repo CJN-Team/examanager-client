@@ -1,10 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { Row, Col, Form, Button, Spinner } from "react-bootstrap";
-import { values, size } from "lodash";
+import { values } from "lodash";
 import { toast } from "react-toastify";
-import { createExamApi } from "../../api/examenes";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTimes } from "@fortawesome/free-solid-svg-icons";
+import { createExamApi, generateExamsApi } from "../../api/examenes";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { getGroupAPI } from "../../api/grupos";
@@ -58,10 +56,20 @@ export default function CreateExam(props) {
           if (response.code) {
             toast.warning(response.message);
           } else {
-            toast.success("Se creó el examen exitosamente");
-            setListState(!listState)
-            setShowModal(false);
-            setFormData(initialValues());
+            generateExamsApi(response.id).then((response) => {
+              if (response.code) {
+                toast.warning(response.message);
+              }else {
+                toast.success("Se crearon los exámenes exitosamente");
+                setListState(!listState)
+                setShowModal(false);
+                setFormData(initialValues());
+              }
+            })
+            .catch((err) => {
+              console.log(err);
+              toast.error("Error del servidor, intente más tarde");
+            })
           }
         })
         .catch((err) => {

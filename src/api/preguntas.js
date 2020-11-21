@@ -125,7 +125,6 @@ export function deleteQuestionsAPI(id) {
 
 export function getQuestionApi(id) {
   const url = API_HOST + "/getonequestion?id=" + id;
-
   const params = {
     method: "GET",
     headers: {
@@ -139,7 +138,7 @@ export function getQuestionApi(id) {
       if (response.status >= 200 && response.status < 300) {
         return response.json();
       }
-      return { message: "Fallo" };
+      return { message: "Fallo recuepración de pregunta" };
     })
     .catch((err) => {
       return err;

@@ -3,13 +3,14 @@ import BasicModal from "../../components/BasicModal/BasicModal.js";
 import React, { useState, useEffect } from "react";
 import { Container, Col, Button, Row, Form } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faSmileBeam } from "@fortawesome/free-solid-svg-icons";
+import { faSmileBeam, faClock } from "@fortawesome/free-solid-svg-icons";
 import DefaultAvatar from "../../assets/images/DefaultAvatar.png";
 import useAuth from "../../hooks/useAuth";
 import { API_HOST } from "../../utils/constants.js";
 import { withRouter } from "react-router-dom";
-import { getExamApi } from "../../api/examenes";
+import { getExamApi, gradingAutExamApi, updateCommentApi } from "../../api/examenes";
 import { getQuestionApi } from "../../api/preguntas";
+import { toast } from "react-toastify";
 
 import "./Exam.scss";
 
@@ -42,115 +43,143 @@ function Exam(props) {
   );
 }
 
+async function searchQuestions(response) {
+  var q = {};
+  for (var i in response["question"]) {
+    await getQuestionApi(i).then((response) => {
+      q[response.id] = response
+    });
+  }
+  return q;
+}
+
 function Body(props) {
   const { openModal, setShowModal, examID } = props;
-  const [exam, setExam] = useState({ question: [] });
+  const [exam, setExam] = useState({ question: {} });
   const [questions, setQuestions] = useState({});
   const [examState, setExamState] = useState(1);
 
   useEffect(() => {
     getExamApi(examID).then((response) => {
-      var e = response;
-      e["view"] = false;
-      e["state"] = false;
-      e["finish"] = false;
-      console.log(e);
-      setExam(e);
-      var q = {};
-      for (var i in response["question"]) {
-        getQuestionApi(response["question"][i]).then((response) => {
-          q[i] = response;
-        });
-      }
-      setQuestions(q);
-
-      return body(exam.finish);
+      setExam(response);
+      searchQuestions(response).then(v => {
+        var q = v
+        setQuestions(q)
+      })      
+      return body();
     });
-  }, []);
+  }, [examState]);
 
-  const body = (finish) => {
-    if (!finish) {
-      return (
-        <Row className="body">
-          <Col className="examen">
-            <Examen
-              openModal={openModal}
-              setShowModal={setShowModal}
-              exam={exam}
-              q={questions}
-            ></Examen>
-          </Col>
-          <Col className="info">
-            <InfoExam exam={exam}></InfoExam>
-          </Col>
-        </Row>
-      );
-    } else {
-      return (
-        <div className="finish">
-          <div>
-            <div className="finish-icon">
-              <FontAwesomeIcon icon={faSmileBeam}></FontAwesomeIcon>
+  const body = () => {
+    if(exam.state) {
+      if (!exam.finish) {
+        return (
+          <Row className="body">
+            <Col className="examen">
+              <Examen
+                openModal={openModal}
+                setShowModal={setShowModal}
+                exam={exam}
+                q={questions}
+                examState={examState}
+                setExamState={setExamState}
+              ></Examen>
+            </Col>
+            <Col className="info">
+              <InfoExam exam={exam}></InfoExam>
+            </Col>
+          </Row>
+        );
+      } else {
+          return (
+            <div className="finish">
+              <div>
+                <div className="finish-icon">
+                  <FontAwesomeIcon icon={faSmileBeam}></FontAwesomeIcon>
+                </div>
+                <div className="finish-text">
+                  <h5>Has finalizado el examen, pronto obtendrás los resultados</h5>
+                </div>
+              </div>
             </div>
-            <div className="finish-text">
-              <h5>Has finalizado el examen, pronto obtendrás los resultados</h5>
+          );       
+      }
+    } else {
+      if(exam.view) {
+          return (
+            <Row className="body">
+              <Col className="examen">
+                <Examen
+                  openModal={openModal}
+                  setShowModal={setShowModal}
+                  exam={exam}
+                  q={questions}
+                  examState={examState}
+                  setExamState={setExamState}
+                ></Examen>
+              </Col>
+              <Col className="info">
+                <InfoExam exam={exam}></InfoExam>
+              </Col>
+            </Row>
+          );
+      } else {
+        return (
+          <div className="finish">
+            <div>
+              <div className="finish-icon">
+                <FontAwesomeIcon icon={faClock}></FontAwesomeIcon>
+              </div>
+              <div className="finish-text">
+                <h5>El examen está cerrado, espera a que el profesor lo habilite.</h5>
+              </div>
             </div>
           </div>
-        </div>
-      );
-    }
+        );
+      }      
+    }    
   };
 
-  return body(exam.finish);
+  return body();
 }
 
 function Examen(props) {
-  const { openModal, setShowModal, exam, setFinish, q } = props;
+  const { openModal, setShowModal, exam, setExamState, q, examState } = props;
   const puntos = Object.entries(exam["question"]);
+  console.log(exam)
   const [puntosDic, setPuntosDic] = useState(exam["question"]);
-  const [comment, setComment] = useState("");
-  const [formData, setFormData] = useState({});
+  const [comment, setComment] = useState("");  
   const user = useAuth();
   const pictureURL = `${API_HOST}/photo?id=${user.id}`;
   const profile = "Profesor";
 
   var editDisabled = true;
-
   if (profile === "Profesor" && exam["finish"]) {
     editDisabled = false;
   }
 
-  const dicPreguntas = () => {
-    var questions = {};
+  const [formData, setFormData] = useState({
+    examid: exam.id,
+    option: editDisabled ? "auto" : "manual",
+    questions: {}
+  });
 
-    for (var i in exam["questions"]) {
-      questions[i] = q[i];
-    }
-    return questions;
-  };
-
-  const preguntas = Object.entries(dicPreguntas());
+  const preguntas = Object.entries(q);
+  console.log(exam)
 
   const tipoPregunta = (pregunta, info, number) => {
-    if (pregunta === "abierta") {
+    if (pregunta === "Pregunta abierta") {
       return <Abierta number={number}></Abierta>;
     }
-    if (pregunta === "multiple") {
+    if (pregunta === "Selección múltiple") {
       return <Multiple info={info} number={number}></Multiple>;
     }
-    if (pregunta === "unica") {
+    if (pregunta === "Respuesta única") {
       return <Unica info={info} number={number}></Unica>;
     }
-    if (pregunta === "vf") {
+    if (pregunta === "Verdadero o falso") {
       return <VF number={number}></VF>;
     }
-  };
-
-  const onSubmit = (e) => {
-    e.preventDefault();
-    console.log(formData);
-    setShowModal(false);
-    setFinish(false);
   };
 
   const Abierta = (props) => {
@@ -161,11 +190,11 @@ function Examen(props) {
         rows="5"
         cols="100"
         name={number}
-        value={exam["finish"] ? puntosDic[number][1] : formData.number}
+        value={exam["finish"] ? puntosDic[number][1] : formData.questions.number}
         disabled={exam["finish"]}
         onChange={(e) => {
           var form = formData;
-          form[number] = e.target.value;
+          form.questions[number] = [e.target.value];
           setFormData(form);
         }}
       ></textarea>
@@ -177,28 +206,28 @@ function Examen(props) {
 
     return (
       <div>
-        {info.map((x) => {
+        {info.map((x, i) => {
           return (
             <div class="col-sm-10">
               <div class="form-check">
                 <input
                   class="form-check-input"
                   type="checkbox"
-                  id={x}
+                  id={number}
                   name={number}
-                  value={x}
+                  value={parseInt(i)}
                   disabled={exam["finish"]}
-                  checked={exam["finish"] && puntosDic[number][1].includes(x)}
+                  checked={exam["finish"] ? puntosDic[number][1].includes(x) ? true : false : null}
                   onClick={(e) => {
                     var form = formData;
-                    if (form[number] == null) {
-                      form[number] = [e.target.value];
+                    if (form.questions[number] == null) {
+                      form.questions[number] = [parseInt(e.target.value)];
                     } else {
-                      if (form[number].includes(e.target.value)) {
-                        let pos = form[number].indexOf(e.target.value);
-                        let x = form[number].splice(pos, 1);
+                      if (form.questions[number].includes(parseInt(e.target.value))) {
+                        let pos = form.questions[number].indexOf(parseInt(e.target.value));
+                        let x = form.questions[number].splice(pos, 1);
                       } else {
-                        form[number].push(e.target.value);
+                        form.questions[number].push(parseInt(e.target.value));
                       }
                     }
                     setFormData(form);
@@ -226,12 +255,12 @@ function Examen(props) {
             type="radio"
             name={number}
             id="verdadero"
-            value="true"
+            value={0}
             disabled={exam["finish"]}
-            checked={exam["finish"] && puntosDic[number][1]}
+            checked={exam["finish"] ? puntosDic[number][1] ? true : false : null}
             onClick={(e) => {
               var form = formData;
-              form[number] = e.target.value;
+              form.questions[number] = [parseInt(e.target.value)];
               setFormData(form);
             }}
           ></input>
@@ -245,12 +274,12 @@ function Examen(props) {
             type="radio"
             name={number}
             id="falso"
-            value="false"
+            value={1}
             disabled={exam["finish"]}
-            checked={exam["finish"] && puntosDic[number][1] === false}
+            checked={exam["finish"] ? puntosDic[number][1] === false ? true : false : null}
             onClick={(e) => {
               var form = formData;
-              form[number] = e.target.value;
+              form.questions[number] = [parseInt(e.target.value)];
               setFormData(form);
             }}
           ></input>
@@ -267,7 +296,7 @@ function Examen(props) {
 
     return (
       <div>
-        {info.map((x) => {
+        {info.map((x, i) => {
           return (
             <div class="col-sm-10" key={x}>
               <div class="form-check">
@@ -276,12 +305,13 @@ function Examen(props) {
                   type="radio"
                   name={number}
                   id={x}
-                  value={x}
+                  value={parseInt(i)}
                   disabled={exam["finish"]}
-                  checked={exam["finish"] && puntosDic[number][1].includes(x)}
+                  checked={exam["finish"] ? puntosDic[number][1].includes(x) ? true : false : null}
                   onClick={(e) => {
                     var form = formData;
-                    form[number] = e.target.value;
+                    console.log(form)
+                    form.questions[number] = [parseInt(e.target.value)];
                     setFormData(form);
                   }}
                 ></input>
@@ -294,6 +324,27 @@ function Examen(props) {
         })}
       </div>
     );
+  };
+
+  const onSubmit = (e) => {
+    e.preventDefault();
+    console.log(formData);
+    gradingAutExamApi(formData).then((response) => {
+      if (response.code) {
+        toast.warning(response.message);
+      }else {
+        toast.success("Se envió el examen exitosamente");   
+        setExamState(!examState) 
+        setFormData({});    
+      }
+    })
+    .catch((err) => {
+      console.log(err);
+      toast.error("Error del servidor, intente más tarde");
+    })
+    .finally(() => {      
+      setShowModal(false);      
+    })
   };
 
   const Seguro = () => {
@@ -310,7 +361,7 @@ function Examen(props) {
   };
 
   const showResponse = (i) => {
-    if (exam["view"] === false || preguntas[i][1]["category"] === "abierta") {
+    if (exam["view"] === false || preguntas[i][1]["category"] === "Pregunta abierta") {
       return "enunciado";
     } else {
       if (puntos[i][1][0] === 0) {
@@ -325,18 +376,38 @@ function Examen(props) {
     if (exam["view" === false]) {
       return "non";
     } else {
-      if (cat === "mult") {
-        console.log(puntosDic[pos][2]);
-        if (puntosDic[pos][2].includes(res)) {
+      if (cat === "mult") {        
+        if (q[pos].answer.includes(res)) {
           return "corr";
         }
       } else {
-        if (puntosDic[pos][2] === res) {
+        if (q[pos].answer === res) {
           return "corr";
         }
       }
     }
     return "non";
+  };
+
+  const updateExam = (e) => {
+    e.preventDefault();
+    console.log(comment);
+    updateCommentApi(formData, exam.id).then((response) => {
+      if (response.code) {
+        toast.warning(response.message);
+      }else {
+        toast.success("Se actualizó el examen exitosamente");   
+        setExamState(!examState) 
+        setFormData({});    
+      }
+    })
+    .catch((err) => {
+      console.log(err);
+      toast.error("Error del servidor, intente más tarde");
+    })
+    .finally(() => {      
+      setShowModal(false);      
+    })
   };
 
   return (
@@ -361,13 +432,14 @@ function Examen(props) {
                 <h5>{exam["student"]}</h5>
               </Col>
               <Col>
-                <h6>fecha: 23/11/2020</h6>
+                <h6>{new Date(exam.date).toLocaleDateString("es-ES")}</h6>
+                <h4>{"Nota:" + exam.grade}</h4>
               </Col>
             </Row>
 
             <div>
               <h6>{exam["name"]}</h6>
-              <h6>Lenguajes de programación</h6>
+              <h6>{exam.topic}</h6>
               <h6>{exam["teacher"]}</h6>
             </div>
           </Col>
@@ -380,7 +452,7 @@ function Examen(props) {
               <div className="pregunta">
                 <Row className="top">
                   <Col className={showResponse(i)}>
-                    <h5>{[i + 1] + " " + x[1]["question"] + " (25%)"}</h5>
+                    <h5>{[i + 1] + ". " + x[1]["question"] + " (25%)"}</h5>
                   </Col>
                   {exam["finish"] === true ? (
                     <Col className="puntaje">
@@ -433,7 +505,9 @@ function Examen(props) {
                 <div className="btn-cont">
                   <Button
                     className="btn-update"
-                    onClick={() => openModal(<Seguro></Seguro>)}
+                    onClick={(e) => 
+                      updateExam(e)
+                    }
                   >
                     Actualizar Examen
                   </Button>
