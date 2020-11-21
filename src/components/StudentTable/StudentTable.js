@@ -295,13 +295,13 @@ function NotasAlumno(props) {
         <tbody>
           {Object.keys(grades).map((grade, index) => {
             return (
-              <tr>
+              <tr key={index}>
                 <td>{capitalize(grade)}</td>
                 <td style={getColor(grades[grade].Grade)}>
                   {grades[grade].Grade}
                 </td>
                 <td>
-                  {grades[grade].Status ? (
+                  {grades[grade].State ? (
                     <div className="open">Abierto</div>
                   ) : (
                     <> Cerrado </>

@@ -74,7 +74,7 @@ export default function Calificaciones(props) {
                               {grades[x][y].Grade}
                             </td>
                             <td>
-                              {grades[x][y].Status ? (
+                              {grades[x][y].State ? (
                                 <div className="open">Abierto</div>
                               ) : (
                                 <> Cerrado </>
