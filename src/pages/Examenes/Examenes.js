@@ -44,7 +44,6 @@ function Exam (props) {
   const { openModal, setShowModal, groupID, url} = props;
   const [ examenes, setExamenes] = useState({"1":{}});
   const [ listState, setListState ] = useState(1);
-  const [ prueba, setPrueba ] = useState(false);
 
   useEffect(() => {
     listExamsApi(groupID).then((response) => {

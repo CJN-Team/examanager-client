@@ -436,7 +436,7 @@ function Examen(props) {
               </Col>
               <Col>
                 <h6>{new Date(exam.date).toLocaleDateString("es-ES")}</h6>
-                <h4>{"Nota:" + exam.grade}</h4>
+                <h4>{exam.view ? "Nota" + exam.grade : ""}</h4>
               </Col>
             </Row>
 

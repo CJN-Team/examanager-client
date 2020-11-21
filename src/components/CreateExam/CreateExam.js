@@ -3,6 +3,7 @@ import { Row, Col, Form, Button, Spinner } from "react-bootstrap";
 import { values } from "lodash";
 import { toast } from "react-toastify";
 import { createExamApi, generateExamsApi } from "../../api/examenes";
+import { listOneAsigmentApi } from "../../api/asigment";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { getGroupAPI } from "../../api/grupos";
@@ -14,6 +15,7 @@ export default function CreateExam(props) {
   const [ groupData, setGroupData ] = useState({})
   const [createExamLoading, setCreateExamLoading] = useState(false);
   const [formData, setFormData] = useState(initialValues());
+  const [ topics, setTopics ] = useState([])
 
   useEffect(() => {
     getGroupAPI(groupID).then((response) => {
@@ -25,7 +27,11 @@ export default function CreateExam(props) {
       formData["groupId"] = groupID;
       formData["institution"] = groupData["institution"];
       formData["subjectID"] = groupData["subject"];
+      console.log(groupData["subject"])
+      
   }, [groupData])
+
+  
 
 
   const handleInputChange = (e, index) => {
