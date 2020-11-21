@@ -79,7 +79,7 @@ export function getUserAPI(id) {
       if (response.status >= 200 && response.status < 300) {
         return response.json();
       }
-      return { code: 404, message: "Error al registrar usuario" };
+      return { code: 404, message: "Error al encontrar usuario." };
     })
     .then((result) => {
       return result;
