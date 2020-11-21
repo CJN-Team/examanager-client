@@ -36,7 +36,11 @@ export default function ListDepts(props) {
     setShowModal(true);
   };
 
-  if (listaDepts == null || listaDepts.message === "Fallo") {
+  if (
+    listaDepts == null ||
+    listaDepts.message === "Fallo" ||
+    Object.keys(listaDepts).length == 0
+  ) {
     return (
       <div>
         <h4>La consulta no recuperó resultados</h4>

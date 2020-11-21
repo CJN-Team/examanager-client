@@ -46,7 +46,11 @@ function Profile(props) {
     );
   }
 
-  if (userData === null || userData.code === 404) {
+  if (
+    userData == null ||
+    userData.code === 404 ||
+    Object.keys(userData).length == 0
+  ) {
     return (
       <BasicLayout setRefreshLogin={setRefreshLogin} ruta="perfil">
         <h5>No se ha encontrado este perfil.</h5>
