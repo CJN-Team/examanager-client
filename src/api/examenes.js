@@ -158,7 +158,7 @@ export function generateExamPdfAPI(id) {
   return fetch(url, params)
     .then((response) => {
       if (response.status >= 200 && response.status < 300) {
-        return response.json();
+        return response.status;
       }
       return { message: "No se ha podido generar el PDF" };
     })
