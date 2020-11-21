@@ -8,7 +8,11 @@ import DefaultAvatar from "../../assets/images/DefaultAvatar.png";
 import useAuth from "../../hooks/useAuth";
 import { API_HOST } from "../../utils/constants.js";
 import { withRouter } from "react-router-dom";
-import { getExamApi, gradingAutExamApi, updateCommentApi } from "../../api/examenes";
+import {
+  getExamApi,
+  gradingAutExamApi,
+  updateCommentApi,
+} from "../../api/examenes";
 import { getQuestionApi } from "../../api/preguntas";
 import { toast } from "react-toastify";
 
@@ -47,7 +51,7 @@ async function searchQuestions(response) {
   var q = {};
   for (var i in response["question"]) {
     await getQuestionApi(i).then((response) => {
-      q[response.id] = response
+      q[response.id] = response;
     });
   }
   return q;
@@ -59,22 +63,22 @@ function Body(props) {
   const [questions, setQuestions] = useState({});
   const [examState, setExamState] = useState(1);
   const user = useAuth();
-  const profile =user.profile
+  const profile = user.profile;
 
   useEffect(() => {
     getExamApi(examID).then((response) => {
       setExam(response);
-      searchQuestions(response).then(v => {
-        var q = v
-        setQuestions(q)
-      })      
+      searchQuestions(response).then((v) => {
+        var q = v;
+        setQuestions(q);
+      });
       return body();
     });
   }, [examState]);
 
   const body = () => {
-    if(exam.state) {
-      if (!exam.finish || profile==="Profesor") {
+    if (exam.state) {
+      if (!exam.finish || profile === "Profesor") {
         return (
           <Row className="body">
             <Col className="examen">
@@ -94,39 +98,41 @@ function Body(props) {
           </Row>
         );
       } else {
-          return (
-            <div className="finish">
-              <div>
-                <div className="finish-icon">
-                  <FontAwesomeIcon icon={faSmileBeam}></FontAwesomeIcon>
-                </div>
-                <div className="finish-text">
-                  <h5>Has finalizado el examen, pronto obtendrás los resultados</h5>
-                </div>
+        return (
+          <div className="finish">
+            <div>
+              <div className="finish-icon">
+                <FontAwesomeIcon icon={faSmileBeam}></FontAwesomeIcon>
+              </div>
+              <div className="finish-text">
+                <h5>
+                  Has finalizado el examen, pronto obtendrás los resultados
+                </h5>
               </div>
             </div>
-          );       
+          </div>
+        );
       }
     } else {
-      if(exam.view) {
-          return (
-            <Row className="body">
-              <Col className="examen">
-                <Examen
-                  openModal={openModal}
-                  setShowModal={setShowModal}
-                  exam={exam}
-                  q={questions}
-                  examState={examState}
-                  setExamState={setExamState}
-                  user={user}
-                ></Examen>
-              </Col>
-              <Col className="info">
-                <InfoExam exam={exam}></InfoExam>
-              </Col>
-            </Row>
-          );
+      if (exam.view) {
+        return (
+          <Row className="body">
+            <Col className="examen">
+              <Examen
+                openModal={openModal}
+                setShowModal={setShowModal}
+                exam={exam}
+                q={questions}
+                examState={examState}
+                setExamState={setExamState}
+                user={user}
+              ></Examen>
+            </Col>
+            <Col className="info">
+              <InfoExam exam={exam}></InfoExam>
+            </Col>
+          </Row>
+        );
       } else {
         return (
           <div className="finish">
@@ -135,40 +141,50 @@ function Body(props) {
                 <FontAwesomeIcon icon={faClock}></FontAwesomeIcon>
               </div>
               <div className="finish-text">
-                <h5>El examen está cerrado, espera a que el profesor lo habilite.</h5>
+                <h5>
+                  El examen está cerrado, espera a que el profesor lo habilite.
+                </h5>
               </div>
             </div>
           </div>
         );
-      }      
-    }    
+      }
+    }
   };
 
   return body();
 }
 
 function Examen(props) {
-  const { openModal, setShowModal, exam, setExamState, q, examState, user } = props;
+  const {
+    openModal,
+    setShowModal,
+    exam,
+    setExamState,
+    q,
+    examState,
+    user,
+  } = props;
   const puntos = Object.entries(exam["question"]);
-  console.log(exam)
+  console.log(exam);
   const [puntosDic, setPuntosDic] = useState(exam["question"]);
-  const [comment, setComment] = useState("");    
+  const [comment, setComment] = useState("");
   const pictureURL = `${API_HOST}/photo?id=${user.id}`;
   const profile = user.profile;
 
   var editDisabled = true;
-  if ((profile === "Profesor" || profile==="Administrador") && exam.finish) {
+  if ((profile === "Profesor" || profile === "Administrador") && exam.finish) {
     editDisabled = false;
   }
 
   const [formData, setFormData] = useState({
     examid: exam.id,
     option: editDisabled ? "auto" : "manual",
-    questions: {}
+    questions: {},
   });
 
   const preguntas = Object.entries(q);
-  console.log(exam)
+  console.log(exam);
 
   const tipoPregunta = (pregunta, info, number) => {
     if (pregunta === "Pregunta abierta") {
@@ -193,7 +209,9 @@ function Examen(props) {
         rows="5"
         cols="100"
         name={number}
-        value={exam["finish"] ? puntosDic[number][1] : formData.questions.number}
+        value={
+          exam["finish"] ? puntosDic[number][1] : formData.questions.number
+        }
         disabled={!exam.state}
         onChange={(e) => {
           var form = formData;
@@ -220,14 +238,26 @@ function Examen(props) {
                   name={number}
                   value={parseInt(i)}
                   disabled={!exam.state}
-                  checked={!exam.state ? puntosDic[number][1].includes(x) ? true : false : null}
+                  checked={
+                    !exam.state
+                      ? puntosDic[number][1].includes(x)
+                        ? true
+                        : false
+                      : null
+                  }
                   onClick={(e) => {
                     var form = formData;
                     if (form.questions[number] == null) {
                       form.questions[number] = [parseInt(e.target.value)];
                     } else {
-                      if (form.questions[number].includes(parseInt(e.target.value))) {
-                        let pos = form.questions[number].indexOf(parseInt(e.target.value));
+                      if (
+                        form.questions[number].includes(
+                          parseInt(e.target.value)
+                        )
+                      ) {
+                        let pos = form.questions[number].indexOf(
+                          parseInt(e.target.value)
+                        );
                         let x = form.questions[number].splice(pos, 1);
                       } else {
                         form.questions[number].push(parseInt(e.target.value));
@@ -260,7 +290,7 @@ function Examen(props) {
             id="verdadero"
             value={0}
             disabled={!exam.state}
-            checked={!exam.state ? puntosDic[number][1] ? true : false : null}
+            checked={!exam.state ? (puntosDic[number][1] ? true : false) : null}
             onClick={(e) => {
               var form = formData;
               form.questions[number] = [parseInt(e.target.value)];
@@ -279,7 +309,13 @@ function Examen(props) {
             id="falso"
             value={1}
             disabled={!exam.state}
-            checked={!exam.state ? puntosDic[number][1] === false ? true : false : null}
+            checked={
+              !exam.state
+                ? puntosDic[number][1] === false
+                  ? true
+                  : false
+                : null
+            }
             onClick={(e) => {
               var form = formData;
               form.questions[number] = [parseInt(e.target.value)];
@@ -310,10 +346,16 @@ function Examen(props) {
                   id={x}
                   value={parseInt(i)}
                   disabled={!exam.state}
-                  checked={!exam.state ? puntosDic[number][1].includes(x) ? true : false : null}
+                  checked={
+                    !exam.state
+                      ? puntosDic[number][1].includes(x)
+                        ? true
+                        : false
+                      : null
+                  }
                   onClick={(e) => {
                     var form = formData;
-                    console.log(form)
+                    console.log(form);
                     form.questions[number] = [parseInt(e.target.value)];
                     setFormData(form);
                   }}
@@ -332,22 +374,23 @@ function Examen(props) {
   const onSubmit = (e) => {
     e.preventDefault();
     console.log(formData);
-    gradingAutExamApi(formData).then((response) => {
-      if (response.code) {
-        toast.warning(response.message);
-      }else {
-        toast.success("Se envió el examen exitosamente");   
-        setExamState(!examState) 
-        setFormData({});    
-      }
-    })
-    .catch((err) => {
-      console.log(err);
-      toast.error("Error del servidor, intente más tarde");
-    })
-    .finally(() => {      
-      setShowModal(false);      
-    })
+    gradingAutExamApi(formData)
+      .then((response) => {
+        if (response.code) {
+          toast.warning(response.message);
+        } else {
+          toast.success("Se envió el examen exitosamente");
+          setExamState(!examState);
+          setFormData({});
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+        toast.error("Error del servidor, intente más tarde");
+      })
+      .finally(() => {
+        setShowModal(false);
+      });
   };
 
   const Seguro = () => {
@@ -364,7 +407,10 @@ function Examen(props) {
   };
 
   const showResponse = (i) => {
-    if (exam["view"] === false || preguntas[i][1]["category"] === "Pregunta abierta") {
+    if (
+      exam["view"] === false ||
+      preguntas[i][1]["category"] === "Pregunta abierta"
+    ) {
       return "enunciado";
     } else {
       if (puntos[i][1][0] === 0) {
@@ -379,7 +425,7 @@ function Examen(props) {
     if (exam["view" === false]) {
       return "non";
     } else {
-      if (cat === "mult") {        
+      if (cat === "mult") {
         if (q[pos].answer.includes(res)) {
           return "corr";
         }
@@ -395,22 +441,23 @@ function Examen(props) {
   const updateExam = (e) => {
     e.preventDefault();
     console.log(comment);
-    updateCommentApi(comment, exam.id).then((response) => {
-      if (response.code) {
-        toast.warning(response.message);
-      }else {
-        toast.success("Se actualizó el examen exitosamente");   
-        setExamState(!examState) 
-        setFormData({});    
-      }
-    })
-    .catch((err) => {
-      console.log(err);
-      toast.error("Error del servidor, intente más tarde");
-    })
-    .finally(() => {      
-      setShowModal(false);      
-    })
+    updateCommentApi(comment, exam.id)
+      .then((response) => {
+        if (response.code) {
+          toast.warning(response.message);
+        } else {
+          toast.success("Se actualizó el examen exitosamente");
+          setExamState(!examState);
+          setFormData({});
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+        toast.error("Error del servidor, intente más tarde");
+      })
+      .finally(() => {
+        setShowModal(false);
+      });
   };
 
   return (
@@ -461,22 +508,20 @@ function Examen(props) {
                     <Col className="puntaje">
                       <Row>
                         <h5>Puntaje:</h5>
-                        {(profile==="Administrador" && !exam.finish) ? (
+                        {profile === "Administrador" && !exam.finish ? (
                           <h5>{puntos[i][1][0]}</h5>
                         ) : (
                           <Form.Control
                             type="number"
-                            value={puntosDic[puntos[i][0]][0]}
+                            min="0"
+                            max="5"
+                            defaultValue={puntosDic[puntos[i][0]][0]}
                             name={"puntoP " + puntos[i][0]}
                             onChange={(e) => {
-                              var form = puntosDic;
-                              console.log(puntos[i][0]);
-                              form[puntos[i][0]][0] =
-                                e.target.value !== ""
-                                  ? parseInt(e.target.value)
-                                  : 0;
-                              setPuntosDic(form);
-                              console.log(puntosDic);
+                              puntosDic[puntos[i][0]][0] = Math.floor(
+                                e.target.value
+                              );
+                              setPuntosDic(puntosDic);
                             }}
                           />
                         )}
@@ -490,9 +535,8 @@ function Examen(props) {
               </div>
             );
           })}
-          {
-            !exam.state ? (
-            (profile === "Profesor" || profile==="Administrador") ? (
+          {!exam.state ? (
+            profile === "Profesor" || profile === "Administrador" ? (
               <>
                 <div className="comentario">
                   <div>Comentarios</div>
@@ -500,7 +544,7 @@ function Examen(props) {
                     rows="5"
                     cols="100"
                     name="comment"
-                    value={exam.commentary!== null ? exam.commentary : comment}
+                    value={exam.commentary !== null ? exam.commentary : comment}
                     disabled={exam.commentary !== undefined}
                     onChange={(e) => {
                       setComment(e.target.value);
@@ -508,12 +552,7 @@ function Examen(props) {
                   ></textarea>
                 </div>
                 <div className="btn-cont">
-                  <Button
-                    className="btn-update"
-                    onClick={(e) => 
-                      updateExam(e)
-                    }
-                  >
+                  <Button className="btn-update" onClick={(e) => updateExam(e)}>
                     Actualizar Examen
                   </Button>
                 </div>
