@@ -8,6 +8,7 @@ import DefaultAvatar from "../../assets/images/DefaultAvatar.png";
 import useAuth from "../../hooks/useAuth";
 import { API_HOST } from "../../utils/constants.js";
 import { withRouter } from "react-router-dom";
+import { getExamApi } from "../../api/examenes"
 
 import "./Exam.scss";
 
@@ -15,7 +16,7 @@ export default withRouter(Exam);
 
 function Exam(props) {
   const { setRefreshLogin, match } = props;
-  const view = match["params"]["view"];
+  const examId = match["params"]["examId"];
   const [showModal, setShowModal] = useState(false);
   const [contentModal, setContentModal] = useState(null);
 
@@ -30,7 +31,7 @@ function Exam(props) {
         <Body
           openModal={openModal}
           setShowModal={setShowModal}
-          view={view == "view"}
+          examID={examId}
         ></Body>
       </Container>
       <BasicModal show={showModal} setShow={setShowModal}>
@@ -41,29 +42,17 @@ function Exam(props) {
 }
 
 function Body(props) {
-  const { openModal, setShowModal, view } = props;
+  const { openModal, setShowModal, examID } = props;
   const [finish, setFinish] = useState(true);
-  const [exam, setExam] = useState({
-    teacher: "Edison Valencia",
-    open: false,
-    finish: true, //hijo
-    view: view, //padre
-    student: "Andrés López Bedoya",
-    topics: ["funciones", "gramatica"],
-    institution: "Universidad EAFIT",
-    name: "Parcial 1",
-    comment: "",
-    questions: {
-      1: [5,"si", "si"],
-      2: [0, "lenght(str)"],
-      5: [0, true, false],
-      4: [5, ["Python", "Ruby"], ["Python", "Ruby"]]
-    },
-  });
+  const [exam, setExam] = useState({"question": []});
+  const [ listState, setListState ] = useState(1);
 
   useEffect(() => {
-    body(finish);
-  }, [finish]);
+    getExamApi(examID).then((response) => {
+      setExam(response);
+      console.log(response)
+    });
+  }, []);
 
   const body = (finish) => {
     if (finish) {
@@ -103,8 +92,8 @@ function Body(props) {
 
 function Examen(props) {
   const { openModal, setShowModal, exam, setFinish } = props;
-  const puntos = Object.entries(exam["questions"]);
-  const [ puntosDic, setPuntosDic ] = useState(exam["questions"])
+  const puntos = Object.entries(exam["question"]);
+  const [ puntosDic, setPuntosDic ] = useState(exam["question"])
   const [ comment, setComment ] = useState("")
   const [formData, setFormData] = useState({});
   const user = useAuth();
@@ -393,7 +382,7 @@ function Examen(props) {
           </Col>
           <Col className="informacion">
             <div className="inst">
-              <h4>{exam["institution"]}</h4>
+              <h4>{exam["institutionname"]}</h4>
             </div>
             <Row>
               <Col className="left">

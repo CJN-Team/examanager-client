@@ -50,12 +50,7 @@ export default [
     path: "/grupos",
     exact: true,
     page: Grupos,
-  },
-  {
-    path: "/examenes",
-    exact: true,
-    page: Examenes,
-  },
+  },  
   {
     path: "/preguntas",
     exact: true,
@@ -87,7 +82,12 @@ export default [
     page: Grupo,
   },
   {
-    path: "/examen/:view",
+    path: "/grupos/:groupId/examenes",
+    exact: true,
+    page: Examenes,
+  },
+  {
+    path: "/grupos/:groupId/examen/:examId",
     exact: true,
     page: Exam,
   },

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Row, Col, Form, Button, Spinner } from "react-bootstrap";
 import { values, size } from "lodash";
 import { toast } from "react-toastify";
@@ -7,45 +7,38 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTimes } from "@fortawesome/free-solid-svg-icons";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import { getGroupAPI } from "../../api/grupos";
 
 import "./CreateExam.scss";
 
 export default function CreateExam(props) {
-  const { setShowModal, setListState, listState } = props;
-
-  const [formData, setFormData] = useState(initialValues());
-  const [inputList, setInputList] = useState(formData.topics);
+  const { setShowModal, setListState, listState, groupID } = props;
+  const [ groupData, setGroupData ] = useState({})
   const [createExamLoading, setCreateExamLoading] = useState(false);
+  const [formData, setFormData] = useState(initialValues());
 
-  const handleAddClick = () => {
-    const newItem = [""];
-    setInputList(inputList.concat(newItem));
-  };
+  useEffect(() => {
+    getGroupAPI(groupID).then((response) => {
+      setGroupData(response);
+    });
+  }, []);
+
+  useEffect(() => {
+      formData["groupId"] = groupID;
+      formData["institution"] = groupData["institution"];
+      formData["subjectID"] = groupData["subject"];
+  }, [groupData])
+
 
   const handleInputChange = (e, index) => {
-    if (e.target.name === "topics") {
-      formData["topics"][index] = e.target.value;
-      setFormData({
-        ...formData, topics: formData["topics"],
-      });
-    } else {
-        if (e.target.name === "dificulty"){
-            formData["dificulty"][index] = e.target.value;
-            setFormData({
-                ...formData, dificulty: formData["dificulty"],
-            });  
-        } else{
-            setFormData({ ...formData, [e.target.name]: e.target.value });
-        }      
-    }
-    console.log(formData)
-  };
-
-  const handleRemoveClick = (index) => {
-    const list = [...inputList];
-    list.splice(index, 1);
-    setInputList(list);
-    console.log(inputList);
+    if (e.target.name === "difficulty"){
+        formData["difficulty"][index] = parseInt(e.target.value);
+        setFormData({
+            ...formData, difficulty: formData["difficulty"],
+        });  
+    } else{
+        setFormData({ ...formData, [e.target.name]: e.target.value });
+    }      
   };
 
   const onSubmit = (e) => {
@@ -56,7 +49,7 @@ export default function CreateExam(props) {
       value && validCount++;
       return null;
     });
-    if (validCount !== size(formData)) {
+    if (validCount !== 7) {
       toast.warning("Complete todos los campos");
     } else {
       setCreateExamLoading(true);
@@ -82,7 +75,6 @@ export default function CreateExam(props) {
   };
 
   const fechaHandler = (e) => {
-      console.log("hola")
     setFormData({ ...formData, date: e });
   };
 
@@ -115,24 +107,24 @@ export default function CreateExam(props) {
                       <Form.Control
                         type="text"
                         placeholder={"preguntas con dificultad 1"}
-                        name="dificulty"
-                        onChange={(e) => handleInputChange(e, 1)}
+                        name="difficulty"
+                        onChange={(e) => handleInputChange(e, 0)}
                       />
                   </Row>
                   <Row className="row">
                       <Form.Control
                         type="text"
                         placeholder={"preguntas con dificultad 2"}
-                        name="dificulty"
-                        onChange={(e) => handleInputChange(e, 2)}
+                        name="difficulty"
+                        onChange={(e) => handleInputChange(e, 1)}
                       />
                   </Row>
                   <Row className="row">
                       <Form.Control
                         type="text"
                         placeholder={"preguntas con dificultad 3"}
-                        name="dificulty"
-                        onChange={(e) => handleInputChange(e, 3)}
+                        name="difficulty"
+                        onChange={(e) => handleInputChange(e, 2)}
                       />
                   </Row>
                 </div>
@@ -140,38 +132,15 @@ export default function CreateExam(props) {
         </Row>
         <Row>
           <Col>
-            <Form.Label>Temáticas</Form.Label>
+            <Form.Label>Temática</Form.Label>
           </Col>
-          <Col className="varios">
-            {inputList.map((x, i) => {
-              return (
-                <div className="box">
-                  <Row className="row">
-                    <Col className="item">
-                      <Form.Control
-                        type="text"
-                        placeholder={"Ingrese temática " + (i + 1)}
-                        name="topics"
-                        onChange={(e) => handleInputChange(e, i)}
-                      />
-                    </Col>
-                    <Col className="item-button">
-                      <div className="btn-box">
-                        {inputList.length !== 1 && (
-                          <Button
-                            class="btn btn"
-                            onClick={() => handleRemoveClick(i)}
-                          >
-                            <FontAwesomeIcon icon={faTimes}></FontAwesomeIcon>
-                          </Button>
-                        )}
-                      </div>
-                    </Col>
-                  </Row>
-                </div>
-              );
-            })}
-            <Button onClick={handleAddClick}>Añadir tema</Button>
+          <Col>
+            <Form.Control
+              type="text"
+              placeholder="Ingrese el nombre"
+              name="topicQuestion"
+              onChange={(e) => handleInputChange(e, 0)}
+            ></Form.Control>
           </Col>
         </Row>
         <Row className="fecha">
@@ -204,15 +173,15 @@ export default function CreateExam(props) {
 
 
 function initialValues() {
+  
+
   return {
     name: "",
-    questions: 0,
-    dificulty: {
-        "1": 0,
-        "2": 0,
-        "3": 0
-    },
-    topics: [""],
-    date: new Date()
+    difficulty: [0,0,0],
+    topicQuestion: "",
+    date: new Date(),
+    view: false,
+    state: false,
+    mockExam: false
   };
 }

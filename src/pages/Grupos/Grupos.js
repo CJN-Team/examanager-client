@@ -27,6 +27,7 @@ export default function Grupos(props) {
     setLoading(true);
     async function actualizarDatos() {
       await listGroupsAPI(page).then((response) => {
+        console.log(response)
         setGrupos(response);
         setLoading(false);
       });

@@ -15,7 +15,6 @@ export default function SignUp(props) {
 
   const onSubmit = (e) => {
     e.preventDefault();
-    console.log(formData);
     let validCount = 0;
     values(formData).some((value) => {
       value && validCount++;
@@ -33,7 +32,6 @@ export default function SignUp(props) {
             if (response.message) {
               toast.warning(response.message);
             } else {
-              console.log(response.token);
               setTokenApi(response.token);
               setShowModal(false);
               setFormData(initialValues());

@@ -1,19 +1,20 @@
-import React from "react";
 import { Container, Row, Col, Button } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash, faPen} from "@fortawesome/free-solid-svg-icons"
 import { deleteExamApi } from "../../api/examenes.js"
+import BasicModal from "../../components/BasicModal/BasicModal.js";
 import { toast } from "react-toastify";
-import { Link } from "react-router-dom"
+import React, { useState } from "react";
+import UpdateExam from "../UpdateExam/UpdateExam.js"
 
 import "./ListExam.scss"
 
 export default function ListExam(props) {
-  const { examList, setListState, listState } = props;
+  const { examList, setListState, listState, url} = props;
+  const [contentModal, setContentModal] = useState(null);
+  const [showModal, setShowModal] = useState(false);
 
   var examenes = Object.entries(examList);
-
-  console.log(examenes)
 
   if (examList == null || examList.message === "Fallo") {
     return (
@@ -22,6 +23,11 @@ export default function ListExam(props) {
       </div>
     );
   }
+
+  const openModal = (content) => {
+    setShowModal(true);
+    setContentModal(content);
+  };
 
   const deleteExam = (subject) => {
     deleteExamApi(subject)
@@ -40,6 +46,7 @@ export default function ListExam(props) {
   };
 
   return (
+    <>
     <Container fluid className="list-exam">
       <ul className="table">
         {examenes.map((x, i) => {
@@ -47,12 +54,21 @@ export default function ListExam(props) {
             <li class="list-group-item">
               <Row >
                 <Col>
-                  <h2>{x[0]}</h2>
+                  <h2>{x[1]["name"]}</h2>
                 </Col>
                 <Col className="button">
-                  <Link to={"/examenes/"+x[0]}>
-                      <FontAwesomeIcon className="btn-ver" icon={faPen}></FontAwesomeIcon> 
-                  </Link>
+                  <Button onClick={() =>
+                    openModal(
+                      <UpdateExam
+                        setShowModal={setShowModal}
+                        exam={x[1]["id"]}
+                        listState={listState}
+                        setListState={setListState}
+                      ></UpdateExam>
+                    )
+                  }>
+                    <FontAwesomeIcon icon={faPen}></FontAwesomeIcon>
+                  </Button>
                 </Col>
                 <Col className="button">
                   <Button variant="danger" onClick={() => deleteExam(x[0])}>
@@ -65,5 +81,9 @@ export default function ListExam(props) {
         })}
       </ul>
     </Container>
+    <BasicModal show={showModal} setShow={setShowModal}>
+        {contentModal}
+      </BasicModal>
+    </>
   );
 }
