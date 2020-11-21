@@ -1,1 +1,26 @@
 @import "../../index.scss";
+
+.profile {
+  margin-left: 0px;
+  img {
+    border-radius: 50%;
+    height: 200px;
+    width: 200px;
+  }
+  h4 {
+    color: $primary-dark;
+    margin-top: 10px;
+  }
+
+  .row-info {
+    font-size: 22px;
+    display: flex;
+    .left {
+      width: fit-content;
+    }
+    .right {
+      margin-left: 5px;
+      color: $font-grey;
+    }
+  }
+}

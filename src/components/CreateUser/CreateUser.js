@@ -135,12 +135,12 @@ export default function CreateUser(props) {
         <Form.Group>
           <Row>
             <Col>
-              <Form.Label>id</Form.Label>
+              <Form.Label>Id</Form.Label>
             </Col>
             <Col>
               <Form.Control
                 type="text"
-                placeholder="id"
+                placeholder="Id"
                 name="id"
                 defaultValue={formData.id}
                 disabled={editing}
@@ -220,12 +220,17 @@ export default function CreateUser(props) {
             </Col>
           </Row>
         </Form.Group>
-        <center>
+        <div className="confirm-button">
           <Button variant="primary" type="submit">
-            {editing ? <>Actualizar</> : <>Crear</>}
+            {loading ? (
+              <Spinner animation="border" />
+            ) : editing ? (
+              <>Actualizar</>
+            ) : (
+              <>Crear</>
+            )}
           </Button>
-          {loading && <Spinner animation="border" />}
-        </center>
+        </div>
       </Form>
     </div>
   );

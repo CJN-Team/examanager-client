@@ -67,7 +67,7 @@ export default [
     page: Calificaciones,
   },
   {
-    path: "/:id",
+    path: "/perfil/:id",
     exact: true,
     page: Profile,
   },

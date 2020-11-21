@@ -35,7 +35,7 @@ export default function LeftMenu(props) {
         </Col>
         <Col className="col2">
           <div>
-            <Link to={"/" + user?.id} class="non">
+            <Link to={"/perfil/" + user?.id} class="non">
               {capitalize(user.name)}
             </Link>
             <h6>{capitalize(user.lastName)}</h6>
