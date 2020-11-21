@@ -56,7 +56,7 @@ export default function ListExam(props) {
               <li class="list-group-item">
                 <Row>
                   <Col>
-                    <h2>{x[1]["name"]}</h2>
+                    <h2>{x[1]["name"] + " Estado: " + (x[1]["state"] ? "Abierto" : "Cerrado") + " Vista: " + (x[1]["view"] ? "Habilitado" : "Deshabilitado")}</h2>
                   </Col>
                   <Col className="button">
                     <Button

@@ -67,6 +67,7 @@ function Body(props) {
 
   useEffect(() => {
     getExamApi(examID).then((response) => {
+      console.log(response)
       setExam(response);
       searchQuestions(response).then((v) => {
         var q = v;
@@ -75,6 +76,8 @@ function Body(props) {
       return body();
     });
   }, [examState]);
+
+  console.log(exam)
 
   const body = () => {
     if (exam.state) {
@@ -165,6 +168,7 @@ function Examen(props) {
     examState,
     user,
   } = props;
+  console.log(exam)
   const puntos = Object.entries(exam["question"]);
   const [puntosDic, setPuntosDic] = useState(exam["question"]);
   const [comment, setComment] = useState("");
@@ -444,6 +448,8 @@ function Examen(props) {
       dic[i] = puntosDic[i][0]
     }
 
+    console.log(dic)
+
     const data = {
       ...formData,
       questions: dic
@@ -465,6 +471,7 @@ function Examen(props) {
     .finally(() => {
       setShowModal(false);
     });
+
     updateCommentApi(comment, exam.id)
       .then((response) => {
         if (response.code) {
@@ -532,7 +539,7 @@ function Examen(props) {
                     <Col className="puntaje">
                       <Row>
                         <h5>Puntaje:</h5>
-                        {profile === "Administrador" && !exam.finish ? (
+                        {profile === "Estudiante" ? (
                           <h5>{puntos[i][1][0]}</h5>
                         ) : (
                           <Form.Control
@@ -560,7 +567,6 @@ function Examen(props) {
             );
           })}
           {!exam.state ? (
-            profile === "Profesor" || profile === "Administrador" ? (
               <>
                 <div className="comentario">
                   <div>Comentarios</div>
@@ -569,7 +575,7 @@ function Examen(props) {
                     cols="100"
                     name="comment"
                     value={exam.commentary !== null ? exam.commentary : comment}
-                    disabled={exam.commentary !== undefined}
+                    disabled={(exam.commentary !== undefined && (profile==="Estudiante"))}
                     onChange={(e) => {
                       setComment(e.target.value);
                     }}
@@ -581,9 +587,6 @@ function Examen(props) {
                   </Button>
                 </div>
               </>
-            ) : (
-              <div></div>
-            )
           ) : (
             <div className="btn-cont">
               <Button
