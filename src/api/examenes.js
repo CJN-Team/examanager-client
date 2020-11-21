@@ -188,7 +188,7 @@ export function generateExamsApi(id) {
     });
 }
 
-export function gradingAutExamApi(data) {
+export function gradingExamApi(data) {
   const url = API_HOST + "/generatedexam";
 
   const exam = {

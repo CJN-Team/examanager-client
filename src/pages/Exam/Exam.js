@@ -10,7 +10,7 @@ import { API_HOST } from "../../utils/constants.js";
 import { withRouter } from "react-router-dom";
 import {
   getExamApi,
-  gradingAutExamApi,
+  gradingExamApi,
   updateCommentApi,
 } from "../../api/examenes";
 import { getQuestionApi } from "../../api/preguntas";
@@ -166,7 +166,6 @@ function Examen(props) {
     user,
   } = props;
   const puntos = Object.entries(exam["question"]);
-  console.log(exam);
   const [puntosDic, setPuntosDic] = useState(exam["question"]);
   const [comment, setComment] = useState("");
   const pictureURL = `${API_HOST}/photo?id=${user.id}`;
@@ -184,7 +183,6 @@ function Examen(props) {
   });
 
   const preguntas = Object.entries(q);
-  console.log(exam);
 
   const tipoPregunta = (pregunta, info, number) => {
     if (pregunta === "Pregunta abierta") {
@@ -374,7 +372,7 @@ function Examen(props) {
   const onSubmit = (e) => {
     e.preventDefault();
     console.log(formData);
-    gradingAutExamApi(formData)
+    gradingExamApi(formData)
       .then((response) => {
         if (response.code) {
           toast.warning(response.message);
@@ -440,7 +438,33 @@ function Examen(props) {
 
   const updateExam = (e) => {
     e.preventDefault();
-    console.log(comment);
+
+    var dic = {}
+    for(var i in puntosDic){
+      dic[i] = puntosDic[i][0]
+    }
+
+    const data = {
+      ...formData,
+      questions: dic
+    }
+
+    gradingExamApi(data).then((response) => {
+      if (response.code) {
+        toast.warning(response.message);
+      } else {
+        toast.success("Se actualizó el examen exitosamente");
+        setExamState(!examState);
+        setFormData({});
+      }
+    })
+    .catch((err) => {
+      console.log(err);
+      toast.error("Error del servidor, intente más tarde");
+    })
+    .finally(() => {
+      setShowModal(false);
+    });
     updateCommentApi(comment, exam.id)
       .then((response) => {
         if (response.code) {
@@ -483,7 +507,7 @@ function Examen(props) {
               </Col>
               <Col>
                 <h6>{new Date(exam.date).toLocaleDateString("es-ES")}</h6>
-                <h4>{exam.view ? "Nota" + exam.grade : ""}</h4>
+                <h4>{exam.view ? "Nota: " + exam.grade : ""}</h4>
               </Col>
             </Row>
 
