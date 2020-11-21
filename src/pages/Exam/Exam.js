@@ -58,6 +58,8 @@ function Body(props) {
   const [exam, setExam] = useState({ question: {} });
   const [questions, setQuestions] = useState({});
   const [examState, setExamState] = useState(1);
+  const user = useAuth();
+  const profile =user.profile
 
   useEffect(() => {
     getExamApi(examID).then((response) => {
@@ -72,7 +74,7 @@ function Body(props) {
 
   const body = () => {
     if(exam.state) {
-      if (!exam.finish) {
+      if (!exam.finish || profile==="Profesor") {
         return (
           <Row className="body">
             <Col className="examen">
@@ -83,6 +85,7 @@ function Body(props) {
                 q={questions}
                 examState={examState}
                 setExamState={setExamState}
+                user={user}
               ></Examen>
             </Col>
             <Col className="info">
@@ -116,6 +119,7 @@ function Body(props) {
                   q={questions}
                   examState={examState}
                   setExamState={setExamState}
+                  user={user}
                 ></Examen>
               </Col>
               <Col className="info">
@@ -144,17 +148,16 @@ function Body(props) {
 }
 
 function Examen(props) {
-  const { openModal, setShowModal, exam, setExamState, q, examState } = props;
+  const { openModal, setShowModal, exam, setExamState, q, examState, user } = props;
   const puntos = Object.entries(exam["question"]);
   console.log(exam)
   const [puntosDic, setPuntosDic] = useState(exam["question"]);
-  const [comment, setComment] = useState("");  
-  const user = useAuth();
+  const [comment, setComment] = useState("");    
   const pictureURL = `${API_HOST}/photo?id=${user.id}`;
-  const profile = "Profesor";
+  const profile = user.profile;
 
   var editDisabled = true;
-  if (profile === "Profesor" && exam["finish"]) {
+  if ((profile === "Profesor" || profile==="Administrador") && exam.finish) {
     editDisabled = false;
   }
 
@@ -191,7 +194,7 @@ function Examen(props) {
         cols="100"
         name={number}
         value={exam["finish"] ? puntosDic[number][1] : formData.questions.number}
-        disabled={exam["finish"]}
+        disabled={!exam.state}
         onChange={(e) => {
           var form = formData;
           form.questions[number] = [e.target.value];
@@ -216,8 +219,8 @@ function Examen(props) {
                   id={number}
                   name={number}
                   value={parseInt(i)}
-                  disabled={exam["finish"]}
-                  checked={exam["finish"] ? puntosDic[number][1].includes(x) ? true : false : null}
+                  disabled={!exam.state}
+                  checked={!exam.state ? puntosDic[number][1].includes(x) ? true : false : null}
                   onClick={(e) => {
                     var form = formData;
                     if (form.questions[number] == null) {
@@ -256,8 +259,8 @@ function Examen(props) {
             name={number}
             id="verdadero"
             value={0}
-            disabled={exam["finish"]}
-            checked={exam["finish"] ? puntosDic[number][1] ? true : false : null}
+            disabled={!exam.state}
+            checked={!exam.state ? puntosDic[number][1] ? true : false : null}
             onClick={(e) => {
               var form = formData;
               form.questions[number] = [parseInt(e.target.value)];
@@ -275,8 +278,8 @@ function Examen(props) {
             name={number}
             id="falso"
             value={1}
-            disabled={exam["finish"]}
-            checked={exam["finish"] ? puntosDic[number][1] === false ? true : false : null}
+            disabled={!exam.state}
+            checked={!exam.state ? puntosDic[number][1] === false ? true : false : null}
             onClick={(e) => {
               var form = formData;
               form.questions[number] = [parseInt(e.target.value)];
@@ -306,8 +309,8 @@ function Examen(props) {
                   name={number}
                   id={x}
                   value={parseInt(i)}
-                  disabled={exam["finish"]}
-                  checked={exam["finish"] ? puntosDic[number][1].includes(x) ? true : false : null}
+                  disabled={!exam.state}
+                  checked={!exam.state ? puntosDic[number][1].includes(x) ? true : false : null}
                   onClick={(e) => {
                     var form = formData;
                     console.log(form)
@@ -392,7 +395,7 @@ function Examen(props) {
   const updateExam = (e) => {
     e.preventDefault();
     console.log(comment);
-    updateCommentApi(formData, exam.id).then((response) => {
+    updateCommentApi(comment, exam.id).then((response) => {
       if (response.code) {
         toast.warning(response.message);
       }else {
@@ -458,7 +461,7 @@ function Examen(props) {
                     <Col className="puntaje">
                       <Row>
                         <h5>Puntaje:</h5>
-                        {editDisabled ? (
+                        {(profile==="Administrador" && !exam.finish) ? (
                           <h5>{puntos[i][1][0]}</h5>
                         ) : (
                           <Form.Control
@@ -487,8 +490,9 @@ function Examen(props) {
               </div>
             );
           })}
-          {exam["finish"] ? (
-            profile === "Profesor" ? (
+          {
+            !exam.state ? (
+            (profile === "Profesor" || profile==="Administrador") ? (
               <>
                 <div className="comentario">
                   <div>Comentarios</div>
@@ -496,7 +500,8 @@ function Examen(props) {
                     rows="5"
                     cols="100"
                     name="comment"
-                    value={comment}
+                    value={exam.commentary!== null ? exam.commentary : comment}
+                    disabled={exam.commentary !== undefined}
                     onChange={(e) => {
                       setComment(e.target.value);
                     }}

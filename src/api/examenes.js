@@ -122,8 +122,6 @@ export function listExamsApi(gropuId) {
 export function getExamApi(examId) {
   const url = API_HOST + "/generatedexam?id=" + examId;
 
-  console.log(url);
-
   const params = {
     method: "GET",
     headers: {
@@ -227,7 +225,7 @@ export function updateCommentApi(data, id) {
   const url = API_HOST + `/generatedexam?id=${id}`;
 
   const exam = {
-    ...data,
+    commentary: data
   };
 
   const params = {
