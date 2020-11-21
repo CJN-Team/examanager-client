@@ -220,7 +220,7 @@ export default function CreateUser(props) {
             </Col>
           </Row>
         </Form.Group>
-        <center>
+        <div className="confirm-button">
           <Button variant="primary" type="submit">
             {loading ? (
               <Spinner animation="border" />
@@ -230,7 +230,7 @@ export default function CreateUser(props) {
               <>Crear</>
             )}
           </Button>
-        </center>
+        </div>
       </Form>
     </div>
   );
