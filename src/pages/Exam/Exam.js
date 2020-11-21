@@ -9,6 +9,7 @@ import useAuth from "../../hooks/useAuth";
 import { API_HOST } from "../../utils/constants.js";
 import { withRouter } from "react-router-dom";
 import { getExamApi } from "../../api/examenes"
+import { getQuestionApi } from "../../api/preguntas"
 
 import "./Exam.scss";
 
@@ -43,19 +44,32 @@ function Exam(props) {
 
 function Body(props) {
   const { openModal, setShowModal, examID } = props;
-  const [finish, setFinish] = useState(true);
   const [exam, setExam] = useState({"question": []});
-  const [ listState, setListState ] = useState(1);
+  const [ questions, setQuestions ] = useState({})
+  const [ examState, setExamState ] = useState(1);
 
   useEffect(() => {
     getExamApi(examID).then((response) => {
-      setExam(response);
-      console.log(response)
+      var e = response
+      e["view"] = false
+      e["state"] = false
+      e["finish"] = false
+      console.log(e)
+      setExam(e);
+      var q = {}
+      for(var i in response["question"]){
+        getQuestionApi(response["question"][i]).then((response) => {
+          q[i] = response;
+        });
+      }
+      setQuestions(q)
+
+      return body(exam.finish)
     });
   }, []);
 
   const body = (finish) => {
-    if (finish) {
+    if (!finish) {
       return (
         <Row className="body">
           <Col className="examen">
@@ -63,13 +77,13 @@ function Body(props) {
               openModal={openModal}
               setShowModal={setShowModal}
               exam={exam}
-              setFinish={setFinish}
+              q={questions}
             ></Examen>
           </Col>
           <Col className="info">
             <InfoExam exam={exam}></InfoExam>
           </Col>
-        </Row>
+        </Row>        
       );
     } else {
       return (
@@ -87,11 +101,11 @@ function Body(props) {
     }
   };
 
-  return body(finish);
+  return body(exam.finish);
 }
 
 function Examen(props) {
-  const { openModal, setShowModal, exam, setFinish } = props;
+  const { openModal, setShowModal, exam, setFinish, q } = props;
   const puntos = Object.entries(exam["question"]);
   const [ puntosDic, setPuntosDic ] = useState(exam["question"])
   const [ comment, setComment ] = useState("")
@@ -99,48 +113,6 @@ function Examen(props) {
   const user = useAuth();
   const pictureURL = `${API_HOST}/photo?id=${user.id}`;
   const profile = "Profesor"
-
-  const q = {
-    1: {
-      subject: "Lenguajes de programacion",
-      topic: "gramatica",
-      id: "1",
-      question:
-        "¿Existe una funcion que me devuelva el tamaño (num de caracteres) de un string en Java?",
-      category: "unica",
-      difficulty: 1,
-      options: ["si", "no", "no sé"],
-      answer: ["si"],
-    },
-    2: {
-      subject: "Lenguajes de programacion",
-      topic: "gramatica",
-      id: "2",
-      question:
-        "Escriba una sentencia de código que devuelva el tamaño de un String en Java",
-      category: "abierta",
-      difficulty: 1,
-    },
-    5: {
-      subject: "Lenguajes de programacion",
-      topic: "gramatica",
-      id: "5",
-      question: "¿Los Strings son con s mayúscula en Python?",
-      category: "vf",
-      difficulty: 1,
-      answer: [false],
-    },
-    4: {
-      subject: "Lenguajes de programacion",
-      topic: "gramatica",
-      id: "4",
-      question: "¿Cuales lenguajes son interpretados?",
-      category: "multiple",
-      difficulty: 1,
-      options: ["Python", "Java", "C++", "Ruby"],
-      answer: ["Python, Ruby"],
-    },
-  }
 
   var editDisabled = true
 
