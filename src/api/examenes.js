@@ -74,7 +74,7 @@ export function deleteExamApi(subject) {
     headers: {
       "Content-type": "text/plain",
       Authorization: "Bearer" + localStorage.getItem(TOKEN),
-    }
+    },
   };
 
   return fetch(url, params)
@@ -91,13 +91,13 @@ export function deleteExamApi(subject) {
     })
     .catch((err) => {
       return err;
-  });
+    });
 }
 
 export function listExamsApi(gropuId) {
   const url = API_HOST + "/exam?page=1&groupid=" + gropuId;
 
-  console.log(url)
+  console.log(url);
 
   const params = {
     method: "GET",
@@ -122,7 +122,7 @@ export function listExamsApi(gropuId) {
 export function getExamApi(examId) {
   const url = API_HOST + "/generatedexam?id=" + examId;
 
-  console.log(url)
+  console.log(url);
 
   const params = {
     method: "GET",
@@ -144,3 +144,25 @@ export function getExamApi(examId) {
     });
 }
 
+export function generateExamPdfAPI(id) {
+  const url = API_HOST + `/exampdf?id=${id}`;
+
+  const params = {
+    method: "PUT",
+    headers: {
+      "Content-type": "application/json",
+      Authorization: "Bearer" + localStorage.getItem(TOKEN),
+    },
+  };
+
+  return fetch(url, params)
+    .then((response) => {
+      if (response.status >= 200 && response.status < 300) {
+        return response.json();
+      }
+      return { message: "No se ha podido generar el PDF" };
+    })
+    .catch((err) => {
+      return err;
+    });
+}
