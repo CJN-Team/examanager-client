@@ -581,11 +581,14 @@ function Examen(props) {
                     }}
                   ></textarea>
                 </div>
-                <div className="btn-cont">
-                  <Button className="btn-update" onClick={(e) => updateExam(e)}>
-                    Actualizar Examen
-                  </Button>
-                </div>
+                {
+                  profile==="Estudiante" ? <div></div> :
+                  <div className="btn-cont">
+                    <Button className="btn-update" onClick={(e) => updateExam(e)}>
+                      Actualizar Examen
+                    </Button>
+                  </div>
+                }                
               </>
           ) : (
             <div className="btn-cont">
