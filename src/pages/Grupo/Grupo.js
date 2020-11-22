@@ -22,6 +22,7 @@ import {
   faQuestionCircle,
   faArrowAltCircleRight,
   faEye,
+  faAngleLeft,
 } from "@fortawesome/free-solid-svg-icons";
 
 import "./Grupo.scss";
@@ -106,7 +107,10 @@ function Grupo(props) {
   return (
     <BasicLayout setRefreshLogin={setRefreshLogin} ruta="grupos">
       <Form className="grupo-cont">
-        <Row>
+        <Row className="title">
+          <Link to="/grupos">
+            <FontAwesomeIcon icon={faAngleLeft} />
+          </Link>
           <h4>{capitalize(groupData.name)}</h4>
         </Row>
         <Row>

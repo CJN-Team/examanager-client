@@ -1,21 +1,28 @@
 @import "../../index.scss";
 
 .examenes-cont {
+  .examenes {
+    padding: 0px;
 
-    .examenes {
-        padding: 0px;
+    &__body {
+      .title {
+        display: flex;
 
-        &__body {
-
-            h4 {
-                color: $font-grey;
-                margin-bottom: 20px;
-                font-size: 30px;
-            }
-            Button {
-                width: 200px;
-                margin-bottom: 30px;
-            }
+        .go-back {
+          color: $primary-light;
+          font-size: 25px;
+          margin-right: 5px;
         }
+        h4 {
+          color: $font-grey;
+          font-size: 30px;
+        }
+      }
+
+      Button {
+        width: 200px;
+        margin-bottom: 30px;
+      }
     }
+  }
 }

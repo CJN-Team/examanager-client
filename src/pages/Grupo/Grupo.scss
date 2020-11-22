@@ -2,10 +2,15 @@
 
 .grupo-cont {
   align-items: center;
-  h4 {
-    color: $primary-light;
-    text-align: start;
-    margin-left: 15px;
+  .title {
+    font-size: 20px;
+    vertical-align: middle;
+    margin-left: 0px;
+    h4 {
+      color: $primary-light;
+      text-align: start;
+      margin-left: 10px;
+    }
   }
 }
 

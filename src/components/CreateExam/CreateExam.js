@@ -12,37 +12,42 @@ import "./CreateExam.scss";
 
 export default function CreateExam(props) {
   const { setShowModal, setListState, listState, groupID } = props;
-  const [ groupData, setGroupData ] = useState({})
+  const [groupData, setGroupData] = useState({});
   const [createExamLoading, setCreateExamLoading] = useState(false);
   const [formData, setFormData] = useState(initialValues());
-  const [ topics, setTopics ] = useState([])
+  const [topics, setTopics] = useState([]);
 
   useEffect(() => {
-    getGroupAPI(groupID).then((response) => {
-      setGroupData(response);
-    });
+    async function fetchAllData() {
+      await getGroupAPI(groupID).then((response) => {
+        setGroupData(response);
+      });
+    }
+    fetchAllData();
   }, []);
 
   useEffect(() => {
-      formData["groupId"] = groupID;
-      formData["institution"] = groupData["institution"];
-      formData["subjectID"] = groupData["subject"];
-      console.log(groupData["subject"])
-      
-  }, [groupData])
-
-  
-
+    formData["groupId"] = groupID;
+    formData["institution"] = groupData["institution"];
+    formData["subjectID"] = groupData["subject"];
+    async function fetchAllTopics() {
+      await listOneAsigmentApi(groupData.subject).then((response) => {
+        setTopics(response[groupData.subject]);
+      });
+    }
+    fetchAllTopics();
+  }, [groupData]);
 
   const handleInputChange = (e, index) => {
-    if (e.target.name === "difficulty"){
-        formData["difficulty"][index] = parseInt(e.target.value);
-        setFormData({
-            ...formData, difficulty: formData["difficulty"],
-        });  
-    } else{
-        setFormData({ ...formData, [e.target.name]: e.target.value });
-    }      
+    if (e.target.name === "difficulty") {
+      formData["difficulty"][index] = parseInt(e.target.value);
+      setFormData({
+        ...formData,
+        difficulty: formData["difficulty"],
+      });
+    } else {
+      setFormData({ ...formData, [e.target.name]: e.target.value });
+    }
   };
 
   const onSubmit = (e) => {
@@ -62,20 +67,21 @@ export default function CreateExam(props) {
           if (response.code) {
             toast.warning(response.message);
           } else {
-            generateExamsApi(response.id).then((response) => {
-              if (response.code) {
-                toast.warning(response.message);
-              }else {
-                toast.success("Se crearon los exámenes exitosamente");
-                setListState(!listState)
-                setShowModal(false);
-                setFormData(initialValues());
-              }
-            })
-            .catch((err) => {
-              console.log(err);
-              toast.error("Error del servidor, intente más tarde");
-            })
+            generateExamsApi(response.id)
+              .then((response) => {
+                if (response.code) {
+                  toast.warning(response.message);
+                } else {
+                  toast.success("Se crearon los exámenes exitosamente");
+                  setListState(!listState);
+                  setShowModal(false);
+                  setFormData(initialValues());
+                }
+              })
+              .catch((err) => {
+                console.log(err);
+                toast.error("Error del servidor, intente más tarde");
+              });
           }
         })
         .catch((err) => {
@@ -111,64 +117,81 @@ export default function CreateExam(props) {
             </Col>
           </Row>
         </Form.Group>
-        <Row>
-          <Col>
-            <Form.Label>Dificultad</Form.Label>
-          </Col>
-          <Col className="varios">
-                <div className="box">
-                  <Row className="row">
-                      <Form.Control
-                        type="text"
-                        placeholder={"preguntas con dificultad 1"}
-                        name="difficulty"
-                        onChange={(e) => handleInputChange(e, 0)}
-                      />
-                  </Row>
-                  <Row className="row">
-                      <Form.Control
-                        type="text"
-                        placeholder={"preguntas con dificultad 2"}
-                        name="difficulty"
-                        onChange={(e) => handleInputChange(e, 1)}
-                      />
-                  </Row>
-                  <Row className="row">
-                      <Form.Control
-                        type="text"
-                        placeholder={"preguntas con dificultad 3"}
-                        name="difficulty"
-                        onChange={(e) => handleInputChange(e, 2)}
-                      />
-                  </Row>
-                </div>
-          </Col>
-        </Row>
-        <Row>
+        <Row style={{ marginBottom: "10px" }}>
           <Col>
             <Form.Label>Temática</Form.Label>
           </Col>
           <Col>
             <Form.Control
               type="text"
-              placeholder="Ingrese el nombre"
+              as="select"
               name="topicQuestion"
               onChange={(e) => handleInputChange(e, 0)}
-            ></Form.Control>
+            >
+              <option value={""}>Seleccione una temática</option>
+              {typeof topics !== "undefined" &&
+                topics.map((x, i) => {
+                  return (
+                    <option value={x} key={i}>
+                      {x}
+                    </option>
+                  );
+                })}
+            </Form.Control>
           </Col>
         </Row>
+        <Row>
+          <Col>
+            <Form.Label>Dificultad</Form.Label>
+          </Col>
+          <Col className="varios">
+            <div className="box">
+              <Row className="row">
+                <Form.Control
+                  type="number"
+                  min={0}
+                  placeholder={"preguntas con dificultad 1"}
+                  name="difficulty"
+                  value={formData.difficulty[0]}
+                  onChange={(e) => handleInputChange(e, 0)}
+                />
+              </Row>
+              <Row className="row">
+                <Form.Control
+                  type="number"
+                  min={0}
+                  placeholder={"preguntas con dificultad 2"}
+                  name="difficulty"
+                  value={formData.difficulty[1]}
+                  onChange={(e) => handleInputChange(e, 1)}
+                />
+              </Row>
+              <Row className="row">
+                <Form.Control
+                  type="number"
+                  min={0}
+                  value={formData.difficulty[2]}
+                  placeholder={"preguntas con dificultad 3"}
+                  name="difficulty"
+                  onChange={(e) => handleInputChange(e, 2)}
+                />
+              </Row>
+            </div>
+          </Col>
+        </Row>
+
         <Row className="fecha">
-            <Col>
-              <Form.Label>Fecha de examen</Form.Label>
-            </Col>
-            <Col>
-              <DatePicker
-                name="birthDate"
-                selected={formData.date}
-                onChange={(date) => fechaHandler(date)}
-              />
-            </Col>
-          </Row>
+          <Col>
+            <Form.Label>Fecha de examen</Form.Label>
+          </Col>
+          <Col>
+            <DatePicker
+              name="birthDate"
+              selected={formData.date}
+              onChange={(date) => fechaHandler(date)}
+            />
+          </Col>
+        </Row>
         <div className="btn-cont">
           <Button type="submit" className="btn-create">
             {!createExamLoading ? (
@@ -181,21 +204,16 @@ export default function CreateExam(props) {
       </Form>
     </div>
   );
-  
 }
 
-
-
 function initialValues() {
-  
-
   return {
     name: "",
-    difficulty: [0,0,0],
+    difficulty: [0, 0, 0],
     topicQuestion: "",
     date: new Date(),
     view: false,
     state: false,
-    mockExam: false
+    mockExam: false,
   };
 }

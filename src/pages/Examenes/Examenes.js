@@ -4,10 +4,13 @@ import CreateExam from "../../components/CreateExam/CreateExam.js";
 import ListExam from "../../components/ListExam/ListExam";
 import { withRouter } from "react-router-dom";
 import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import { Container, Col, Button } from "react-bootstrap";
 import { listExamsApi } from "../../api/examenes";
 
 import "./Examenes.scss";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faAngleLeft } from "@fortawesome/free-solid-svg-icons";
 
 export default withRouter(Examenes);
 
@@ -16,12 +19,12 @@ function Examenes(props) {
   const [showModal, setShowModal] = useState(false);
   const [contentModal, setContentModal] = useState(null);
   const groupId = match["params"]["groupId"];
-  const url = match["url"]
+  const url = match["url"];
 
   const openModal = (content) => {
     setShowModal(true);
     setContentModal(content);
-  };  
+  };
 
   return (
     <BasicLayout setRefreshLogin={setRefreshLogin}>
@@ -32,7 +35,7 @@ function Examenes(props) {
           groupID={groupId}
           url={url}
         ></Exam>
-      </Container>      
+      </Container>
       <BasicModal show={showModal} setShow={setShowModal}>
         {contentModal}
       </BasicModal>
@@ -40,10 +43,10 @@ function Examenes(props) {
   );
 }
 
-function Exam (props) {
-  const { openModal, setShowModal, groupID, url} = props;
-  const [ examenes, setExamenes] = useState({"1":{}});
-  const [ listState, setListState ] = useState(1);
+function Exam(props) {
+  const { openModal, setShowModal, groupID, url } = props;
+  const [examenes, setExamenes] = useState({ 1: {} });
+  const [listState, setListState] = useState(1);
 
   useEffect(() => {
     listExamsApi(groupID).then((response) => {
@@ -54,7 +57,13 @@ function Exam (props) {
   return (
     <Col className="examenes">
       <div className="examenes__body">
-        <h4>Examenes</h4>
+        <div className="title">
+          <Link to={`/grupos/${groupID}`} className="go-back">
+            <FontAwesomeIcon icon={faAngleLeft} />
+          </Link>
+          <h4>Examenes</h4>
+        </div>
+
         <Button
           variant="primary"
           onClick={() =>
@@ -70,8 +79,8 @@ function Exam (props) {
         >
           Generar exámenes
         </Button>
-        <ListExam 
-          examList={examenes} 
+        <ListExam
+          examList={examenes}
           setListState={setListState}
           listState={listState}
           url={url}

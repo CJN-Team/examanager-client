@@ -41,7 +41,7 @@ export function deleteAsigmentApi(subject) {
     headers: {
       "Content-type": "text/plain",
       Authorization: "Bearer" + localStorage.getItem(TOKEN),
-    }
+    },
   };
 
   return fetch(url, params)
@@ -58,15 +58,15 @@ export function deleteAsigmentApi(subject) {
     })
     .catch((err) => {
       return err;
-  });
+    });
 }
 
 export function updateAsigmentApi(name, data) {
   const url = API_HOST + "/subject?name=" + name;
 
   const asig = {
-    "name": name,
-    "topics": data,
+    name: name,
+    topics: data,
   };
 
   const params = {
@@ -92,7 +92,7 @@ export function updateAsigmentApi(name, data) {
     })
     .catch((err) => {
       return err;
-  });
+    });
 }
 
 export function listAsigmentApi() {
@@ -128,6 +128,8 @@ export function listOneAsigmentApi(name) {
       Authorization: "Bearer" + localStorage.getItem(TOKEN),
     },
   };
+
+  console.log(url, params);
 
   return fetch(url, params)
     .then((response) => {
