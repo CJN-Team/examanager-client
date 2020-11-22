@@ -492,6 +492,7 @@ function Examen(props) {
       })
       .finally(() => {
         setShowModal(false);
+        window.location.reload();
       });
   };
 
