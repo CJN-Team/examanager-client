@@ -171,7 +171,7 @@ function Examen(props) {
   console.log(exam)
   const puntos = Object.entries(exam["question"]);
   const [puntosDic, setPuntosDic] = useState(exam["question"]);
-  const [comment, setComment] = useState("");
+  const [comment, setComment] = useState(exam.commentary===undefined ? "" : exam.commentary);
   const pictureURL = `${API_HOST}/photo?id=${user.id}`;
   const profile = user.profile;
 
@@ -579,8 +579,8 @@ function Examen(props) {
                     rows="5"
                     cols="100"
                     name="comment"
-                    value={exam.commentary !== null ? exam.commentary : comment}
-                    disabled={(exam.commentary !== undefined && (profile==="Estudiante"))}
+                    value={(profile==="Estudiante") ? exam.commentary : comment}
+                    disabled={((profile==="Estudiante"))}
                     onChange={(e) => {
                       setComment(e.target.value);
                     }}
