@@ -91,7 +91,7 @@ export default function CreateGroup(props) {
         <Form.Group>
           <Row>
             <Col>
-              <Form.Label>id</Form.Label>
+              <Form.Label>Id</Form.Label>
             </Col>
             <Col>
               <Form.Control

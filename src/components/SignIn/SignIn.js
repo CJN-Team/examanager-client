@@ -51,7 +51,7 @@ export default function SignUp(props) {
   return (
     <div className="sign-in-form">
       <Form onSubmit={onSubmit}>
-        <h6>iniciar Sesión</h6>
+        <h6>Iniciar Sesión</h6>
         <Form.Group>
           <Row>
             <Col>

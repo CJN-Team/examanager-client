@@ -109,7 +109,7 @@ export default function CreateDept(props) {
           </Row>
           {loadingTeachers ? (
             <Spinner animation="border" className="spin" />
-          ) : (
+          ) : teacherList !== null && typeof teacherList !== "undefined" ? (
             teacherList.map((x, i) => {
               return (
                 <Row className="list" key={x.id}>
@@ -125,6 +125,10 @@ export default function CreateDept(props) {
                 </Row>
               );
             })
+          ) : (
+            <div style={{ marginLeft: "10px" }}>
+              No hay profesores para mostrar.
+            </div>
           )}
         </Form.Group>
         <Button onClick={onSubmit} className="accept-button">

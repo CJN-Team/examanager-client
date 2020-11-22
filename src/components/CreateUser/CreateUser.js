@@ -135,20 +135,6 @@ export default function CreateUser(props) {
         <Form.Group>
           <Row>
             <Col>
-              <Form.Label>Id</Form.Label>
-            </Col>
-            <Col>
-              <Form.Control
-                type="text"
-                placeholder="Id"
-                name="id"
-                defaultValue={formData.id}
-                disabled={editing}
-              />
-            </Col>
-          </Row>
-          <Row>
-            <Col>
               <Form.Label>Tipo de id</Form.Label>
             </Col>
             <Col>
@@ -164,6 +150,20 @@ export default function CreateUser(props) {
                 <option>TI</option>
                 <option>CE</option>
               </Form.Control>
+            </Col>
+          </Row>
+          <Row>
+            <Col>
+              <Form.Label>Id</Form.Label>
+            </Col>
+            <Col>
+              <Form.Control
+                type="text"
+                placeholder="Id"
+                name="id"
+                defaultValue={formData.id}
+                disabled={editing}
+              />
             </Col>
           </Row>
         </Form.Group>
