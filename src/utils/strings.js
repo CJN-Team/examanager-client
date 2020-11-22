@@ -1,3 +1,7 @@
 export function capitalize(str) {
-  return str.charAt(0).toUpperCase() + str.slice(1);
+  try {
+    return str.charAt(0).toUpperCase() + str.slice(1);
+  } catch (error) {
+    return str;
+  }
 }
