@@ -190,7 +190,7 @@ export function generateExamsApi(id) {
 
 export function gradingExamApi(data) {
   const url = API_HOST + "/generatedexam";
-
+  
   const exam = {
     ...data,
   };
@@ -203,6 +203,7 @@ export function gradingExamApi(data) {
     },
     body: JSON.stringify(exam),
   };
+  console.log(params)
 
   return fetch(url, params)
     .then((response) => {

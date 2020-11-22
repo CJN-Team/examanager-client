@@ -206,6 +206,10 @@ function Examen(props) {
   const Abierta = (props) => {
     const { number } = props;
 
+    if (typeof formData.questions === "undefined") {
+      return <div></div>;
+    }
+
     return (
       <textarea
         rows="5"
