@@ -33,6 +33,14 @@ export default function Departamentos(props) {
     });
   }, [listState]);
 
+  if (user.profile !== "Administrador") {
+    return (
+      <BasicLayout setRefreshLogin={setRefreshLogin} ruta="departamentos">
+        Permiso denegado.
+      </BasicLayout>
+    );
+  }
+
   return (
     <BasicLayout setRefreshLogin={setRefreshLogin} ruta="departamentos">
       <Container className="departamentos-cont" fluid>
