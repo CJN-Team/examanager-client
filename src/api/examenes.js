@@ -177,11 +177,16 @@ export function generateExamsApi(id) {
   };
 
   return fetch(url, params)
-    .then((response) => {
+    .then(async (response) => {
+      console.log(response)
       if (response.status >= 200 && response.status < 300) {
         return response.status;
       }
-      return { message: "No se han podido generar los examenes" };
+      var ms = ""
+      await response.text().then((msg) =>{
+        ms = msg
+      })  
+      return { code: response.status, message: ms};    
     })
     .catch((err) => {
       return err;

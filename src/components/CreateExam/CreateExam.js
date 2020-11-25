@@ -69,6 +69,7 @@ export default function CreateExam(props) {
           } else {
             generateExamsApi(response.id)
               .then((response) => {
+                console.log(response)
                 if (response.code) {
                   toast.warning(response.message);
                 } else {

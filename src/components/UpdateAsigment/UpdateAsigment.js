@@ -21,6 +21,7 @@ export default function UpdateAsigment(props) {
   };
 
   const handleInputChange = (e, index) => {
+    console.log(formData)
     if (e.target.name === "topics") {
       console.log(e.target.value);
       formData["topics"][index] = e.target.value;
@@ -34,10 +35,13 @@ export default function UpdateAsigment(props) {
   };
 
   const handleRemoveClick = (index) => {
-    const list = [...inputList];
+    var list = [...inputList];
     list.splice(index, 1);
+    console.log(list)
     setInputList(list);
-    console.log(inputList);
+    console.log(inputList)
+    
+    formData["topics"] = list
   };
 
   const onSubmit = (e) => {
@@ -105,7 +109,7 @@ export default function UpdateAsigment(props) {
                       <Form.Control
                         type="text"
                         name="topics"
-                        value={x}
+                        defaultValue={inputList[i]}
                         onChange={(e) => handleInputChange(e, i)}
                       />
                     </Col>
