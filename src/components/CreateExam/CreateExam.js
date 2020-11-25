@@ -39,6 +39,7 @@ export default function CreateExam(props) {
   }, [groupData]);
 
   const handleInputChange = (e, index) => {
+    console.log(formData)
     if (e.target.name === "difficulty") {
       formData["difficulty"][index] = parseInt(e.target.value);
       setFormData({
@@ -46,7 +47,11 @@ export default function CreateExam(props) {
         difficulty: formData["difficulty"],
       });
     } else {
-      setFormData({ ...formData, [e.target.name]: e.target.value });
+      if (e.target.name === "mockExam") {
+        setFormData({ ...formData, [e.target.name]: e.target.value === "true" ? true : false });
+      } else{
+        setFormData({ ...formData, [e.target.name]: e.target.value });
+      }      
     }
   };
 
@@ -58,7 +63,7 @@ export default function CreateExam(props) {
       value && validCount++;
       return null;
     });
-    if (validCount !== 7) {
+    if (validCount < 7) {
       toast.warning("Complete todos los campos");
     } else {
       setCreateExamLoading(true);
@@ -141,6 +146,25 @@ export default function CreateExam(props) {
             </Form.Control>
           </Col>
         </Row>
+        <Form.Group>
+          <Row>
+            <Col>
+              <Form.Label>Examen de Prueba</Form.Label>
+            </Col>
+            <Col>
+            <Form.Control
+              type="text"
+              as="select"
+              name="mockExam"
+              onChange={(e) => handleInputChange(e, 0)}
+            >
+              <option value={""}>...</option>
+              <option value={true}>Si</option>
+              <option value={false}>No</option>
+            </Form.Control>
+            </Col>
+          </Row>
+        </Form.Group>
         <Row>
           <Col>
             <Form.Label>Dificultad</Form.Label>
@@ -215,6 +239,6 @@ function initialValues() {
     date: new Date(),
     view: false,
     state: false,
-    mockExam: false,
+    mockExam: "",
   };
 }
