@@ -57,16 +57,6 @@ export default function ListTemas(props) {
                 <Col>
                   <h2>{capitalize(String(x))}</h2>
                 </Col>
-                <Col className="button">
-                  {user.profile === "Administrador" && (
-                    <Button variant="danger">
-                      <FontAwesomeIcon
-                        icon={faTrash}
-                        onClick={() => deleteTopic(i)}
-                      ></FontAwesomeIcon>
-                    </Button>
-                  )}
-                </Col>
               </Row>
             </li>
           );

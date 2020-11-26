@@ -90,6 +90,7 @@ export default function UpdateAsigment(props) {
               <Form.Control
                 type="text"
                 name="name"
+                disabled={true}
                 value={formData["name"]}
                 onChange={(e) => handleInputChange(e, 0)}
               ></Form.Control>
